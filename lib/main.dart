@@ -9,13 +9,25 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
-  // Initialize Firebase
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  try {
+    // Initialize Firebase with error handling
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    print('Firebase initialized successfully');
+  } catch (e) {
+    print('Firebase initialization error: $e');
+    // Continue without Firebase for now
+  }
   
-  // Initialize background service
-  await BackgroundTripService.initializeService();
+  try {
+    // Initialize background service with error handling
+    await BackgroundTripService.initializeService();
+    print('Background service initialized successfully');
+  } catch (e) {
+    print('Background service initialization error: $e');
+    // Continue without background service
+  }
   
   runApp(const SmartTicketingApp());
 }

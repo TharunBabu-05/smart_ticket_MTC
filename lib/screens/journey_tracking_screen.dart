@@ -54,100 +54,158 @@ class _JourneyTrackingScreenState extends State<JourneyTrackingScreen> {
 
   Future<void> _startTripMonitoring() async {
     print('Starting trip monitoring...');
+    
+    if (!mounted) return;
+    
     setState(() {
       _isMonitoring = true;
       _currentStatus = 'Initializing GPS and sensors...';
     });
 
     try {
-      // Start background service with error handling
+      // Start background service with comprehensive error handling
       try {
         await BackgroundTripService.startTripMonitoring(widget.tripData)
-            .timeout(Duration(seconds: 5));
+            .timeout(Duration(seconds: 8));
         print('Background service started successfully');
       } catch (e) {
         print('Warning: Background service failed to start: $e');
-        // Continue without background service
+        // Continue without background service - this is not critical
       }
       
-      // Start location tracking with error handling
+      // Add delay to ensure UI is stable before starting location services
+      await Future.delayed(Duration(milliseconds: 500));
+      
+      if (!mounted) return;
+      
+      // Start location tracking with improved error handling
       bool locationStarted = false;
       try {
         locationStarted = await _locationService.startTracking()
-            .timeout(Duration(seconds: 10));
+            .timeout(Duration(seconds: 15)); // Increased timeout
         print('Location tracking started: $locationStarted');
       } catch (e) {
         print('Location tracking error: $e');
+        // Set a user-friendly error message
+        if (mounted) {
+          setState(() {
+            _currentStatus = 'Location permission required. Please enable location access.';
+          });
+        }
       }
       
       if (!locationStarted) {
         print('Warning: Location tracking failed, continuing with limited functionality');
-        setState(() {
-          _currentStatus = 'GPS unavailable - limited tracking mode';
-        });
+        if (mounted) {
+          setState(() {
+            _currentStatus = 'GPS unavailable - limited tracking mode';
+          });
+        }
         // Don't return - continue with limited functionality
       }
 
-      // Set up location stream with error handling
-      if (locationStarted) {
-        _locationSubscription = _locationService.locationStream.listen(
-          (LocationPoint point) {
-            if (mounted) {
-              setState(() {
-                _gpsTrail.add(point);
-                _currentSpeed = point.speed;
-                _distanceTraveled = _locationService.calculateTotalDistance(_gpsTrail);
-              });
-              _checkForDestinationArrival(point);
-              _updateStatus();
-            }
-          },
-          onError: (error) {
-            print('Location stream error: $error');
-            if (mounted) {
-              setState(() {
-                _currentStatus = 'GPS error - limited tracking';
-              });
-            }
-          },
-        );
+      // Set up location stream with comprehensive error handling
+      if (locationStarted && mounted) {
+        try {
+          _locationSubscription = _locationService.locationStream.listen(
+            (LocationPoint point) {
+              if (mounted) {
+                try {
+                  setState(() {
+                    _gpsTrail.add(point);
+                    _currentSpeed = point.speed;
+                    _distanceTraveled = _locationService.calculateTotalDistance(_gpsTrail);
+                  });
+                  _checkForDestinationArrival(point);
+                  _updateStatus();
+                } catch (e) {
+                  print('Error updating location state: $e');
+                }
+              }
+            },
+            onError: (error) {
+              print('Location stream error: $error');
+              if (mounted) {
+                try {
+                  setState(() {
+                    _currentStatus = 'GPS error - limited tracking';
+                  });
+                } catch (e) {
+                  print('Error updating GPS error state: $e');
+                }
+              }
+            },
+          );
+        } catch (e) {
+          print('Error setting up location stream: $e');
+        }
       }
 
-      // Start sensor monitoring with error handling
+      // Add another delay before starting sensor monitoring
+      await Future.delayed(Duration(milliseconds: 300));
+      
+      if (!mounted) return;
+
+      // Start sensor monitoring with improved error handling
       try {
-        await _sensorService.startMonitoring().timeout(Duration(seconds: 5));
-        _sensorSubscription = _sensorService.sensorStream.listen(
-          (SensorReading reading) {
-            if (mounted) {
-              setState(() {
-                _sensorData.add(reading);
-                // Keep only last 100 readings to manage memory
-                if (_sensorData.length > 100) {
-                  _sensorData.removeAt(0);
+        await _sensorService.startMonitoring().timeout(Duration(seconds: 8));
+        if (mounted) {
+          _sensorSubscription = _sensorService.sensorStream.listen(
+            (SensorReading reading) {
+              if (mounted) {
+                try {
+                  setState(() {
+                    _sensorData.add(reading);
+                    // Keep only last 100 readings to manage memory
+                    if (_sensorData.length > 100) {
+                      _sensorData.removeAt(0);
+                    }
+                  });
+                  _updateDetectedTransportMode();
+                } catch (e) {
+                  print('Error updating sensor state: $e');
                 }
-              });
-              _updateDetectedTransportMode();
-            }
-          },
-          onError: (error) {
-            print('Sensor stream error: $error');
-          },
-        );
+              }
+            },
+            onError: (error) {
+              print('Sensor stream error: $error');
+              // Don't update UI state for sensor errors as they're not critical
+            },
+          );
+        }
         print('Sensor monitoring started successfully');
       } catch (e) {
         print('Warning: Sensor monitoring failed to start: $e');
-        // Continue without sensor monitoring
+        // Continue without sensor monitoring - this is not critical for basic functionality
       }
 
-      // Start periodic status updates
-      _statusUpdateTimer = Timer.periodic(
-        const Duration(seconds: 10),
-        (timer) => _updateStatus(),
-      );
+      if (!mounted) return;
 
-      setState(() {
-        _currentStatus = 'Journey monitoring active';
-      });
+      // Start periodic status updates with error handling
+      try {
+        _statusUpdateTimer = Timer.periodic(
+          const Duration(seconds: 10),
+          (timer) {
+            if (mounted) {
+              try {
+                _updateStatus();
+              } catch (e) {
+                print('Error in periodic status update: $e');
+              }
+            } else {
+              timer.cancel();
+            }
+          },
+        );
+      } catch (e) {
+        print('Error setting up status timer: $e');
+      }
+
+      if (mounted) {
+        setState(() {
+          _currentStatus = 'Journey monitoring active';
+        });
+      }
       
       print('Trip monitoring started successfully');
 

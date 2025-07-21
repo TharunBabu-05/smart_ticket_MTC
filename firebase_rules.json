@@ -1,0 +1,34 @@
+{
+  "rules": {
+    "trips": {
+      "$tripId": {
+        ".read": "auth != null && (auth.uid == data.child('userId').val() || auth.uid == 'admin')",
+        ".write": "auth != null && (auth.uid == data.child('userId').val() || auth.uid == 'admin')",
+        ".validate": "newData.hasChildren(['ticketId', 'userId', 'startTime', 'sourceLocation', 'destinationLocation', 'sourceName', 'destinationName', 'status'])"
+      }
+    },
+    "fraud_reports": {
+      "$reportId": {
+        ".read": "auth != null && auth.uid == 'admin'",
+        ".write": "auth != null",
+        ".validate": "newData.hasChildren(['tripId', 'userId', 'timestamp', 'fraudType', 'severity'])"
+      }
+    },
+    "user_profiles": {
+      "$userId": {
+        ".read": "auth != null && auth.uid == $userId",
+        ".write": "auth != null && auth.uid == $userId"
+      }
+    },
+    "_connection_test": {
+      ".read": true,
+      ".write": true
+    },
+    "_rules_fix_request": {
+      ".read": true,
+      ".write": true
+    },
+    ".read": false,
+    ".write": false
+  }
+}

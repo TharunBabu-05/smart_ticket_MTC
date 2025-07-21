@@ -5,6 +5,7 @@ import '../services/location_service.dart';
 import '../services/firebase_service.dart';
 import '../data/bus_stops_data.dart';
 import 'journey_tracking_screen.dart';
+import 'simple_ticket_screen.dart';
 
 class TicketBookingScreen extends StatefulWidget {
   @override
@@ -378,12 +379,12 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
         // Continue with booking even if Firebase save fails
       }
 
-      // Navigate to journey tracking
-      print('Navigating to journey tracking screen...');
+      // Navigate to simple ticket screen first
+      print('Navigating to simple ticket screen...');
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => JourneyTrackingScreen(tripData: tripData),
+          builder: (context) => SimpleTicketScreen(tripData: tripData),
         ),
       );
       print('Navigation completed successfully');
