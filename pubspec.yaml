@@ -63,6 +63,15 @@ dependencies:
   
   # Date formatting
   intl: ^0.18.1
+  
+  # Google Maps
+  google_maps_flutter: ^2.5.0
+  
+  # Use location package instead of geolocator for better compatibility
+  # location: ^5.0.3 (already included above)
+  
+  # Permission handler
+  permission_handler: ^11.1.0
 
 dev_dependencies:
   flutter_test:

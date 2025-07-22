@@ -45,6 +45,10 @@
             android:foregroundServiceType="location"
             tools:replace="android:exported" />
         
+        <!-- Google Maps API Key -->
+        <meta-data android:name="com.google.android.geo.API_KEY"
+                   android:value="AIzaSyCu3TQxT_ycw7MZRNheAg9Lgg47HmzBd2w"/>
+        
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
