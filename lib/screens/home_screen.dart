@@ -31,9 +31,14 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
         actions: [
-          CircleAvatar(
-            backgroundColor: Colors.white.withOpacity(0.2),
-            child: const Icon(Icons.person, color: Colors.white),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, '/profile');
+            },
+            child: CircleAvatar(
+              backgroundColor: Colors.white.withOpacity(0.2),
+              child: const Icon(Icons.person, color: Colors.white),
+            ),
           ),
           const SizedBox(width: 16),
         ],

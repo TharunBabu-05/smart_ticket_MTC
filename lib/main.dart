@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'screens/home_screen.dart';
 import 'screens/ticket_booking_screen.dart';
 import 'screens/conductor_verification_screen.dart';
 import 'screens/map_screen.dart';
+import 'screens/auth_screen.dart';
+import 'screens/profile_screen.dart';
+import 'screens/support_screen.dart';
 import 'services/background_service.dart';
 import 'firebase_options.dart';
 
@@ -32,6 +36,34 @@ void main() async {
   }
   
   runApp(const SmartTicketingApp());
+}
+
+class AuthWrapper extends StatelessWidget {
+  const AuthWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+        
+        if (snapshot.hasData) {
+          // User is logged in
+          return const HomeScreen();
+        } else {
+          // User is not logged in
+          return const AuthScreen();
+        }
+      },
+    );
+  }
 }
 
 class SmartTicketingApp extends StatelessWidget {
@@ -65,8 +97,12 @@ class SmartTicketingApp extends StatelessWidget {
           ),
         ),
       ),
+      home: const AuthWrapper(),
       routes: {
-        '/': (context) => const HomeScreen(),
+        '/home': (context) => const HomeScreen(),
+        '/auth': (context) => const AuthScreen(),
+        '/profile': (context) => const ProfileScreen(),
+        '/support': (context) => const SupportScreen(),
         '/booking': (context) => TicketBookingScreen(),
         '/conductor': (context) => ConductorVerificationScreen(),
         '/map': (context) => const MapScreen(),
