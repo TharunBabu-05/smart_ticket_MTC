@@ -10,6 +10,7 @@ import 'screens/auth_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/support_screen.dart';
 import 'services/background_service.dart';
+import 'services/bus_stop_service.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -33,6 +34,15 @@ void main() async {
   } catch (e) {
     print('Background service initialization error: $e');
     // Continue without background service
+  }
+  
+  try {
+    // Initialize bus stop service with error handling
+    await BusStopService.initialize();
+    print('Bus stop service initialized successfully');
+  } catch (e) {
+    print('Bus stop service initialization error: $e');
+    // Continue without bus stop service
   }
   
   runApp(const SmartTicketingApp());

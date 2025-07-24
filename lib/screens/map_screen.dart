@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'dart:async';
+import 'dart:ui' as ui;
+import '../services/bus_stop_service.dart';
+import '../models/bus_stop_model.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -18,14 +21,22 @@ class _MapScreenState extends State<MapScreen> {
   Set<Circle> _circles = {};
   Location _location = Location();
   StreamSubscription<LocationData>? _locationSubscription;
-  
-  // Bus stops will be loaded from API in future versions
-  final List<Map<String, dynamic>> _busStops = [];
+
+  // Custom marker icons
+  BitmapDescriptor? _busStopIcon;
+  BitmapDescriptor? _nearestBusStopIcon;
+
+  // Bus stops data
+  List<BusStop> _nearbyBusStops = [];
+  BusStop? _currentNearestStop;
 
   @override
   void initState() {
     super.initState();
-    _initializeLocation();
+    print('🚀 MapScreen: initState called');
+    _createCustomIcons().then((_) {
+      _initializeLocation();
+    });
   }
 
   Future<void> _initializeLocation() async {
@@ -51,14 +62,21 @@ class _MapScreenState extends State<MapScreen> {
       }
 
       // Get current position
-      LocationData position = await _location.getLocation();
+      // LocationData position = await _location.getLocation();
+
+      // Use a hardcoded location in Delhi for debugging
+      final LocationData debugPosition = LocationData.fromMap({
+        "latitude": 28.6139, // Delhi latitude
+        "longitude": 77.2090, // Delhi longitude
+      });
 
       setState(() {
-        _currentPosition = position;
+        _currentPosition = debugPosition;
         _isLoading = false;
       });
 
       _addCurrentLocationMarker();
+      await _loadNearbyBusStops();
       _addBusStopMarkers();
       _startLocationUpdates();
     } catch (e) {
@@ -100,32 +118,104 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
+  Future<void> _loadNearbyBusStops() async {
+    print('🔍 _loadNearbyBusStops called');
+    print('📍 Current position: ${_currentPosition?.latitude}, ${_currentPosition?.longitude}');
+    print('🔧 BusStopService ready: ${BusStopService.isReady}');
+    print('📊 Total bus stops count: ${BusStopService.getBusStopsCount()}');
+
+    if (_currentPosition != null) {
+      try {
+        // Check if BusStopService is ready
+        if (!BusStopService.isReady) {
+          print('⚠️ BusStopService not ready, initializing...');
+          await BusStopService.initialize();
+        }
+
+        // Find bus stops within 2km radius
+        _nearbyBusStops = BusStopService.findNearbyStops(
+          _currentPosition!.latitude!,
+          _currentPosition!.longitude!,
+          radiusKm: 5.0, // Increased radius to 5km
+        );
+
+        // Find the nearest bus stop within 100m
+        _currentNearestStop = BusStopService.getNearestBusStop(
+          _currentPosition!.latitude!,
+          _currentPosition!.longitude!,
+          thresholdMeters: 100,
+        );
+
+        print('📍 Found ${_nearbyBusStops.length} nearby bus stops');
+        if (_currentNearestStop != null) {
+          print('🚏 Nearest stop: ${_currentNearestStop!.name}');
+        }
+
+        // Debug: Print first few bus stops
+        if (_nearbyBusStops.isNotEmpty) {
+          print('🔍 First 3 nearby stops:');
+          for (int i = 0; i < _nearbyBusStops.length && i < 3; i++) {
+            var stop = _nearbyBusStops[i];
+            double distance = stop.distanceTo(_currentPosition!.latitude!, _currentPosition!.longitude!);
+            print('  ${i + 1}. ${stop.name} - ${(distance / 1000).toStringAsFixed(2)}km');
+          }
+        }
+      } catch (e) {
+        print('❌ Error loading nearby bus stops: $e');
+        print('❌ Stack trace: ${StackTrace.current}');
+      }
+    } else {
+      print('❌ Current position is null');
+    }
+  }
+
   void _addBusStopMarkers() {
-    // Bus stop markers will be added when data is available from API
-    // for (var busStop in _busStops) {
-    //   setState(() {
-    //     _markers.add(
-    //       Marker(
-    //         markerId: MarkerId(busStop['id']),
-    //         position: LatLng(busStop['lat'], busStop['lng']),
-    //         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-    //         infoWindow: InfoWindow(
-    //           title: busStop['name'],
-    //           snippet: busStop['description'],
-    //         ),
-    //       ),
-    //     );
-    //   });
-    // }
+    print('🖌️ _addBusStopMarkers called');
+    print('Nearby stops to add: ${_nearbyBusStops.length}');
+    print('Markers before adding: ${_markers.length}');
+
+    if (_busStopIcon == null || _nearestBusStopIcon == null) {
+      print('⚠️ Custom icons not ready, skipping marker update.');
+      return;
+    }
+
+    // Create a temporary set to avoid concurrent modification issues
+    Set<Marker> newMarkers = {};
+
+    for (final busStop in _nearbyBusStops) {
+      final bool isNearest = _currentNearestStop?.id == busStop.id;
+      newMarkers.add(
+        Marker(
+          markerId: MarkerId('bus_stop_${busStop.id}'),
+          position: LatLng(busStop.latitude, busStop.longitude),
+          icon: isNearest ? _nearestBusStopIcon! : _busStopIcon!,
+          onTap: () => _showBusStopDetails(busStop),
+          anchor: const Offset(0.5, 0.5), // Center the icon on the location
+        ),
+      );
+    }
+
+    setState(() {
+      // Remove old bus stop markers, keeping the current location marker
+      _markers.removeWhere((marker) => marker.markerId.value.startsWith('bus_stop_'));
+      // Add the new bus stop markers
+      _markers.addAll(newMarkers);
+    });
+
+    print('Markers after adding: ${_markers.length}');
   }
 
   void _startLocationUpdates() {
-    _locationSubscription = _location.onLocationChanged.listen((LocationData position) {
-      if (mounted) {
+    _locationSubscription = _location.onLocationChanged.listen((LocationData newPosition) {
+      if (newPosition.latitude != null && newPosition.longitude != null) {
         setState(() {
-          _currentPosition = position;
+          _currentPosition = newPosition;
         });
+
         _updateCurrentLocationMarker();
+        // Reload nearby bus stops based on the new location
+        // await _loadNearbyBusStops(); // Temporarily disabled for debugging
+        // _addBusStopMarkers(); // Temporarily disabled for debugging
       }
     });
   }
@@ -140,7 +230,12 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
-  void _showBusStopDetails(Map<String, dynamic> busStop) {
+  void _showBusStopDetails(BusStop busStop) {
+    double distance = busStop.distanceTo(
+      _currentPosition!.latitude!,
+      _currentPosition!.longitude!,
+    );
+    
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.white,
@@ -158,7 +253,9 @@ class _MapScreenState extends State<MapScreen> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.red,
+                    color: _currentNearestStop?.id == busStop.id 
+                      ? const Color(0xFF1DB584) 
+                      : Colors.red,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: const Icon(Icons.directions_bus, color: Colors.white),
@@ -169,19 +266,36 @@ class _MapScreenState extends State<MapScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        busStop['name'],
+                        busStop.name,
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        busStop['description'],
+                        '${(distance / 1000).toStringAsFixed(2)} km away • ID: ${busStop.id}',
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey[600],
                         ),
                       ),
+                      if (_currentNearestStop?.id == busStop.id)
+                        Container(
+                          margin: const EdgeInsets.only(top: 4),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF1DB584).withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Text(
+                            'Nearest Stop',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Color(0xFF1DB584),
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
                     ],
                   ),
                 ),
@@ -192,7 +306,7 @@ class _MapScreenState extends State<MapScreen> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: const Text(
-                    'Get info',
+                    'Navigate',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
@@ -202,17 +316,47 @@ class _MapScreenState extends State<MapScreen> {
               ],
             ),
             const SizedBox(height: 20),
+            Row(
+              children: [
+                Icon(Icons.location_on, color: Colors.grey[600], size: 16),
+                const SizedBox(width: 8),
+                Text(
+                  'Lat: ${busStop.latitude.toStringAsFixed(6)}',
+                  style: TextStyle(color: Colors.grey[600], fontSize: 12),
+                ),
+                const SizedBox(width: 16),
+                Icon(Icons.location_on, color: Colors.grey[600], size: 16),
+                const SizedBox(width: 8),
+                Text(
+                  'Lng: ${busStop.longitude.toStringAsFixed(6)}',
+                  style: TextStyle(color: Colors.grey[600], fontSize: 12),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
             const Text(
-              'Nearby Routes',
+              'Bus Stop Information',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 10),
-            _buildRouteItem('Route 21A', 'To T. Nagar', '5 mins'),
-            _buildRouteItem('Route 45M', 'To Central', '12 mins'),
-            _buildRouteItem('Route 18B', 'To Airport', '8 mins'),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.grey[50],
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.grey[200]!),
+              ),
+              child: const Text(
+                'This bus stop is part of the Delhi bus network. Route information will be available in future updates.',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.black87,
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -420,7 +564,7 @@ class _MapScreenState extends State<MapScreen> {
                     child: const Icon(Icons.my_location, color: Colors.white),
                   ),
                 ),
-                if (_busStops.isNotEmpty)
+                if (_nearbyBusStops.isNotEmpty)
                   Positioned(
                     bottom: 20,
                     left: 16,
@@ -438,19 +582,60 @@ class _MapScreenState extends State<MapScreen> {
                           ),
                         ],
                       ),
-                      child: const Row(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(Icons.location_on, color: Color(0xFF1DB584)),
-                          SizedBox(width: 12),
-                          Expanded(
-                            child: Text(
-                              'Nearby bus stops will appear here',
+                          Row(
+                            children: [
+                              const Icon(Icons.directions_bus, color: Color(0xFF1DB584)),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Text(
+                                  '${_nearbyBusStops.length} nearby bus stops',
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              if (_currentNearestStop != null)
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFF1DB584).withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: const Text(
+                                    'At Stop',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xFF1DB584),
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                          if (_currentNearestStop != null) ...[
+                            const SizedBox(height: 8),
+                            Text(
+                              'Nearest: ${_currentNearestStop!.name}',
                               style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                color: Colors.grey[600],
                               ),
                             ),
-                          ),
+                          ] else if (_nearbyBusStops.isNotEmpty) ...[
+                            const SizedBox(height: 8),
+                            Text(
+                              'Closest: ${_nearbyBusStops.first.name}',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey[600],
+                              ),
+                            ),
+                          ],
                         ],
                       ),
                     ),
@@ -465,5 +650,51 @@ class _MapScreenState extends State<MapScreen> {
     _locationSubscription?.cancel();
     _mapController?.dispose();
     super.dispose();
+  }
+
+  // Helper method to create custom marker icons
+  Future<void> _createCustomIcons() async {
+    _busStopIcon = await _createCustomMarkerBitmap(isNearest: false);
+    _nearestBusStopIcon = await _createCustomMarkerBitmap(isNearest: true);
+  }
+
+  Future<BitmapDescriptor> _createCustomMarkerBitmap({
+    required bool isNearest,
+    int size = 100,
+  }) async {
+    final pictureRecorder = ui.PictureRecorder();
+    final canvas = Canvas(pictureRecorder);
+    final paint = Paint()..color = isNearest ? const Color(0xFF1DB584) : Colors.black87;
+    final double radius = size / 2;
+
+    // Draw circle
+    canvas.drawCircle(
+      Offset(radius, radius),
+      radius,
+      paint,
+    );
+
+    // Draw bus icon
+    final icon = Icons.directions_bus;
+    final textPainter = TextPainter(textDirection: TextDirection.ltr);
+    textPainter.text = TextSpan(
+      text: String.fromCharCode(icon.codePoint),
+      style: TextStyle(
+        fontSize: radius,
+        fontFamily: icon.fontFamily,
+        color: Colors.white,
+      ),
+    );
+    textPainter.layout();
+    textPainter.paint(
+      canvas,
+      Offset(radius - textPainter.width / 2, radius - textPainter.height / 2),
+    );
+
+    final picture = pictureRecorder.endRecording();
+    final image = await picture.toImage(size, size);
+    final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
+
+    return BitmapDescriptor.fromBytes(bytes!.buffer.asUint8List());
   }
 }
