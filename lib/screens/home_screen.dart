@@ -3,10 +3,49 @@ import 'package:flutter/services.dart';
 import 'map_screen.dart';
 import 'simple_map_test.dart';
 import 'ticket_booking_screen.dart';
-import 'conductor_verification_screen.dart';
+import 'conductor_verification_screen.dart'; // Now AdminDashboardScreen
+import 'active_trips_screen.dart';
+import '../models/trip_data_model.dart';
+import '../services/firebase_service.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  List<TripData> _activeTrips = [];
+  bool _isLoadingTrips = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadActiveTrips();
+  }
+
+  Future<void> _loadActiveTrips() async {
+    try {
+      // In production, get actual user ID from authentication
+      String userId = 'user_123';
+      List<TripData> trips = await FirebaseService.getUserActiveTrips(userId);
+      
+      if (mounted) {
+        setState(() {
+          _activeTrips = trips;
+          _isLoadingTrips = false;
+        });
+      }
+    } catch (e) {
+      print('Error loading active trips: $e');
+      if (mounted) {
+        setState(() {
+          _isLoadingTrips = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

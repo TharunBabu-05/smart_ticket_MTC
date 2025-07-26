@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
@@ -9,12 +10,24 @@ import 'screens/map_screen.dart';
 import 'screens/auth_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/support_screen.dart';
+import 'screens/settings_screen.dart';
 import 'services/background_service.dart';
 import 'services/bus_stop_service.dart';
+import 'services/enhanced_auth_service.dart';
+import 'services/theme_service.dart';
+import 'services/offline_storage_service.dart';
+import 'services/performance_service.dart';
 import 'firebase_options.dart';
 
 void main() async {
+  // Start app initialization timer
+  final Stopwatch appStartTimer = Stopwatch()..start();
+  
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize performance monitoring first
+  final PerformanceService performanceService = PerformanceService();
+  await performanceService.initialize();
   
   try {
     // Initialize Firebase with error handling
@@ -24,7 +37,17 @@ void main() async {
     print('Firebase initialized successfully');
   } catch (e) {
     print('Firebase initialization error: $e');
+    performanceService.recordError('firebase_init_error', errorMessage: e.toString());
     // Continue without Firebase for now
+  }
+  
+  try {
+    // Initialize offline storage
+    await OfflineStorageService.initialize();
+    print('Offline storage initialized successfully');
+  } catch (e) {
+    print('Offline storage initialization error: $e');
+    performanceService.recordError('offline_storage_init_error', errorMessage: e.toString());
   }
   
   try {
@@ -33,6 +56,7 @@ void main() async {
     print('Background service initialized successfully');
   } catch (e) {
     print('Background service initialization error: $e');
+    performanceService.recordError('background_service_init_error', errorMessage: e.toString());
     // Continue without background service
   }
   
@@ -42,10 +66,30 @@ void main() async {
     print('Bus stop service initialized successfully');
   } catch (e) {
     print('Bus stop service initialization error: $e');
+    performanceService.recordError('bus_stop_service_init_error', errorMessage: e.toString());
     // Continue without bus stop service
   }
   
-  runApp(const SmartTicketingApp());
+  // Initialize theme service
+  final ThemeService themeService = await ThemeService.initialize();
+  
+  // Record app start time
+  appStartTimer.stop();
+  performanceService.recordAppStartTime(
+    Duration(milliseconds: appStartTimer.elapsedMilliseconds),
+  );
+  
+  // Set up global error handling
+  FlutterError.onError = (FlutterErrorDetails details) {
+    performanceService.recordError(
+      'flutter_error',
+      errorMessage: details.exception.toString(),
+      stackTrace: details.stack,
+    );
+    FlutterError.presentError(details);
+  };
+  
+  runApp(SmartTicketingApp(themeService: themeService));
 }
 
 class AuthWrapper extends StatelessWidget {
@@ -77,46 +121,62 @@ class AuthWrapper extends StatelessWidget {
 }
 
 class SmartTicketingApp extends StatelessWidget {
-  const SmartTicketingApp({super.key});
+  final ThemeService themeService;
+  
+  const SmartTicketingApp({super.key, required this.themeService});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Smart Ticketing MTC',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        useMaterial3: true,
-        appBarTheme: AppBarTheme(
-          backgroundColor: Colors.blue,
-          foregroundColor: Colors.white,
-          elevation: 2,
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.blue,
-            foregroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-        ),
-        cardTheme: CardThemeData(
-          elevation: 4,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
+    return ChangeNotifierProvider<ThemeService>.value(
+      value: themeService,
+      child: Consumer<ThemeService>(
+        builder: (context, themeService, child) {
+          return MaterialApp(
+            title: 'Smart Ticketing MTC',
+            theme: themeService.getThemeData(Brightness.light),
+            darkTheme: themeService.getThemeData(Brightness.dark),
+            themeMode: _getThemeMode(themeService.themeMode),
+            home: const AuthWrapper(),
+            routes: {
+              '/home': (context) => const HomeScreen(),
+              '/auth': (context) => const AuthScreen(),
+              '/profile': (context) => const ProfileScreen(),
+              '/support': (context) => const SupportScreen(),
+              '/booking': (context) => TicketBookingScreen(),
+              '/conductor': (context) => ConductorVerificationScreen(),
+              '/map': (context) => const MapScreen(),
+              '/settings': (context) => const SettingsScreen(),
+            },
+            builder: (context, child) {
+              // Global error boundary and performance monitoring
+              return _ErrorBoundary(child: child ?? const SizedBox());
+            },
+          );
+        },
       ),
-      home: const AuthWrapper(),
-      routes: {
-        '/home': (context) => const HomeScreen(),
-        '/auth': (context) => const AuthScreen(),
-        '/profile': (context) => const ProfileScreen(),
-        '/support': (context) => const SupportScreen(),
-        '/booking': (context) => TicketBookingScreen(),
-        '/conductor': (context) => ConductorVerificationScreen(),
-        '/map': (context) => const MapScreen(),
-      },
     );
+  }
+  
+  ThemeMode _getThemeMode(AppThemeMode mode) {
+    switch (mode) {
+      case AppThemeMode.light:
+        return ThemeMode.light;
+      case AppThemeMode.dark:
+        return ThemeMode.dark;
+      case AppThemeMode.system:
+        return ThemeMode.system;
+    }
+  }
+}
+
+/// Global error boundary widget
+class _ErrorBoundary extends StatelessWidget {
+  final Widget child;
+  
+  const _ErrorBoundary({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return child;
   }
 }

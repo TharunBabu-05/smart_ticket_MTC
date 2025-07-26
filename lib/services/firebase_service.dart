@@ -137,6 +137,39 @@ class FirebaseService {
     }
   }
 
+  /// Get user's active trips
+  static Future<List<TripData>> getUserActiveTrips(String userId) async {
+    try {
+      QuerySnapshot snapshot = await _firestore
+          .collection(_tripsCollection)
+          .where('userId', isEqualTo: userId)
+          .where('status', isEqualTo: 'active')
+          .orderBy('startTime', descending: true)
+          .get();
+      
+      return snapshot.docs
+          .map((doc) => TripData.fromMap(doc.data() as Map<String, dynamic>))
+          .toList();
+    } catch (e) {
+      print('Error getting user active trips: $e');
+      return [];
+    }
+  }
+
+  /// Expire ticket (simplified version)
+  static Future<void> expireTicket(String ticketId) async {
+    try {
+      await updateTripStatus(ticketId, TripStatus.completed);
+      print('Ticket expired: $ticketId');
+    } catch (e) {
+      print('Error expiring ticket: $e');
+    }
+  }
+
+  /// Get streaming status (simplified)
+  static bool get isStreaming => false; // Simplified for now
+  static String? get currentStreamingTicket => null; // Simplified for now
+
   /// Get user trip history
   static Future<List<TripData>> getUserTripHistory(String userId, {int limit = 20}) async {
     try {

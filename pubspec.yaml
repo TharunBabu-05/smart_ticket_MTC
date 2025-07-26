@@ -69,11 +69,25 @@ dependencies:
   # Google Maps
   google_maps_flutter: ^2.5.0
   
-  # Use location package instead of geolocator for better compatibility
-  # location: ^5.0.3 (already included above)
-  
   # Permission handler
   permission_handler: ^11.1.0
+  
+  # Phase 1 Enhancements - Security & Authentication
+  local_auth: ^2.1.6
+  crypto: ^3.0.3
+  flutter_secure_storage: ^9.0.0
+  
+  # Phase 1 Enhancements - UX & Theming
+  shared_preferences: ^2.2.2
+  
+  # Phase 1 Enhancements - Performance & Caching
+  cached_network_image: ^3.3.1
+  connectivity_plus: ^5.0.2
+  
+  # Phase 1 Enhancements - Offline Storage
+  drift: ^2.14.1
+  sqlite3_flutter_libs: ^0.5.0
+  path_provider: ^2.1.2
 
 dev_dependencies:
   flutter_test:
