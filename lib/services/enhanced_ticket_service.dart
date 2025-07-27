@@ -541,21 +541,34 @@ class EnhancedTicketService {
       // Fallback to local storage
       try {
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        List<String> ticketKeys = prefs.getKeys()
+        
+        // Debug: Print all keys
+        Set<String> allKeys = prefs.getKeys();
+        print('🔍 All SharedPreferences keys: ${allKeys.toList()}');
+        
+        List<String> ticketKeys = allKeys
             .where((key) => key.startsWith('ticket_$userId'))
             .toList();
+        
+        print('🔍 Filtered ticket keys for user $userId: $ticketKeys');
         
         List<EnhancedTicket> localTickets = [];
         
         for (String key in ticketKeys) {
           String? ticketJson = prefs.getString(key);
           if (ticketJson != null) {
-            Map<String, dynamic> ticketData = jsonDecode(ticketJson);
-            EnhancedTicket ticket = EnhancedTicket.fromMap(ticketData);
-            
-            // Only include active tickets
-            if (ticket.status == 'active' && ticket.isValid) {
-              localTickets.add(ticket);
+            try {
+              Map<String, dynamic> ticketData = jsonDecode(ticketJson);
+              EnhancedTicket ticket = EnhancedTicket.fromMap(ticketData);
+              
+              print('🎫 Found ticket: ${ticket.ticketId}, status: ${ticket.status}, valid: ${ticket.isValid}');
+              
+              // Only include active tickets
+              if (ticket.status == TicketStatus.active && ticket.isValid) {
+                localTickets.add(ticket);
+              }
+            } catch (parseError) {
+              print('❌ Error parsing ticket $key: $parseError');
             }
           }
         }
