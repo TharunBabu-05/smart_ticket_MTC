@@ -87,6 +87,10 @@ class _SettingsScreenState extends State<SettingsScreen>
                   _buildStorageSection(),
                   const SizedBox(height: 24),
                   
+                  _buildSectionHeader('Enhanced Features', Icons.new_releases),
+                  _buildEnhancedFeaturesSection(),
+                  const SizedBox(height: 24),
+                  
                   _buildSectionHeader('About', Icons.info),
                   _buildAboutSection(),
                 ],
@@ -278,6 +282,59 @@ class _SettingsScreenState extends State<SettingsScreen>
             subtitle: const Text('Free up storage space'),
             trailing: const Icon(Icons.chevron_right),
             onTap: _showClearCacheDialog,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEnhancedFeaturesSection() {
+    return Card(
+      child: Column(
+        children: [
+          ListTile(
+            leading: const Icon(Icons.confirmation_number),
+            title: const Text('Enhanced Tickets'),
+            subtitle: const Text('2-hour validation with fraud detection'),
+            trailing: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                color: Colors.green,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Text(
+                'ACTIVE',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          const Divider(height: 1),
+          ListTile(
+            leading: const Icon(Icons.compare_arrows),
+            title: const Text('Cross-Platform Sync'),
+            subtitle: const Text('Real-time data sharing with gyro comparator'),
+            trailing: _storageStats['cross_platform_sessions'] != null 
+                ? Text('${_storageStats['cross_platform_sessions']} sessions')
+                : const Text('Ready'),
+          ),
+          const Divider(height: 1),
+          ListTile(
+            leading: const Icon(Icons.security),
+            title: const Text('Fraud Detection'),
+            subtitle: const Text('AI-powered violation detection'),
+            trailing: const Icon(Icons.check_circle, color: Colors.green),
+          ),
+          const Divider(height: 1),
+          ListTile(
+            leading: const Icon(Icons.payment),
+            title: const Text('Penalty System'),
+            subtitle: const Text('Automatic fare violation penalties'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: _showPenaltyInfo,
           ),
         ],
       ),
@@ -504,6 +561,61 @@ class _SettingsScreenState extends State<SettingsScreen>
               }
             },
             child: const Text('Clear'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showPenaltyInfo() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Penalty System'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'How penalties work:',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 12),
+            Text('• Tickets are valid for 2 hours with location tracking'),
+            const SizedBox(height: 8),
+            Text('• Traveling beyond paid destination incurs penalties'),
+            const SizedBox(height: 8),
+            Text('• ₹5 penalty per extra stop traveled'),
+            const SizedBox(height: 8),
+            Text('• AI analyzes GPS and sensor data for violations'),
+            const SizedBox(height: 8),
+            Text('• Cross-platform verification with bus systems'),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.orange.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.warning, color: Colors.orange, size: 20),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'Keep location services ON during your journey to avoid false penalties',
+                      style: TextStyle(fontSize: 12),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('OK'),
           ),
         ],
       ),

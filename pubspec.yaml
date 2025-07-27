@@ -88,6 +88,11 @@ dependencies:
   drift: ^2.14.1
   sqlite3_flutter_libs: ^0.5.0
   path_provider: ^2.1.2
+  
+  # Enhanced Ticket System Dependencies
+  firebase_database: ^10.4.0
+  qr_flutter: ^4.1.0
+  app_settings: ^5.1.1
 
 dev_dependencies:
   flutter_test:

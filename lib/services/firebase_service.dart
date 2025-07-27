@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:uuid/uuid.dart';
 import '../models/trip_data_model.dart';
 import '../models/fraud_analysis_model.dart';
+import '../models/bus_stop_model.dart';
 
 class FirebaseService {
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -208,8 +209,8 @@ class FirebaseService {
       for (var stop in busStops) {
         DocumentReference docRef = _firestore
             .collection(_busStopsCollection)
-            .doc(stop.id);
-        batch.set(docRef, stop.toMap());
+            .doc(stop.id.toString());
+        batch.set(docRef, stop.toDbMap());
       }
       
       await batch.commit();
@@ -229,7 +230,7 @@ class FirebaseService {
           .get();
       
       return snapshot.docs
-          .map((doc) => BusStop.fromMap(doc.data() as Map<String, dynamic>))
+          .map((doc) => BusStop.fromDbMap(doc.data() as Map<String, dynamic>))
           .toList();
     } catch (e) {
       print('Error getting bus stops: $e');

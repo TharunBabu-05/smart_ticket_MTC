@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import '../models/trip_data_model.dart';
+import '../models/enhanced_ticket_model.dart';
+import '../models/bus_stop_model.dart';
 import '../services/location_service.dart';
 import '../services/firebase_service.dart';
+import '../services/enhanced_ticket_service.dart';
 import '../data/bus_stops_data.dart';
 import 'journey_tracking_screen.dart';
 import 'simple_ticket_screen.dart';
+import 'enhanced_ticket_screen.dart';
 
 class TicketBookingScreen extends StatefulWidget {
   @override
@@ -314,24 +318,19 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
   }
 
   Future<void> _bookTicket() async {
-    print('Starting ticket booking process...');
+    print('Starting enhanced ticket booking process...');
     setState(() => _isLoading = true);
+    
+    double fare = 0.0; // Initialize fare variable
 
     try {
-      // Get current location for verification with timeout
-      LocationPoint? currentLocation;
-      try {
-        currentLocation = await _locationService.getCurrentLocation()
-            .timeout(Duration(seconds: 10));
-      } catch (e) {
-        print('Location timeout or error: $e');
-        // Continue without location verification for now
-        currentLocation = null;
+      // Validate selections
+      if (_selectedFromStop == null || _selectedToStop == null) {
+        throw Exception('Please select both source and destination stops');
       }
-      
-      if (currentLocation == null) {
-        // Show warning but allow booking to continue
-        print('Warning: Unable to verify location, proceeding with booking');
+
+      if (_selectedFromStop == _selectedToStop) {
+        throw Exception('Source and destination cannot be the same');
       }
 
       // Find selected stops
@@ -339,65 +338,147 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
       BusStop? destStop = BusStopsData.getStopByName(_selectedToStop!);
       
       if (sourceStop == null || destStop == null) {
-        _showErrorDialog('Invalid bus stops selected.');
+        throw Exception('Invalid bus stops selected.');
+      }
+
+      // Calculate fare
+      int stops = (destStop.sequence - sourceStop.sequence).abs();
+      fare = 10.0 + (stops * 5.0); // Base fare + per stop
+
+      // Show location warning and get consent
+      bool? proceedWithBooking = await _showLocationConsentDialog();
+      if (proceedWithBooking != true) {
+        setState(() => _isLoading = false);
         return;
       }
 
-      // Verify user is near source stop (only if location is available)
-      if (currentLocation != null) {
-        double distanceToSource = _locationService.calculateDistance(
-          currentLocation.position,
-          sourceStop.location,
-        );
-
-        if (distanceToSource > 500) { // 500 meters tolerance
-          bool? proceed = await _showLocationWarningDialog(distanceToSource);
-          if (proceed != true) return;
-        }
-      }
-
-      // Create trip data
-      String ticketId = _uuid.v4();
-      TripData tripData = TripData(
-        ticketId: ticketId,
-        userId: 'user_123', // In production, get from authentication
-        startTime: DateTime.now(),
-        sourceLocation: sourceStop.location,
-        destinationLocation: destStop.location,
-        sourceName: sourceStop.name,
-        destinationName: destStop.name,
-        status: TripStatus.active,
+      // Issue enhanced ticket
+      EnhancedTicket ticket = await EnhancedTicketService.issueTicket(
+        sourceName: _selectedFromStop!,
+        destinationName: _selectedToStop!,
+        fare: fare,
       );
 
-      // Save initial trip data with timeout
-      try {
-        await FirebaseService.saveTripData(tripData)
-            .timeout(Duration(seconds: 5));
-        print('Trip data saved successfully');
-      } catch (e) {
-        print('Warning: Failed to save trip data to Firebase: $e');
-        // Continue with booking even if Firebase save fails
-      }
+      print('Enhanced ticket issued successfully: ${ticket.ticketId}');
 
-      // Navigate to simple ticket screen first
-      print('Navigating to simple ticket screen...');
-      Navigator.push(
+      // Navigate to enhanced ticket screen
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => SimpleTicketScreen(tripData: tripData),
+          builder: (context) => EnhancedTicketScreen(ticket: ticket),
         ),
       );
-      print('Navigation completed successfully');
 
     } catch (e) {
-      print('Error in _bookTicket: $e');
-      _showErrorDialog('Failed to book ticket: $e');
+      String errorMessage = e.toString();
+      
+      // Check if this is a distance warning
+      if (errorMessage.contains('DISTANCE_WARNING:')) {
+        String warningMessage = errorMessage.replaceFirst('Exception: DISTANCE_WARNING:', '');
+        
+        // Show warning dialog with option to continue
+        _showWarningDialog(
+          '$warningMessage\n\nWould you like to proceed with booking the ticket?',
+          () async {
+            // User chose to continue despite distance warning
+            try {
+              print('🎫 User confirmed to book despite distance warning');
+              setState(() => _isLoading = true);
+              
+              // Issue ticket without location verification
+              EnhancedTicket ticket = await EnhancedTicketService.issueTicketWithoutLocationCheck(
+                sourceName: _selectedFromStop!,
+                destinationName: _selectedToStop!,
+                fare: fare,
+              );
+
+              print('✅ Enhanced ticket issued successfully with distance warning: ${ticket.ticketId}');
+
+              // Navigate to enhanced ticket screen
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EnhancedTicketScreen(ticket: ticket),
+                ),
+              );
+            } catch (innerE) {
+              print('❌ Error in enhanced ticket booking after warning: $innerE');
+              _showErrorDialog('Failed to book ticket after warning: $innerE');
+            } finally {
+              if (mounted) {
+                setState(() => _isLoading = false);
+              }
+            }
+          },
+        );
+      } else {
+        // This is a real error
+        print('Error in enhanced ticket booking: $e');
+        _showErrorDialog('Failed to book ticket: $e');
+      }
     } finally {
-      print('Resetting loading state...');
       if (mounted) {
         setState(() => _isLoading = false);
       }
     }
+  }
+
+  Future<bool?> _showLocationConsentDialog() {
+    return showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: Row(
+          children: [
+            Icon(Icons.location_on, color: Colors.blue),
+            SizedBox(width: 8),
+            Text('Location Tracking Required'),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'This ticket requires location tracking for 2 hours to prevent fraud and ensure proper validation.',
+              style: TextStyle(fontSize: 16),
+            ),
+            SizedBox(height: 16),
+            Container(
+              padding: EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.blue.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('What this means:', style: TextStyle(fontWeight: FontWeight.bold)),
+                  SizedBox(height: 8),
+                  Text('• Location must remain ON for ticket validity'),
+                  Text('• Your journey will be monitored for fraud detection'),
+                  Text('• Data is shared with gyro comparator system'),
+                  Text('• Penalties apply for fare evasion'),
+                ],
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue,
+              foregroundColor: Colors.white,
+            ),
+            child: Text('Accept & Continue'),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<bool?> _showLocationWarningDialog(double distance) {
@@ -440,6 +521,44 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
             child: Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showWarningDialog(String message, VoidCallback onContinue) {
+    print('🚨 Showing distance warning dialog: $message');
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Row(
+          children: [
+            Icon(Icons.warning, color: Colors.orange),
+            SizedBox(width: 8),
+            Text('Distance Warning'),
+          ],
+        ),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () {
+              print('❌ User cancelled ticket booking');
+              Navigator.of(context).pop();
+            },
+            child: Text('Cancel', style: TextStyle(color: Colors.grey)),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              print('✅ User chose to book anyway despite distance warning');
+              Navigator.of(context).pop();
+              onContinue();
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue,
+              foregroundColor: Colors.white,
+            ),
+            child: Text('Book Anyway'),
           ),
         ],
       ),

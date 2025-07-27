@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import '../models/trip_data_model.dart';
 import '../services/firebase_service.dart';
+import '../services/cross_platform_service.dart';
 import 'simple_ticket_screen.dart';
 
 class ActiveTripsScreen extends StatefulWidget {
@@ -293,8 +294,8 @@ class _ActiveTripsScreenState extends State<ActiveTripsScreen> {
   }
 
   Widget _buildStreamingStatus(TripData trip) {
-    bool isCurrentlyStreaming = FirebaseService.isStreaming && 
-                               FirebaseService.currentStreamingTicket == trip.ticketId;
+    bool isCurrentlyStreaming = CrossPlatformService.isStreaming && 
+        CrossPlatformService.getCurrentSessionId() == trip.ticketId;
     
     return Container(
       padding: EdgeInsets.all(12),

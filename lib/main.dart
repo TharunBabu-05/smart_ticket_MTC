@@ -11,9 +11,11 @@ import 'screens/auth_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/support_screen.dart';
 import 'screens/settings_screen.dart';
+import 'screens/demo_test_screen.dart';
 import 'services/background_service.dart';
 import 'services/bus_stop_service.dart';
 import 'services/enhanced_auth_service.dart';
+import 'services/enhanced_ticket_service.dart';
 import 'services/theme_service.dart';
 import 'services/offline_storage_service.dart';
 import 'services/performance_service.dart';
@@ -68,6 +70,16 @@ void main() async {
     print('Bus stop service initialization error: $e');
     performanceService.recordError('bus_stop_service_init_error', errorMessage: e.toString());
     // Continue without bus stop service
+  }
+  
+  try {
+    // Initialize enhanced ticket service
+    await EnhancedTicketService.initialize();
+    print('Enhanced ticket service initialized successfully');
+  } catch (e) {
+    print('Enhanced ticket service initialization error: $e');
+    performanceService.recordError('enhanced_ticket_service_init_error', errorMessage: e.toString());
+    // Continue without enhanced ticket service
   }
   
   // Initialize theme service
@@ -146,6 +158,7 @@ class SmartTicketingApp extends StatelessWidget {
               '/conductor': (context) => ConductorVerificationScreen(),
               '/map': (context) => const MapScreen(),
               '/settings': (context) => const SettingsScreen(),
+              '/demo': (context) => DemoTestScreen(),
             },
             builder: (context, child) {
               // Global error boundary and performance monitoring

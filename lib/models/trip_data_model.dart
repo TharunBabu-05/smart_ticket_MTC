@@ -204,35 +204,3 @@ class TripData {
     );
   }
 }
-
-class BusStop {
-  final String id;
-  final String name;
-  final LatLng location;
-  final int sequence;
-
-  BusStop({
-    required this.id,
-    required this.name,
-    required this.location,
-    required this.sequence,
-  });
-
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'name': name,
-      'location': location.toMap(),
-      'sequence': sequence,
-    };
-  }
-
-  factory BusStop.fromMap(Map<String, dynamic> map) {
-    return BusStop(
-      id: map['id'] ?? '',
-      name: map['name'] ?? '',
-      location: LatLng.fromMap(map['location']),
-      sequence: map['sequence']?.toInt() ?? 0,
-    );
-  }
-}

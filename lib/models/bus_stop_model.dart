@@ -5,12 +5,14 @@ class BusStop {
   final String name;
   final double latitude;
   final double longitude;
+  final int sequence; // Add sequence property for route ordering
 
   BusStop({
     required this.id,
     required this.name,
     required this.latitude,
     required this.longitude,
+    this.sequence = 0, // Default sequence
   });
 
   factory BusStop.fromJson(Map<String, dynamic> json) {
@@ -19,6 +21,7 @@ class BusStop {
       name: json['name'] ?? '',
       latitude: double.tryParse(json['lat']?.toString() ?? '0') ?? 0.0,
       longitude: double.tryParse(json['lng']?.toString() ?? '0') ?? 0.0,
+      sequence: json['sequence'] ?? 0,
     );
   }
 
@@ -28,6 +31,7 @@ class BusStop {
       'name': name,
       'lat': latitude,
       'lng': longitude,
+      'sequence': sequence,
     };
   }
 
@@ -37,6 +41,7 @@ class BusStop {
       'name': name,
       'latitude': latitude,
       'longitude': longitude,
+      'sequence': sequence,
     };
   }
 
@@ -46,6 +51,7 @@ class BusStop {
       name: map['name'],
       latitude: map['latitude'],
       longitude: map['longitude'],
+      sequence: map['sequence'] ?? 0,
     );
   }
 

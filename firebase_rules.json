@@ -2,14 +2,14 @@
   "rules": {
     "trips": {
       "$tripId": {
-        ".read": "auth != null && (auth.uid == data.child('userId').val() || auth.uid == 'admin')",
-        ".write": "auth != null && (auth.uid == data.child('userId').val() || auth.uid == 'admin')",
+        ".read": "auth != null",
+        ".write": "auth != null",
         ".validate": "newData.hasChildren(['ticketId', 'userId', 'startTime', 'sourceLocation', 'destinationLocation', 'sourceName', 'destinationName', 'status'])"
       }
     },
     "fraud_reports": {
       "$reportId": {
-        ".read": "auth != null && auth.uid == 'admin'",
+        ".read": "auth != null",
         ".write": "auth != null",
         ".validate": "newData.hasChildren(['tripId', 'userId', 'timestamp', 'fraudType', 'severity'])"
       }
@@ -18,6 +18,12 @@
       "$userId": {
         ".read": "auth != null && auth.uid == $userId",
         ".write": "auth != null && auth.uid == $userId"
+      }
+    },
+    "tickets": {
+      "$ticketId": {
+        ".read": "auth != null",
+        ".write": "auth != null"
       }
     },
     "_connection_test": {

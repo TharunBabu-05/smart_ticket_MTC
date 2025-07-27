@@ -5,6 +5,7 @@ import 'simple_map_test.dart';
 import 'ticket_booking_screen.dart';
 import 'conductor_verification_screen.dart'; // Now AdminDashboardScreen
 import 'active_trips_screen.dart';
+import 'active_tickets_screen.dart';
 import '../models/trip_data_model.dart';
 import '../services/firebase_service.dart';
 
@@ -156,39 +157,16 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           const SizedBox(width: 12),
           Expanded(
-            child: Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.grey[100],
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Column(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Icon(Icons.add, color: Colors.grey[600], size: 24),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'More Options',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.grey[600],
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+            child: _buildTicketCard(
+              context,
+              'Active Tickets',
+              Icons.confirmation_number,
+              Colors.black,
+              () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ActiveTicketsScreen()),
               ),
             ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Container(),
           ),
         ],
       ),
@@ -293,6 +271,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 MaterialPageRoute(builder: (context) => const SimpleMapTest()),
               ),
               icon: Icons.map,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: _buildActionCard(
+              'Demo Test',
+              'Cross Platform',
+              Colors.purple[50]!,
+              Colors.black,
+              () => Navigator.pushNamed(context, '/demo'),
+              icon: Icons.science,
             ),
           ),
         ],

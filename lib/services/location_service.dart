@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:location/location.dart';
 import '../models/trip_data_model.dart';
+import '../models/bus_stop_model.dart';
 
 class LocationService {
   StreamSubscription<LocationData>? _positionSubscription;
@@ -215,7 +216,7 @@ class LocationService {
     // Match detected stops with known bus stops
     for (var stopPoint in stopPoints) {
       for (var knownStop in knownStops) {
-        double distance = calculateDistance(stopPoint.position, knownStop.location);
+        double distance = calculateDistance(stopPoint.position, LatLng(knownStop.latitude, knownStop.longitude));
         
         // If within 100 meters of a known bus stop, consider it a match
         if (distance <= 100) {

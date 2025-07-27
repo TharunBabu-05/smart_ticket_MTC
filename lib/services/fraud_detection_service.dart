@@ -1,6 +1,7 @@
 import 'dart:math';
 import '../models/trip_data_model.dart';
 import '../models/fraud_analysis_model.dart';
+import '../models/bus_stop_model.dart';
 import '../data/bus_stops_data.dart';
 import 'location_service.dart';
 import 'sensor_service.dart';
@@ -228,7 +229,7 @@ class FraudDetectionService {
     double minDistance = double.infinity;
     
     for (var stop in BusStopsData.allStops) {
-      double distance = _locationService.calculateDistance(location, stop.location);
+      double distance = _locationService.calculateDistance(location, LatLng(stop.latitude, stop.longitude));
       if (distance < minDistance && distance <= 500) { // Within 500m
         minDistance = distance;
         nearestStop = stop;
