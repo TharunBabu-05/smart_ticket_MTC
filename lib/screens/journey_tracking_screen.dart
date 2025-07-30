@@ -5,8 +5,7 @@ import '../models/trip_data_model.dart';
 import '../models/fraud_analysis_model.dart';
 import '../services/location_service.dart';
 import '../services/sensor_service.dart';
-import '../services/fraud_detection_service.dart';
-import '../services/firebase_service.dart';
+import '../services/fraud_detection_service_new.dart';
 import '../services/background_service.dart';
 import 'trip_completion_screen.dart';
 
@@ -49,7 +48,6 @@ class _JourneyTrackingScreenState extends State<JourneyTrackingScreen> {
   void _initializeServices() {
     _locationService = LocationService();
     _sensorService = SensorService();
-    _fraudService = FraudDetectionService();
   }
 
   Future<void> _startTripMonitoring() async {
@@ -327,7 +325,7 @@ class _JourneyTrackingScreenState extends State<JourneyTrackingScreen> {
       );
 
       // Perform fraud analysis
-      final analysis = await _fraudService.analyzeTripData(completedTrip);
+      final analysis = await FraudDetectionService.analyzeTripData(completedTrip);
 
       // Update trip with fraud confidence
       final finalTrip = completedTrip.copyWith(
@@ -338,8 +336,8 @@ class _JourneyTrackingScreenState extends State<JourneyTrackingScreen> {
       );
 
       // Save to Firebase
-      await FirebaseService.saveTripData(finalTrip, analysis);
-      await FirebaseService.saveUserTripHistory(widget.tripData.userId, finalTrip);
+      await FraudDetectionService.saveTripData(finalTrip, analysis.toMap());
+      await FraudDetectionService.saveUserTripHistory(widget.tripData.userId, finalTrip);
 
       // Navigate to completion screen
       if (mounted) {

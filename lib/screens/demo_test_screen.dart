@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../services/cross_platform_service.dart';
+import '../services/fraud_detection_service_new.dart';
 import '../services/enhanced_ticket_service.dart';
 import '../models/enhanced_ticket_model.dart';
 
@@ -238,7 +238,7 @@ class _DemoTestScreenState extends State<DemoTestScreen> {
       });
 
       // Listen for bus status updates
-      CrossPlatformService.getUserInBusStatus(_sessionId).listen((inBus) {
+      FraudDetectionService.getUserInBusStatus(_sessionId).listen((inBus) {
         setState(() {
           _userInBus = inBus;
         });
@@ -267,7 +267,7 @@ class _DemoTestScreenState extends State<DemoTestScreen> {
 
   Future<void> _stopDemo() async {
     try {
-      await CrossPlatformService.stopDataStreaming();
+      await FraudDetectionService.stopDataStreaming();
       
       setState(() {
         _isStreaming = false;
@@ -302,10 +302,10 @@ class _DemoTestScreenState extends State<DemoTestScreen> {
 
     try {
       // Simulate fraud analysis
-      Map<String, dynamic> fraudResult = await CrossPlatformService.analyzeFraudAtExit(
+      Map<String, dynamic> fraudResult = await FraudDetectionService.analyzeFraudAtExit(
         _sessionId,
-        'Stop 12', // Actual exit (fraud)
-        'Stop 6',  // Planned exit
+        'ticket_123', // ticket ID
+        'user_123',   // user ID
       );
 
       setState(() {

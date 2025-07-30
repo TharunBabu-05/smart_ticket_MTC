@@ -6,8 +6,7 @@ import '../models/trip_data_model.dart';
 import '../models/fraud_analysis_model.dart';
 import 'location_service.dart';
 import 'sensor_service.dart';
-import 'fraud_detection_service.dart';
-import 'firebase_service.dart';
+import 'fraud_detection_service_new.dart';
 
 class BackgroundTripService {
   static const String _serviceName = 'smart_ticketing_service';
@@ -66,7 +65,6 @@ class BackgroundTripService {
     // Initialize services
     final locationService = LocationService();
     final sensorService = SensorService();
-    final fraudService = FraudDetectionService();
     
     TripData? currentTrip;
     List<LocationPoint> gpsTrail = [];
@@ -101,7 +99,6 @@ class BackgroundTripService {
               currentTrip!, 
               gpsTrail, 
               sensorData, 
-              fraudService,
               service,
             );
           },
@@ -129,7 +126,6 @@ class BackgroundTripService {
           currentTrip!, 
           gpsTrail, 
           sensorData, 
-          fraudService,
         );
       }
       
@@ -179,7 +175,6 @@ class BackgroundTripService {
     TripData tripData,
     List<LocationPoint> gpsTrail,
     List<SensorReading> sensorData,
-    FraudDetectionService fraudService,
     ServiceInstance service,
   ) async {
     try {
@@ -190,7 +185,7 @@ class BackgroundTripService {
       );
 
       // Quick fraud check
-      bool suspiciousActivity = await fraudService.quickFraudCheck(updatedTrip);
+      bool suspiciousActivity = await FraudDetectionService.quickFraudCheck(updatedTrip);
       
       if (suspiciousActivity) {
         // Send alert notification
@@ -200,7 +195,7 @@ class BackgroundTripService {
         });
         
         // Save alert to Firebase
-        String alertId = FirebaseService.generateAlertId();
+        String alertId = FraudDetectionService.generateAlertId();
         FraudAlert alert = FraudAlert(
           alertId: alertId,
           tripId: tripData.ticketId,
@@ -209,11 +204,11 @@ class BackgroundTripService {
           detectedIssues: ['Real-time suspicious activity detected'],
         );
         
-        await FirebaseService.createFraudAlert(alert);
+        await FraudDetectionService.createFraudAlert(alert.toMap());
       }
 
       // Save periodic trip update
-      await FirebaseService.saveTripData(updatedTrip);
+      await FraudDetectionService.saveTripData(updatedTrip);
       
     } catch (e) {
       print('Error in periodic analysis: $e');
@@ -225,7 +220,6 @@ class BackgroundTripService {
     TripData tripData,
     List<LocationPoint> gpsTrail,
     List<SensorReading> sensorData,
-    FraudDetectionService fraudService,
   ) async {
     try {
       // Create final trip data
@@ -237,7 +231,7 @@ class BackgroundTripService {
       );
 
       // Perform comprehensive fraud analysis
-      FraudAnalysis analysis = await fraudService.analyzeTripData(finalTrip);
+      FraudAnalysis analysis = await FraudDetectionService.analyzeTripData(finalTrip);
       
       // Update trip with fraud confidence
       finalTrip = finalTrip.copyWith(
@@ -248,12 +242,12 @@ class BackgroundTripService {
       );
 
       // Save final results
-      await FirebaseService.saveTripData(finalTrip, analysis);
-      await FirebaseService.saveUserTripHistory(tripData.userId, finalTrip);
+      await FraudDetectionService.saveTripData(finalTrip, analysis.toMap());
+      await FraudDetectionService.saveUserTripHistory(tripData.userId, finalTrip);
 
       // Create fraud alert if necessary
       if (analysis.recommendation != FraudRecommendation.noAction) {
-        String alertId = FirebaseService.generateAlertId();
+        String alertId = FraudDetectionService.generateAlertId();
         FraudAlert alert = FraudAlert(
           alertId: alertId,
           tripId: tripData.ticketId,
@@ -262,7 +256,7 @@ class BackgroundTripService {
           detectedIssues: analysis.detectedIssues,
         );
         
-        await FirebaseService.createFraudAlert(alert);
+        await FraudDetectionService.createFraudAlert(alert.toMap());
       }
 
       print('Final trip analysis completed');

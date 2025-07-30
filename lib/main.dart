@@ -12,10 +12,12 @@ import 'screens/profile_screen.dart';
 import 'screens/support_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/demo_test_screen.dart';
+import 'screens/debug_screen.dart';
 import 'services/background_service.dart';
 import 'services/bus_stop_service.dart';
 import 'services/enhanced_auth_service.dart';
 import 'services/enhanced_ticket_service.dart';
+import 'services/fraud_detection_service_new.dart';
 import 'services/theme_service.dart';
 import 'services/offline_storage_service.dart';
 import 'services/performance_service.dart';
@@ -80,6 +82,16 @@ void main() async {
     print('Enhanced ticket service initialization error: $e');
     performanceService.recordError('enhanced_ticket_service_init_error', errorMessage: e.toString());
     // Continue without enhanced ticket service
+  }
+
+  try {
+    // Initialize fraud detection service
+    await FraudDetectionService.initialize();
+    print('Fraud detection service initialized successfully');
+  } catch (e) {
+    print('Fraud detection service initialization error: $e');
+    performanceService.recordError('fraud_detection_service_init_error', errorMessage: e.toString());
+    // Continue without fraud detection service
   }
   
   // Initialize theme service
@@ -159,6 +171,7 @@ class SmartTicketingApp extends StatelessWidget {
               '/map': (context) => const MapScreen(),
               '/settings': (context) => const SettingsScreen(),
               '/demo': (context) => DemoTestScreen(),
+              '/debug': (context) => const DebugScreen(),
             },
             builder: (context, child) {
               // Global error boundary and performance monitoring

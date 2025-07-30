@@ -1,0 +1,8 @@
+{
+  "database": {
+    "rules": "firebase_realtime_rules.json"
+  },
+  "firestore": {
+    "rules": "firestore_rules.rules"
+  }
+}

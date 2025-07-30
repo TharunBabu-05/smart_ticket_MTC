@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import '../models/trip_data_model.dart';
-import '../services/firebase_service.dart';
-import '../services/cross_platform_service.dart';
+import '../services/fraud_detection_service_new.dart';
+import '../services/fraud_detection_service_new.dart';
 import 'simple_ticket_screen.dart';
 
 class ActiveTripsScreen extends StatefulWidget {
@@ -35,7 +35,7 @@ class _ActiveTripsScreenState extends State<ActiveTripsScreen> {
     try {
       // In production, get actual user ID from authentication
       String userId = 'user_123';
-      List<TripData> trips = await FirebaseService.getUserActiveTrips(userId);
+      List<TripData> trips = await FraudDetectionService.getUserActiveTrips(userId);
       
       if (mounted) {
         setState(() {
@@ -250,7 +250,7 @@ class _ActiveTripsScreenState extends State<ActiveTripsScreen> {
                 ),
               ),
               // Auto-expire ticket if time is up
-              if (isExpired && FirebaseService.currentStreamingTicket == trip.ticketId)
+              if (isExpired && FraudDetectionService.currentStreamingTicket == trip.ticketId)
                 FutureBuilder(
                   future: _expireTicketIfNeeded(trip.ticketId),
                   builder: (context, snapshot) => SizedBox.shrink(),
@@ -294,8 +294,8 @@ class _ActiveTripsScreenState extends State<ActiveTripsScreen> {
   }
 
   Widget _buildStreamingStatus(TripData trip) {
-    bool isCurrentlyStreaming = CrossPlatformService.isStreaming && 
-        CrossPlatformService.getCurrentSessionId() == trip.ticketId;
+    bool isCurrentlyStreaming = FraudDetectionService.isStreaming() && 
+        FraudDetectionService.getCurrentSessionId() == trip.ticketId;
     
     return Container(
       padding: EdgeInsets.all(12),
@@ -350,7 +350,7 @@ class _ActiveTripsScreenState extends State<ActiveTripsScreen> {
   
   Future<void> _expireTicketIfNeeded(String ticketId) async {
     try {
-      await FirebaseService.expireTicket(ticketId);
+      await FraudDetectionService.expireTicket(ticketId);
       // Refresh the trips list to reflect the change
       if (mounted) {
         _loadActiveTrips();

@@ -7,7 +7,7 @@ import 'conductor_verification_screen.dart'; // Now AdminDashboardScreen
 import 'active_trips_screen.dart';
 import 'active_tickets_screen.dart';
 import '../models/trip_data_model.dart';
-import '../services/firebase_service.dart';
+import '../services/fraud_detection_service_new.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       // In production, get actual user ID from authentication
       String userId = 'user_123';
-      List<TripData> trips = await FirebaseService.getUserActiveTrips(userId);
+      List<TripData> trips = await FraudDetectionService.getUserActiveTrips(userId);
       
       if (mounted) {
         setState(() {
@@ -89,6 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             _buildSearchBar(),
             _buildTicketOptions(context),
+            _buildDeveloperOptions(context),
             _buildMapSection(context),
             _buildTicketSections(),
           ],
@@ -227,6 +228,111 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildDeveloperOptions(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.developer_mode, color: Colors.orange, size: 16),
+              SizedBox(width: 4),
+              Text(
+                'Developer Tools',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.orange,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 8),
+          GestureDetector(
+            onTap: () => Navigator.pushNamed(context, '/debug'),
+            child: Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.orange[50],
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.orange.withOpacity(0.3)),
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.storage, color: Colors.orange),
+                  SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Database Viewer',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
+                        Text(
+                          'View Gyro-Comparator session data',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Icon(Icons.arrow_forward_ios, size: 16, color: Colors.orange),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: 8),
+          GestureDetector(
+            onTap: () => Navigator.pushNamed(context, '/firebase-test'),
+            child: Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.blue[50],
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.blue.withOpacity(0.3)),
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.cloud, color: Colors.blue),
+                  SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Firebase Connection Test',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
+                        Text(
+                          'Test dual Firebase connectivity',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Icon(Icons.arrow_forward_ios, size: 16, color: Colors.blue),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

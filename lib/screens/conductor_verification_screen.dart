@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/trip_data_model.dart';
 import '../models/fraud_analysis_model.dart';
 import '../models/enhanced_ticket_model.dart';
-import '../services/firebase_service.dart';
+import '../services/fraud_detection_service_new.dart';
 import '../services/enhanced_ticket_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
@@ -30,13 +30,13 @@ class _ConductorVerificationScreenState extends State<ConductorVerificationScree
     
     try {
       // Load fraud alerts and active trips
-      FirebaseService.getFraudAlertsStream().listen((alerts) {
+      FraudDetectionService.getFraudAlertsStream().listen((alerts) {
         setState(() {
           _pendingAlerts = alerts;
         });
       });
       
-      FirebaseService.getActiveTripStream().listen((trips) {
+      FraudDetectionService.getActiveTripStream().listen((trips) {
         setState(() {
           _activeTrips = trips;
         });
@@ -492,11 +492,9 @@ class _ConductorVerificationScreenState extends State<ConductorVerificationScree
           ? 'Marked as false positive by conductor'
           : 'Confirmed as fraud by conductor';
       
-      await FirebaseService.updateFraudAlert(
+      await FraudDetectionService.updateFraudAlert(
         alert.alertId,
-        status,
-        resolvedBy: 'conductor_123', // In production, get from authentication
-        resolution: resolution,
+        status.toString(),
       );
       
       ScaffoldMessenger.of(context).showSnackBar(
@@ -535,7 +533,7 @@ class _ConductorVerificationScreenState extends State<ConductorVerificationScree
     
     if (shouldVerify == true) {
       try {
-        await FirebaseService.updateTripStatus(trip.ticketId, TripStatus.verified);
+        await FraudDetectionService.updateTripStatus(trip.ticketId, 'verified');
         
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

@@ -58,12 +58,21 @@ class CrossPlatformService {
   /// Create session ID in primary Firebase (minimal data for gyro comparison)
   static Future<String> createTripSession(TripData tripData) async {
     try {
+      print('🎫 =========================');
+      print('🎫 CREATING TRIP SESSION');
+      print('🎫 =========================');
+      
       if (_realtimeDatabase == null) {
-        throw Exception('Cross-platform service not initialized');
+        print('❌ Realtime database is null - initializing...');
+        await initialize();
       }
 
       String sessionId = _generateSessionId();
       _currentSessionId = sessionId;
+      
+      print('🆔 Generated Session ID: $sessionId');
+      print('🎫 Ticket ID: ${tripData.ticketId}');
+      print('👤 User ID: ${tripData.userId}');
       
       // Store MINIMAL data for gyro comparison (only unique ID and essential info)
       Map<String, dynamic> gyroSessionData = {
@@ -80,44 +89,85 @@ class CrossPlatformService {
 
       // Store minimal data in Realtime Database for gyro comparison
       print('💾 Storing minimal session data for gyro comparison...');
-      print('📍 Path: $_gyroSessionsPath/$sessionId');
-      print('📊 Data: ${gyroSessionData.toString()}');
+      print('📍 Full Path: $_gyroSessionsPath/$sessionId');
+      print('📊 Data to store: ${gyroSessionData.toString()}');
       
-      await _realtimeDatabase!
-          .ref(_gyroSessionsPath)
-          .child(sessionId)
-          .set(gyroSessionData)
-          .timeout(
-            Duration(seconds: 15),
-            onTimeout: () => throw TimeoutException('Realtime database write timeout', Duration(seconds: 15)),
-          );
-      
-      print('✅ Minimal session data stored for gyro comparison');
-      print('🔗 Accessible by Gyro-Comparator at: $_gyroSessionsPath/$sessionId');
+      try {
+        // Test if we can write to the database
+        print('🔍 Testing database write permissions...');
+        await _realtimeDatabase!.ref('_test').set({'timestamp': DateTime.now().millisecondsSinceEpoch});
+        print('✅ Database write test successful');
+        
+        // Now try to write the actual session data
+        print('💾 Writing session data to: $_gyroSessionsPath/$sessionId');
+        await _realtimeDatabase!
+            .ref(_gyroSessionsPath)
+            .child(sessionId)
+            .set(gyroSessionData)
+            .timeout(
+              Duration(seconds: 15),
+              onTimeout: () => throw TimeoutException('Realtime database write timeout', Duration(seconds: 15)),
+            );
+        
+        print('✅ Session data written to Realtime Database');
+        print('🔗 Verify at: https://console.firebase.google.com/project/smart-ticket-mtc/database/smart-ticket-mtc-default-rtdb/data/gyro_sessions/$sessionId');
+        
+        // Verify the write was successful by reading back
+        print('🔍 Verifying write by reading back...');
+        DatabaseReference sessionRef = _realtimeDatabase!.ref(_gyroSessionsPath).child(sessionId);
+        DataSnapshot snapshot = await sessionRef.get();
+        
+        if (snapshot.exists) {
+          print('✅ Verification successful - data exists in database');
+          print('📄 Stored data: ${snapshot.value}');
+        } else {
+          print('❌ Verification failed - data not found in database');
+          throw Exception('Session data was not stored successfully');
+        }
+        
+      } catch (dbError) {
+        print('❌ Database write error: $dbError');
+        print('🔧 Database reference: ${_realtimeDatabase.toString()}');
+        print('📍 Path attempted: $_gyroSessionsPath/$sessionId');
+        throw Exception('Failed to store session in Realtime Database: $dbError');
+      }
 
       // Store FULL ticket data in Firestore
       print('💾 Storing full ticket data in Firestore...');
-      await _mainFirestore
-          .collection(_ticketDataCollection)
-          .doc(tripData.ticketId)
-          .set({
-        'sessionId': sessionId,
-        'tripData': tripData.toMap(),
-        'createdAt': FieldValue.serverTimestamp(),
-        'fraudStatus': 'monitoring',
-        'gyroSessionPath': '$_gyroSessionsPath/$sessionId',
-      }).timeout(
-        Duration(seconds: 10),
-        onTimeout: () => throw TimeoutException('Firestore write timeout', Duration(seconds: 10)),
-      );
+      try {
+        await _mainFirestore
+            .collection(_ticketDataCollection)
+            .doc(tripData.ticketId)
+            .set({
+          'sessionId': sessionId,
+          'tripData': tripData.toMap(),
+          'createdAt': FieldValue.serverTimestamp(),
+          'fraudStatus': 'monitoring',
+          'gyroSessionPath': '$_gyroSessionsPath/$sessionId',
+        }).timeout(
+          Duration(seconds: 10),
+          onTimeout: () => throw TimeoutException('Firestore write timeout', Duration(seconds: 10)),
+        );
+        
+        print('✅ Full ticket data stored in Firestore');
+      } catch (firestoreError) {
+        print('❌ Firestore write error: $firestoreError');
+        // Don't throw here - Realtime DB write was successful
+      }
 
-      print('✅ Session created - ID: $sessionId');
+      print('✅ SESSION CREATION COMPLETED');
+      print('🆔 Session ID: $sessionId');
       print('📱 Minimal data in Realtime DB: $_gyroSessionsPath/$sessionId');
       print('🗄️ Full data in Firestore: $_ticketDataCollection/${tripData.ticketId}');
+      print('🎫 =========================');
 
       return sessionId;
     } catch (e) {
-      print('❌ Error creating trip session: $e');
+      print('❌ =========================');
+      print('❌ SESSION CREATION FAILED');
+      print('❌ Error: $e');
+      print('❌ Stack trace: ${StackTrace.current}');
+      print('❌ =========================');
       throw e;
     }
   }

@@ -9,7 +9,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart' as gmaps;
 import '../models/enhanced_ticket_model.dart';
 import '../models/trip_data_model.dart' as trip;
 import '../models/bus_stop_model.dart';
-import '../services/cross_platform_service.dart';
+import '../services/fraud_detection_service_new.dart';
 import '../services/location_service.dart';
 import '../data/bus_stops_data.dart';
 
@@ -40,7 +40,7 @@ class EnhancedTicketService {
   /// Initialize the enhanced ticket service
   static Future<void> initialize() async {
     try {
-      await CrossPlatformService.initialize();
+      await FraudDetectionService.initialize();
       _ticketUpdateController = StreamController<EnhancedTicket>.broadcast();
       print('Enhanced ticket service initialized');
     } catch (e) {
@@ -96,7 +96,7 @@ class EnhancedTicketService {
         status: trip.TripStatus.active,
       );
 
-      String sessionId = await CrossPlatformService.createTripSession(tripData);
+      String sessionId = await FraudDetectionService.createTripSession(tripData);
 
       // Create enhanced ticket
       EnhancedTicket ticket = EnhancedTicket(
@@ -292,7 +292,7 @@ class EnhancedTicketService {
   static Future<void> _startTicketValidation(EnhancedTicket ticket) async {
     try {
       // Start cross-platform data streaming
-      await CrossPlatformService.startDataStreaming(ticket.sessionId);
+      await FraudDetectionService.startDataStreaming(ticket.sessionId);
 
       // Start validation timer
       _validationTimer = Timer.periodic(Duration(seconds: 30), (timer) {
@@ -376,13 +376,13 @@ class EnhancedTicketService {
       }
 
       // Stop cross-platform streaming
-      await CrossPlatformService.stopDataStreaming();
+      await FraudDetectionService.stopDataStreaming();
 
       // Analyze for fraud
-      Map<String, dynamic> fraudAnalysis = await CrossPlatformService.analyzeFraudAtExit(
+      Map<String, dynamic> fraudAnalysis = await FraudDetectionService.analyzeFraudAtExit(
         ticket.sessionId,
-        actualExitStop,
-        ticket.destinationName,
+        ticket.ticketId,
+        ticket.userId
       );
 
       // Create penalty if fraud detected
@@ -473,7 +473,7 @@ class EnhancedTicketService {
         'expiredAt': DateTime.now().millisecondsSinceEpoch,
       });
 
-      await CrossPlatformService.stopDataStreaming();
+      await FraudDetectionService.stopDataStreaming();
       _validationTimer?.cancel();
       _currentActiveTicket = null;
 
@@ -630,7 +630,7 @@ class EnhancedTicketService {
   /// Dispose resources
   static Future<void> dispose() async {
     _validationTimer?.cancel();
-    await CrossPlatformService.stopDataStreaming();
+    await FraudDetectionService.stopDataStreaming();
     await _ticketUpdateController?.close();
     _currentActiveTicket = null;
   }

@@ -41,6 +41,16 @@
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": []
+        },
+        "analytics_service": {
+          "status": 1
+        },
+        "firebase_realtime_database_service": {
+          "status": 1,
+          "firebase_url": "https://smart-ticket-mtc-default-rtdb.firebaseio.com/"
+        },
+        "cloud_firestore_service": {
+          "status": 1
         }
       }
     }

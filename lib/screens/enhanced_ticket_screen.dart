@@ -6,7 +6,7 @@ import 'dart:async';
 import '../models/enhanced_ticket_model.dart';
 import '../models/trip_data_model.dart' as trip;
 import '../services/enhanced_ticket_service.dart';
-import '../services/cross_platform_service.dart';
+import '../services/fraud_detection_service_new.dart';
 import 'journey_tracking_screen.dart';
 
 class EnhancedTicketScreen extends StatefulWidget {
@@ -90,7 +90,7 @@ class _EnhancedTicketScreenState extends State<EnhancedTicketScreen>
   }
 
   void _listenToBusStatus() {
-    _busStatusSubscription = CrossPlatformService
+    _busStatusSubscription = FraudDetectionService
         .getUserInBusStatus(_currentTicket.sessionId)
         .listen((inBus) {
       if (mounted) {
