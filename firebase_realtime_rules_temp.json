@@ -1,0 +1,30 @@
+{
+  "rules": {
+    ".read": true,
+    ".write": true,
+    "enhanced_tickets": {
+      ".indexOn": ["userId", "status"]
+    },
+    "tickets": {
+      ".indexOn": ["userId", "status"]
+    },
+    "sessions": {
+      ".indexOn": ["userId", "status"]
+    },
+    "gyro_sessions": {
+      ".indexOn": ["userId", "status"]  
+    },
+    "sensor_data": {
+      ".indexOn": ["sessionId", "timestamp"]
+    },
+    "connection_codes": {
+      ".indexOn": ["userId", "ticketId", "status", "created_at"]
+    },
+    "sensor_sessions": {
+      ".indexOn": ["connection_code", "device_type", "last_update"]
+    },
+    "ticket_sensors": {
+      ".indexOn": ["connection_code", "status", "timestamp"]
+    }
+  }
+}

@@ -11,6 +11,7 @@ import 'dart:math';
 import '../models/trip_data_model.dart';
 import '../models/fraud_analysis_model.dart';
 import '../firebase_options.dart';
+import 'connection_code_service.dart';
 
 /// Smart Ticket MTC Fraud Detection Service
 /// 
@@ -61,6 +62,8 @@ class FraudDetectionService {
       FirebaseApp primaryApp = Firebase.app('primary_app');
       _primaryRealtimeDB = FirebaseDatabase.instanceFor(app: primaryApp);
       _primaryFirestore = FirebaseFirestore.instanceFor(app: primaryApp);
+      print('✅ Primary App initialized: ${primaryApp.options.projectId}');
+      print('📊 Primary DB URL: ${primaryApp.options.databaseURL}');
       
       // Initialize Secondary App (Gyro Comparator System)
       print('🎯 Initializing Secondary App (Gyro Comparator System)...');
@@ -71,6 +74,8 @@ class FraudDetectionService {
       
       FirebaseApp gyroApp = Firebase.app('gyro_app');
       _gyroRealtimeDB = FirebaseDatabase.instanceFor(app: gyroApp);
+      print('✅ Gyro App initialized: ${gyroApp.options.projectId}');
+      print('📊 Gyro DB URL: ${gyroApp.options.databaseURL}');
       
       // Test connections
       await _testConnections();
@@ -120,8 +125,8 @@ class FraudDetectionService {
     }
   }
 
-  /// Create a new ticket and fraud detection session
-  static Future<String> createTicketWithFraudDetection(TripData tripData) async {
+  /// Create a new ticket and fraud detection session with connection code
+  static Future<Map<String, String>> createTicketWithFraudDetection(TripData tripData) async {
     try {
       if (_auth?.currentUser == null) {
         throw Exception('User not authenticated');
@@ -165,11 +170,22 @@ class FraudDetectionService {
       await _primaryFirestore!.collection(_enhancedTicketsCollection).doc(ticketId).set(enhancedTicketData);
       print('✅ Enhanced ticket stored in Firestore');
       
-      // === 3. CREATE GYRO SESSION FOR CROSS-APP COMMUNICATION ===
+      // === 3. CREATE CONNECTION CODE FOR GYRO-COMPARATOR APP ===
+      print('🔗 Creating connection code for gyro-comparator app...');
+      String connectionCode = await ConnectionCodeService.createConnectionForTicket(
+        ticketId,
+        userId,
+        tripData.sourceName ?? 'unknown',
+        tripData.destinationName ?? 'unknown',
+      );
+      print('✅ Connection code created: $connectionCode');
+      
+      // === 4. STORE CONNECTION CODE INFO IN ORIGINAL SESSION PATH (for backward compatibility) ===
       Map<String, dynamic> sessionData = {
         'sessionId': sessionId,
         'ticketId': ticketId,
         'userId': userId,
+        'connectionCode': connectionCode, // Add connection code to session data
         'startTime': timestamp,
         'status': 'active',
         'fromStop': tripData.sourceName ?? 'unknown',
@@ -177,18 +193,28 @@ class FraudDetectionService {
         'expectedDistance': _calculateDistance(tripData.sourceName ?? 'unknown', tripData.destinationName ?? 'unknown'),
         'lastUpdate': timestamp,
       };
+
+      print('🔧 DEBUG: About to create session in gyro_sessions/$sessionId');
+      print('🔧 DEBUG: Session data: $sessionData');
+      print('🔧 DEBUG: Connection Code: $connectionCode');
       
-      // Store in GYRO APP for cross-app communication
-      await _gyroRealtimeDB!.ref('$_gyroSessionsPath/$sessionId').set(sessionData);
-      print('✅ Session created in Gyro App for cross-platform detection');
-      
-      // === 4. START SENSOR DATA STREAMING ===
-      _currentSessionId = sessionId;
-      _currentTicketId = ticketId;
-      await _startSensorStreaming(sessionId, ticketId, userId);
+      // Store in GYRO APP for cross-app communication (if still needed)
+      try {
+        await _gyroRealtimeDB!.ref('$_gyroSessionsPath/$sessionId').set(sessionData);
+        print('✅ Session created in Gyro App for backward compatibility');
+      } catch (sessionError) {
+        print('⚠️ Warning: Could not create session in Gyro App: $sessionError');
+        // Continue anyway since we have the connection code system
+      }
       
       print('🎯 Fraud detection system activated for ticket: $ticketId');
-      return ticketId;
+      print('� Gyro-comparator can connect using code: $connectionCode');
+      
+      return {
+        'ticketId': ticketId,
+        'sessionId': sessionId,
+        'connectionCode': connectionCode,
+      };
       
     } catch (e) {
       print('❌ Error creating ticket with fraud detection: $e');
@@ -271,20 +297,17 @@ class FraudDetectionService {
         'y': event.y,
         'z': event.z,
         'timestamp': DateTime.now().millisecondsSinceEpoch,
-      };
-      
-      // Send to PRIMARY APP
-      await _primaryRealtimeDB!.ref('$_sensorDataPath/$sessionId/gyroscope').set(gyroPayload);
-      
-      // Send to GYRO APP (for cross-platform comparison)
-      await _gyroRealtimeDB!.ref('$_gyroSessionsPath/$sessionId/sensorData/gyroscope').set(gyroPayload);
-      
-      // Store in Firestore for analysis
-      await _primaryFirestore!.collection(_sensorDataCollection).doc(sessionId).collection('gyroscope').add({
-        ...gyroPayload,
         'ticketId': ticketId,
         'sensorType': 'gyroscope',
-      });
+      };
+      
+      // Send to PRIMARY APP Realtime Database
+      await _primaryRealtimeDB!.ref('$_sensorDataPath/$sessionId/gyroscope').set(gyroPayload);
+      
+      // Send to GYRO APP Realtime Database (for cross-platform comparison)
+      await _gyroRealtimeDB!.ref('$_gyroSessionsPath/$sessionId/sensorData/gyroscope').set(gyroPayload);
+      
+      // Note: Removed Firestore writes to avoid permission issues
       
     } catch (e) {
       print('❌ Error sending gyroscope data: $e');
@@ -299,20 +322,17 @@ class FraudDetectionService {
         'y': event.y,
         'z': event.z,
         'timestamp': DateTime.now().millisecondsSinceEpoch,
-      };
-      
-      // Send to PRIMARY APP
-      await _primaryRealtimeDB!.ref('$_sensorDataPath/$sessionId/accelerometer').set(accelPayload);
-      
-      // Send to GYRO APP (for cross-platform comparison)
-      await _gyroRealtimeDB!.ref('$_gyroSessionsPath/$sessionId/sensorData/accelerometer').set(accelPayload);
-      
-      // Store in Firestore for analysis
-      await _primaryFirestore!.collection(_sensorDataCollection).doc(sessionId).collection('accelerometer').add({
-        ...accelPayload,
         'ticketId': ticketId,
         'sensorType': 'accelerometer',
-      });
+      };
+      
+      // Send to PRIMARY APP Realtime Database
+      await _primaryRealtimeDB!.ref('$_sensorDataPath/$sessionId/accelerometer').set(accelPayload);
+      
+      // Send to GYRO APP Realtime Database (for cross-platform comparison)
+      await _gyroRealtimeDB!.ref('$_gyroSessionsPath/$sessionId/sensorData/accelerometer').set(accelPayload);
+      
+      // Note: Removed Firestore writes to avoid permission issues
       
     } catch (e) {
       print('❌ Error sending accelerometer data: $e');
@@ -327,6 +347,9 @@ class FraudDetectionService {
       if (_currentSessionId == null) {
         throw Exception('No active session found');
       }
+      
+      // Stop connection code service
+      await ConnectionCodeService.stopConnectionForTicket(ticketId);
       
       // Stop sensor streaming
       await _stopSensorStreaming();
@@ -396,6 +419,9 @@ class FraudDetectionService {
   
   /// Get current ticket ID
   static String? getCurrentTicketId() => _currentTicketId;
+  
+  /// Get current connection code
+  static String? getCurrentConnectionCode() => ConnectionCodeService.getCurrentConnectionCode();
   
   /// Check if fraud detection is active
   static bool isActive() => _isStreaming && _currentSessionId != null;

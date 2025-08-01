@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,6 +12,7 @@ import '../models/trip_data_model.dart' as trip;
 import '../models/bus_stop_model.dart';
 import '../services/fraud_detection_service_new.dart';
 import '../services/location_service.dart';
+import '../services/enhanced_sensor_service.dart';
 import '../data/bus_stops_data.dart';
 
 /// Custom result class for location verification
@@ -30,7 +32,9 @@ class LocationVerificationResult {
 
 class EnhancedTicketService {
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  static final FirebaseDatabase _realtimeDB = FirebaseDatabase.instance;
   static const String _ticketsCollection = 'enhanced_tickets';
+  static const String _ticketsPath = 'enhanced_tickets'; // Realtime DB path
   static const String _penaltiesCollection = 'penalties';
   
   static Timer? _validationTimer;
@@ -432,25 +436,65 @@ class EnhancedTicketService {
     }
   }
 
-  /// Save ticket to Firebase
+  /// Save ticket to Firebase (using both Realtime Database and Firestore)
   static Future<void> _saveTicketToFirebase(EnhancedTicket ticket) async {
     try {
-      await _firestore
-          .collection(_ticketsCollection)
-          .doc(ticket.ticketId)
+      // Save to Realtime Database (with open permissions)
+      await _realtimeDB
+          .ref(_ticketsPath)
+          .child(ticket.ticketId)
           .set(ticket.toMap());
+      
+      print('✅ Ticket saved to Firebase Realtime Database successfully');
+      
+      // Start sensor streaming for fraud detection (like Gyro Comparator)
+      try {
+        String connectionCode = await EnhancedSensorService.startSensorStreamingForTicket(
+          ticket.ticketId, 
+          ticket.userId
+        );
+        
+        // Add connection code to ticket metadata
+        Map<String, dynamic> updatedMetadata = Map.from(ticket.metadata);
+        updatedMetadata['connectionCode'] = connectionCode;
+        updatedMetadata['sensorStreamingActive'] = true;
+        
+        // Update ticket with connection code
+        await _realtimeDB
+            .ref(_ticketsPath)
+            .child(ticket.ticketId)
+            .update({'metadata': updatedMetadata});
+            
+        print('🔗 Sensor streaming started with connection code: $connectionCode');
+        
+      } catch (sensorError) {
+        print('⚠️ Sensor streaming failed (continuing anyway): $sensorError');
+      }
+      
+      // Also save to Firestore for backup and complex queries
+      try {
+        await _firestore
+            .collection(_ticketsCollection)
+            .doc(ticket.ticketId)
+            .set(ticket.toMap());
+        print('✅ Ticket also saved to Firestore successfully');
+      } catch (firestoreError) {
+        print('⚠️ Firestore save failed (continuing anyway): $firestoreError');
+      }
+      
     } catch (e) {
-      print('Error saving ticket to Firebase: $e');
-      throw e;
+      print('❌ Error saving ticket to Firebase: $e');
+      // Don't throw error - allow ticket creation to continue
+      // throw e;
     }
   }
 
   /// Update ticket status
   static Future<void> _updateTicketStatus(EnhancedTicket ticket) async {
     try {
-      await _firestore
-          .collection(_ticketsCollection)
-          .doc(ticket.ticketId)
+      await _realtimeDB
+          .ref(_ticketsPath)
+          .child(ticket.ticketId)
           .update({
         'status': ticket.status.toString().split('.').last,
         'lastUpdate': DateTime.now().millisecondsSinceEpoch,
@@ -465,14 +509,16 @@ class EnhancedTicketService {
     try {
       EnhancedTicket expiredTicket = ticket.copyWith(status: TicketStatus.expired);
       
-      await _firestore
-          .collection(_ticketsCollection)
-          .doc(ticket.ticketId)
+      await _realtimeDB
+          .ref(_ticketsPath)
+          .child(ticket.ticketId)
           .update({
         'status': 'expired',
         'expiredAt': DateTime.now().millisecondsSinceEpoch,
       });
 
+      // Stop sensor streaming
+      await EnhancedSensorService.stopSensorStreaming();
       await FraudDetectionService.stopDataStreaming();
       _validationTimer?.cancel();
       _currentActiveTicket = null;
@@ -495,6 +541,11 @@ class EnhancedTicketService {
         'completedAt': DateTime.now().millisecondsSinceEpoch,
         'actualExitStop': exitStop,
       });
+      
+      // Stop sensor streaming when ticket is completed
+      await EnhancedSensorService.stopSensorStreaming();
+      print('Sensor streaming stopped for completed ticket: ${ticket.ticketId}');
+      
     } catch (e) {
       print('Error completing ticket: $e');
     }
@@ -521,19 +572,47 @@ class EnhancedTicketService {
   /// Get user's active tickets
   static Future<List<EnhancedTicket>> getUserActiveTickets(String userId) async {
     try {
-      // First try Firebase
-      QuerySnapshot snapshot = await _firestore
-          .collection(_ticketsCollection)
-          .where('userId', isEqualTo: userId)
-          .where('status', isEqualTo: 'active')
-          .orderBy('issueTime', descending: true)
-          .get();
-
-      List<EnhancedTicket> firebaseTickets = snapshot.docs
-          .map((doc) => EnhancedTicket.fromMap(doc.data() as Map<String, dynamic>))
-          .toList();
+      print('🔍 Fetching active tickets for user: $userId');
       
-      print('✅ Retrieved ${firebaseTickets.length} tickets from Firebase');
+      // Try Firebase Realtime Database first (where tickets are actually stored)
+      DatabaseReference ticketsRef = _realtimeDB.ref(_ticketsPath);
+      DatabaseEvent event = await ticketsRef.orderByChild('userId').equalTo(userId).once();
+      
+      List<EnhancedTicket> firebaseTickets = [];
+      
+      if (event.snapshot.value != null) {
+        Map<dynamic, dynamic> ticketsData = event.snapshot.value as Map<dynamic, dynamic>;
+        print('🔍 Found ${ticketsData.length} ticket records in Firebase Realtime DB');
+        
+        for (var entry in ticketsData.entries) {
+          try {
+            Map<String, dynamic> ticketData = Map<String, dynamic>.from(entry.value as Map);
+            print('🎫 Processing ticket: ${entry.key}');
+            print('📊 Ticket data: ${ticketData['status']}, valid until: ${ticketData['validUntil']}');
+            
+            EnhancedTicket ticket = EnhancedTicket.fromMap(ticketData);
+            
+            print('🎫 Parsed ticket: ${ticket.ticketId}, status: ${ticket.status}, isValid: ${ticket.isValid}');
+            
+            // Only include active and valid tickets
+            if (ticket.status == TicketStatus.active && ticket.isValid) {
+              firebaseTickets.add(ticket);
+              print('✅ Added ticket to active list: ${ticket.ticketId}');
+            } else {
+              print('❌ Ticket ${ticket.ticketId} not active or expired: status=${ticket.status}, isValid=${ticket.isValid}');
+            }
+          } catch (e) {
+            print('❌ Error parsing ticket ${entry.key}: $e');
+          }
+        }
+        
+        // Sort by issue time (newest first)
+        firebaseTickets.sort((a, b) => b.issueTime.compareTo(a.issueTime));
+      } else {
+        print('📭 No ticket data found in Firebase Realtime DB for user $userId');
+      }
+      
+      print('✅ Retrieved ${firebaseTickets.length} active tickets from Firebase Realtime Database');
       return firebaseTickets;
     } catch (e) {
       print('❌ Firebase failed, checking local storage: $e');

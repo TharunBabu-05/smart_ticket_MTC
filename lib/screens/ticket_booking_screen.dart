@@ -342,7 +342,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
                 Icon(Icons.sync, color: Colors.blue, size: 16),
                 SizedBox(width: 4),
                 Text(
-                  'Connected to Gyro-Comparator System',
+                  'Connected to Gyro-Comparator System via unique code',
                   style: TextStyle(
                     fontSize: 12,
                     color: Colors.blue,
@@ -390,6 +390,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
     
     double fare = 0.0;
     String? sessionId;
+    String? connectionCode; // Declare here so it's available in catch block
 
     try {
       // Step 1: Validate selections
@@ -449,12 +450,17 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
         await FraudDetectionService.initialize();
         print('✅ Fraud detection service initialized');
         
-        // Create ticket with fraud detection
-        print('� Creating ticket with fraud detection...');
-        await FraudDetectionService.createTicketWithFraudDetection(tripData);
-        sessionId = FraudDetectionService.getCurrentSessionId() ?? 'fallback_${DateTime.now().millisecondsSinceEpoch}';
+        // Create ticket with fraud detection (now returns connection data)
+        print('🔗 Creating ticket with fraud detection...');
+        Map<String, String> connectionData = await FraudDetectionService.createTicketWithFraudDetection(tripData);
+        sessionId = connectionData['sessionId'] ?? 'fallback_${DateTime.now().millisecondsSinceEpoch}';
+        connectionCode = connectionData['connectionCode'];
+        
         print('✅ Session created with ID: $sessionId');
-        print('📡 Session data sent to: https://gyre-compare-default-rtdb.firebaseio.com');
+        if (connectionCode != null) {
+          print('� Connection code generated: $connectionCode');
+          print('📱 Gyro-comparator app can use this code to connect');
+        }
       } catch (e) {
         print('⚠️ Warning: Cross-platform service failed: $e');
         sessionId = 'fallback_session_${DateTime.now().millisecondsSinceEpoch}';
@@ -478,10 +484,19 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
         fare: fare,
       );
 
-      // Update ticket with session ID
-      ticket = ticket.copyWith(sessionId: sessionId);
+      // Update ticket with session ID and connection code
+      ticket = ticket.copyWith(
+        sessionId: sessionId,
+        metadata: {
+          ...ticket.metadata,
+          'connectionCode': connectionCode,
+        },
+      );
       print('✅ Enhanced ticket issued: ${ticket.ticketId}');
       print('🔗 Linked to session: $sessionId');
+      if (connectionCode != null) {
+        print('🔑 Connection code: $connectionCode');
+      }
 
       // Step 8: Navigate to ticket display
       print('🚀 Step 8: Navigating to ticket display...');
@@ -492,6 +507,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
             ticket: ticket,
             sessionId: sessionId!,
             tripData: tripData,
+            connectionCode: connectionCode,
           ),
         ),
       );
@@ -521,7 +537,13 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
                 fare: fare,
               );
 
-              ticket = ticket.copyWith(sessionId: sessionId);
+              ticket = ticket.copyWith(
+                sessionId: sessionId,
+                metadata: {
+                  ...ticket.metadata,
+                  'connectionCode': connectionCode,
+                },
+              );
               print('✅ Ticket issued with warning: ${ticket.ticketId}');
 
               // Navigate to ticket display screen
@@ -531,6 +553,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
                   builder: (context) => TicketDisplayScreen(
                     ticket: ticket,
                     sessionId: sessionId ?? 'fallback_session',
+                    connectionCode: connectionCode,
                     tripData: TripData(
                       ticketId: ticket.ticketId,
                       userId: 'demo_user_123',

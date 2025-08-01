@@ -1,6 +1,74 @@
-{
+﻿{
   "rules": {
-    ".read": true,
-    ".write": true
+    "trips": {
+      "$tripId": {
+        ".read": "auth != null",
+        ".write": "auth != null",
+        ".validate": "newData.hasChildren(['ticketId', 'userId', 'startTime', 'sourceLocation', 'destinationLocation', 'sourceName', 'destinationName', 'status'])"
+      }
+    },
+    "fraud_reports": {
+      "$reportId": {
+        ".read": "auth != null",
+        ".write": "auth != null",
+        ".validate": "newData.hasChildren(['tripId', 'userId', 'timestamp', 'fraudType', 'severity'])"
+      }
+    },
+    "user_profiles": {
+      "$userId": {
+        ".read": "auth != null && auth.uid == $userId",
+        ".write": "auth != null && auth.uid == $userId"
+      }
+    },
+    "tickets": {
+      "$ticketId": {
+        ".read": true,
+        ".write": true
+      }
+    },
+    "gyro_sessions": {
+      "$sessionId": {
+        ".read": true,
+        ".write": true
+      }
+    },
+    "sensor_data": {
+      "$sessionId": {
+        ".read": true,
+        ".write": true
+      }
+    },
+    "sessions": {
+      "$sessionId": {
+        ".read": true,
+        ".write": true
+      }
+    },
+    "connection_codes": {
+      "$code": {
+        ".read": true,
+        ".write": true
+      }
+    },
+    "fraud_analysis": {
+      "$analysisId": {
+        ".read": "auth != null",
+        ".write": "auth != null"
+      }
+    },
+    "_connection_test": {
+      ".read": true,
+      ".write": true
+    },
+    "_rules_fix_request": {
+      ".read": true,
+      ".write": true
+    },
+    "_test_write": {
+      ".read": true,
+      ".write": true
+    },
+    ".read": false,
+    ".write": false
   }
 }

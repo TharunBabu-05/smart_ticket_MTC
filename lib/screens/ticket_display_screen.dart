@@ -6,12 +6,14 @@ class TicketDisplayScreen extends StatefulWidget {
   final EnhancedTicket ticket;
   final String sessionId;
   final TripData tripData;
+  final String? connectionCode;
 
   const TicketDisplayScreen({
     Key? key,
     required this.ticket,
     required this.sessionId,
     required this.tripData,
+    this.connectionCode,
   }) : super(key: key);
 
   @override
@@ -239,6 +241,70 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
             ],
           ),
           SizedBox(height: 12),
+          
+          // Connection Code Section (if available)
+          if (widget.connectionCode != null) ...[
+            Container(
+              padding: EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.green.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.green.withOpacity(0.3)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.key, color: Colors.green, size: 20),
+                      SizedBox(width: 8),
+                      Text(
+                        'Connection Code',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green[700],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 8),
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.green.withOpacity(0.5), width: 2),
+                    ),
+                    child: Text(
+                      widget.connectionCode!,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 4,
+                        fontFamily: 'monospace',
+                        color: Colors.green[700],
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    '🔗 Use this code in the Gyro-Comparator app to start sensor comparison',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.green[600],
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 12),
+          ],
+          
+          // Session ID Section
           Container(
             padding: EdgeInsets.all(12),
             decoration: BoxDecoration(
@@ -263,7 +329,7 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  '✅ Stored in Gyro-Comparator Database',
+                  '✅ Sensor data streaming active',
                   style: TextStyle(
                     fontSize: 12,
                     color: Colors.green[700],
@@ -307,8 +373,28 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
           SizedBox(height: 12),
           Text('• Show this ticket to the conductor when boarding'),
           Text('• Keep your location services enabled during the journey'),
-          Text('• Your phone will be monitored for fraud detection'),
+          if (widget.connectionCode != null)
+            Text('• Share the connection code (${widget.connectionCode}) with the bus conductor'),
+          Text('• Your phone sensors will be monitored for fraud detection'),
           Text('• Exit only at your designated stop to avoid penalties'),
+          if (widget.connectionCode != null) ...[
+            SizedBox(height: 8),
+            Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.blue.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Text(
+                '📱 The bus conductor will use the Gyro-Comparator app to monitor your journey using the connection code above.',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.blue[700],
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+            ),
+          ],
         ],
       ),
     );

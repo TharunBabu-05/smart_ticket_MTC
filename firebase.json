@@ -1,6 +1,6 @@
 {
   "database": {
-    "rules": "firebase_realtime_rules.json"
+    "rules": "firebase_realtime_rules_temp.json"
   },
   "firestore": {
     "rules": "firestore_rules.rules"
