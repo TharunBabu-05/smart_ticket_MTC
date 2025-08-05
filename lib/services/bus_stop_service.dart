@@ -29,14 +29,33 @@ class BusStopService {
     
     return await openDatabase(
       path,
-      version: 1,
+      version: 2, // Increment version to recreate table
       onCreate: (Database db, int version) async {
         await db.execute('''
           CREATE TABLE bus_stops(
             id INTEGER PRIMARY KEY,
             name TEXT NOT NULL,
             latitude REAL NOT NULL,
-            longitude REAL NOT NULL
+            longitude REAL NOT NULL,
+            sequence INTEGER DEFAULT 0
+          )
+        ''');
+        
+        // Create index for faster location queries
+        await db.execute('''
+          CREATE INDEX idx_bus_stops_location ON bus_stops(latitude, longitude)
+        ''');
+      },
+      onUpgrade: (Database db, int oldVersion, int newVersion) async {
+        // Drop and recreate table with new schema
+        await db.execute('DROP TABLE IF EXISTS bus_stops');
+        await db.execute('''
+          CREATE TABLE bus_stops(
+            id INTEGER PRIMARY KEY,
+            name TEXT NOT NULL,
+            latitude REAL NOT NULL,
+            longitude REAL NOT NULL,
+            sequence INTEGER DEFAULT 0
           )
         ''');
         
@@ -171,6 +190,34 @@ class BusStopService {
   static Future<void> reload() async {
     _cachedBusStops.clear();
     _isInitialized = false;
+    
+    // Clear database to force fresh load from JSON
+    if (_database != null) {
+      await _database!.delete('bus_stops');
+      print('🗑️ Cleared existing bus stops from database');
+    }
+    
+    await initialize();
+  }
+
+  // Force reset database and reload (for debugging)
+  static Future<void> resetDatabase() async {
+    _cachedBusStops.clear();
+    _isInitialized = false;
+    
+    if (_database != null) {
+      await _database!.close();
+      _database = null;
+    }
+    
+    // Delete database file to force recreation
+    String path = join(await getDatabasesPath(), 'bus_stops.db');
+    File dbFile = File(path);
+    if (await dbFile.exists()) {
+      await dbFile.delete();
+      print('🗑️ Deleted database file for fresh start');
+    }
+    
     await initialize();
   }
 }

@@ -25,6 +25,12 @@
     },
     "ticket_sensors": {
       ".indexOn": ["connection_code", "status", "timestamp"]
+    },
+    "live_buses": {
+      ".indexOn": ["status", "route", "lastUpdate", "driverId"]
+    },
+    "live_passengers": {
+      ".indexOn": ["status", "userId", "lastUpdate"]
     }
   }
 }

@@ -6,6 +6,7 @@ import 'ticket_booking_screen.dart';
 import 'conductor_verification_screen.dart'; // Now AdminDashboardScreen
 import 'active_trips_screen.dart';
 import 'active_tickets_screen.dart';
+import 'live_bus_tracking_screen.dart';
 import '../models/trip_data_model.dart';
 import '../services/fraud_detection_service_new.dart';
 
@@ -128,46 +129,76 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildTicketOptions(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
+      child: Column(
         children: [
-          Expanded(
-            child: _buildTicketCard(
-              context,
-              'Bus Ticket',
-              Icons.directions_bus,
-              Colors.black,
-              () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => TicketBookingScreen()),
+          // First row
+          Row(
+            children: [
+              Expanded(
+                child: _buildTicketCard(
+                  context,
+                  'Bus Ticket',
+                  Icons.directions_bus,
+                  Colors.black,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => TicketBookingScreen()),
+                  ),
+                ),
               ),
-            ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _buildTicketCard(
+                  context,
+                  'Monthly Pass',
+                  Icons.calendar_month,
+                  Colors.black,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => TicketBookingScreen()),
+                  ),
+                  isNew: true,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _buildTicketCard(
+                  context,
+                  'Active Tickets',
+                  Icons.confirmation_number,
+                  Colors.black,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ActiveTicketsScreen()),
+                  ),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: _buildTicketCard(
-              context,
-              'Monthly Pass',
-              Icons.calendar_month,
-              Colors.black,
-              () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => TicketBookingScreen()),
+          
+          const SizedBox(height: 12),
+          
+          // Second row - Live Bus Tracking
+          Row(
+            children: [
+              Expanded(
+                child: _buildTicketCard(
+                  context,
+                  'Live Bus Tracking',
+                  Icons.map,
+                  Colors.orange,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LiveBusTrackingScreen()),
+                  ),
+                  isNew: true,
+                ),
               ),
-              isNew: true,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: _buildTicketCard(
-              context,
-              'Active Tickets',
-              Icons.confirmation_number,
-              Colors.black,
-              () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ActiveTicketsScreen()),
-              ),
-            ),
+              const SizedBox(width: 12),
+              Expanded(child: SizedBox()), // Empty space
+              const SizedBox(width: 12),
+              Expanded(child: SizedBox()), // Empty space
+            ],
           ),
         ],
       ),
