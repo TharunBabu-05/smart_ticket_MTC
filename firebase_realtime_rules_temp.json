@@ -21,7 +21,7 @@
       ".indexOn": ["userId", "ticketId", "status", "created_at"]
     },
     "sensor_sessions": {
-      ".indexOn": ["connection_code", "device_type", "last_update"]
+      ".indexOn": ["connection_code", "device_type", "last_update", "timestamp"]
     },
     "ticket_sensors": {
       ".indexOn": ["connection_code", "status", "timestamp"]
@@ -31,6 +31,9 @@
     },
     "live_passengers": {
       ".indexOn": ["status", "userId", "lastUpdate"]
+    },
+    "ultra_fast_sensors": {
+      ".indexOn": ["connection_code", "timestamp", "device_type"]
     }
   }
 }

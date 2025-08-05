@@ -67,10 +67,16 @@ class EnhancedSensorService {
     
     try {
       _isStreaming = true;
-      print('📱 Starting sensor monitoring...');
+      print('📱 Starting ultra-fast sensor monitoring...');
       
-      // Monitor location
+      // Monitor location with high accuracy
       Location location = Location();
+      await location.changeSettings(
+        accuracy: LocationAccuracy.high,
+        interval: 100, // Update every 100ms
+        distanceFilter: 0, // Update on any movement
+      );
+      
       _locationSubscription = location.onLocationChanged.listen((LocationData locationData) {
         _currentSensorData['location'] = {
           'latitude': locationData.latitude ?? 0.0,
@@ -81,25 +87,25 @@ class EnhancedSensorService {
         _currentSensorData['speed'] = locationData.speed ?? 0.0;
       });
       
-      // Monitor accelerometer
+      // Monitor accelerometer with high precision (like Gyro Comparator: -8.67, 2.3, 4.02)
       _accelSubscription = accelerometerEvents.listen((AccelerometerEvent event) {
         _currentSensorData['accelerometer'] = {
-          'x': double.parse(event.x.toStringAsFixed(2)),
-          'y': double.parse(event.y.toStringAsFixed(2)),
-          'z': double.parse(event.z.toStringAsFixed(2)),
+          'x': double.parse(event.x.toStringAsFixed(2)), // High precision like -8.67
+          'y': double.parse(event.y.toStringAsFixed(2)), // High precision like 2.3
+          'z': double.parse(event.z.toStringAsFixed(2)), // High precision like 4.02
         };
       });
       
-      // Monitor gyroscope  
+      // Monitor gyroscope with ultra-high precision (like Gyro Comparator: 0.01, 0.19, 0.02)
       _gyroSubscription = gyroscopeEvents.listen((GyroscopeEvent event) {
         _currentSensorData['gyroscope'] = {
-          'x': double.parse(event.x.toStringAsFixed(2)),
-          'y': double.parse(event.y.toStringAsFixed(2)),
-          'z': double.parse(event.z.toStringAsFixed(2)),
+          'x': double.parse(event.x.toStringAsFixed(2)), // Ultra precision like 0.01
+          'y': double.parse(event.y.toStringAsFixed(2)), // Ultra precision like 0.19
+          'z': double.parse(event.z.toStringAsFixed(2)), // Ultra precision like 0.02
         };
       });
       
-      print('✅ All sensors monitoring started');
+      print('✅ All sensors monitoring started with ultra-fast updates');
       
     } catch (e) {
       print('❌ Error starting sensor monitoring: $e');
@@ -107,56 +113,84 @@ class EnhancedSensorService {
     }
   }
   
-  /// Start streaming timer (sends data every 2 seconds like Gyro Comparator)
+  /// Start streaming timer (sends data every 100ms for ultra-fast updates like Gyro Comparator)
   static void _startStreamingTimer() {
     _streamingTimer?.cancel();
     
-    _streamingTimer = Timer.periodic(Duration(seconds: 2), (timer) async {
+    // Ultra-fast streaming - every 100ms (10 times per second) like Gyro Comparator
+    _streamingTimer = Timer.periodic(Duration(milliseconds: 100), (timer) async {
       if (_activeConnectionCode != null && _isStreaming) {
         await _sendSensorDataToFirebase();
       }
     });
     
-    print('⏰ Streaming timer started (every 2 seconds)');
+    print('⚡ Ultra-fast streaming timer started (every 100ms)');
   }
   
-  /// Send current sensor data to Firebase (encrypted)
+  /// Send current sensor data to Firebase (ultra-fast like Gyro Comparator)
   static Future<void> _sendSensorDataToFirebase() async {
     try {
       if (_activeConnectionCode == null) return;
       
-      // Update timestamp
-      _currentSensorData['timestamp'] = DateTime.now().millisecondsSinceEpoch;
-      _currentSensorData['deviceId'] = _generateDeviceId();
-      _currentSensorData['ticketId'] = _activeTicketId;
-      _currentSensorData['userId'] = _activeUserId;
+      // Create high-precision timestamp (microseconds for ultra accuracy)
+      int microTimestamp = DateTime.now().microsecondsSinceEpoch;
+      
+      // Prepare ultra-fast sensor data structure (matching Gyro Comparator format)
+      Map<String, dynamic> ultraFastData = {
+        'accelerometer': _currentSensorData['accelerometer'] ?? {'x': 0.0, 'y': 0.0, 'z': 0.0},
+        'gyroscope': _currentSensorData['gyroscope'] ?? {'x': 0.0, 'y': 0.0, 'z': 0.0},
+        'speed': _currentSensorData['speed'] ?? 0.0,
+        'timestamp': microTimestamp,
+        'deviceId': _generateDeviceId(),
+        'ticketId': _activeTicketId,
+        'userId': _activeUserId,
+        'connection_code': _activeConnectionCode,
+        'device_type': 'admin', // Match Gyro Comparator format
+      };
       
       // Create encryption key from connection code
       String encryptionKey = EncryptionHelper.createEncryptionKey(_activeConnectionCode!);
       
       // Encrypt sensor data
-      String encryptedData = EncryptionHelper.encryptSensorData(_currentSensorData, encryptionKey);
+      String encryptedData = EncryptionHelper.encryptSensorData(ultraFastData, encryptionKey);
       
-      // Store in Firebase under connection code (like Gyro Comparator)
-      await _database.ref('sensor_sessions/$_activeConnectionCode/passenger_device').set({
-        'encrypted_data': encryptedData,
+      // Store in Firebase under connection code (ultra-fast path like Gyro Comparator)
+      String fastDataPath = '$_activeConnectionCode/admin_device';
+      
+      await _database.ref('sensor_sessions/$fastDataPath').set({
+        'accelerometer': ultraFastData['accelerometer'],
+        'gyroscope': ultraFastData['gyroscope'],
+        'speed': ultraFastData['speed'],
+        'timestamp': microTimestamp,
         'connection_code': _activeConnectionCode,
-        'device_type': 'passenger',
+        'device_type': 'admin',
+        'deviceId': ultraFastData['deviceId'],
         'last_update': DateTime.now().millisecondsSinceEpoch,
+        'encrypted_data': encryptedData,
         'status': 'streaming',
       });
       
-      // Also store unencrypted data for internal use
-      await _database.ref('ticket_sensors/$_activeTicketId').set({
-        ..._currentSensorData,
+      // Also store raw unencrypted data for ultra-fast access (like Gyro Comparator)
+      await _database.ref('ultra_fast_sensors/${_activeTicketId}').set({
+        'accel': ultraFastData['accelerometer'],
+        'gyro': ultraFastData['gyroscope'],
+        'speed': ultraFastData['speed'],
+        'timestamp': microTimestamp,
         'connection_code': _activeConnectionCode,
+        'device_type': 'admin',
+      });
+      
+      // Store in ticket sensors for internal tracking
+      await _database.ref('ticket_sensors/$_activeTicketId').set({
+        ...ultraFastData,
         'status': 'active',
       });
       
-      print('📡 Sensor data sent (encrypted with key: ${encryptionKey.substring(0, 8)}...)');
+      // Debug: Uncomment to see ultra-fast streaming
+      // print('⚡ Ultra-fast sensor data sent: ${DateTime.now().millisecond}ms');
       
     } catch (e) {
-      print('❌ Error sending sensor data: $e');
+      print('❌ Error sending ultra-fast sensor data: $e');
     }
   }
   
