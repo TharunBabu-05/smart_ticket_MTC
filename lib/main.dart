@@ -17,10 +17,10 @@ import 'services/background_service.dart';
 import 'services/bus_stop_service.dart';
 import 'services/enhanced_auth_service.dart';
 import 'services/enhanced_ticket_service.dart';
-import 'services/fraud_detection_service_new.dart';
 import 'services/theme_service.dart';
 import 'services/offline_storage_service.dart';
 import 'services/performance_service.dart';
+import 'widgets/offline_mode_indicator.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -84,16 +84,6 @@ void main() async {
     // Continue without enhanced ticket service
   }
 
-  try {
-    // Initialize fraud detection service
-    await FraudDetectionService.initialize();
-    print('Fraud detection service initialized successfully');
-  } catch (e) {
-    print('Fraud detection service initialization error: $e');
-    performanceService.recordError('fraud_detection_service_init_error', errorMessage: e.toString());
-    // Continue without fraud detection service
-  }
-  
   // Initialize theme service
   final ThemeService themeService = await ThemeService.initialize();
   
@@ -174,8 +164,10 @@ class SmartTicketingApp extends StatelessWidget {
               '/debug': (context) => const DebugScreen(),
             },
             builder: (context, child) {
-              // Global error boundary and performance monitoring
-              return _ErrorBoundary(child: child ?? const SizedBox());
+              // Global error boundary and performance monitoring with offline indicator
+              return OfflineModeIndicator(
+                child: _ErrorBoundary(child: child ?? const SizedBox()),
+              );
             },
           );
         },

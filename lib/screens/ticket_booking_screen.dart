@@ -5,7 +5,6 @@ import '../models/enhanced_ticket_model.dart';
 import '../models/bus_stop_model.dart';
 import '../services/location_service.dart';
 import '../services/enhanced_ticket_service.dart';
-import '../services/fraud_detection_service_new.dart';
 import '../data/bus_stops_data.dart';
 import 'ticket_display_screen.dart';
 
@@ -42,7 +41,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
             SizedBox(height: 20),
             _buildFareInfoCard(),
             SizedBox(height: 20),
-            _buildFraudDetectionInfo(),
+            _buildSecurityInfo(),
             SizedBox(height: 30),
             _buildBookTicketButton(),
           ],
@@ -72,7 +71,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
             ),
             SizedBox(height: 8),
             Text(
-              'Advanced fraud detection with GPS and sensor monitoring',
+              'Secure digital ticketing with location tracking',
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.grey[600],
@@ -290,7 +289,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
     );
   }
 
-  Widget _buildFraudDetectionInfo() {
+  Widget _buildSecurityInfo() {
     return Card(
       child: Padding(
         padding: EdgeInsets.all(16),
@@ -299,10 +298,10 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
           children: [
             Row(
               children: [
-                Icon(Icons.security, color: Colors.red),
+                Icon(Icons.security, color: Colors.green),
                 SizedBox(width: 8),
                 Text(
-                  'Fraud Detection System',
+                  'Secure Digital Ticket',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -314,35 +313,35 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
             Container(
               padding: EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.red.withOpacity(0.1),
+                color: Colors.green.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.red.withOpacity(0.3)),
+                border: Border.all(color: Colors.green.withOpacity(0.3)),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '⚠️ Anti-Fraud Monitoring Active',
+                    '✅ Digital Ticket Features',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Colors.red[700],
+                      color: Colors.green[700],
                     ),
                   ),
                   SizedBox(height: 8),
-                  Text('• Your phone sensors will be monitored', style: TextStyle(fontSize: 13)),
-                  Text('• GPS location tracking enabled', style: TextStyle(fontSize: 13)),
-                  Text('• Data synced with bus gyroscope system', style: TextStyle(fontSize: 13)),
-                  Text('• Penalty: ₹5 per extra stop if fraud detected', style: TextStyle(fontSize: 13, color: Colors.red[700], fontWeight: FontWeight.bold)),
+                  Text('• QR code for easy verification', style: TextStyle(fontSize: 13)),
+                  Text('• 2-hour validity period', style: TextStyle(fontSize: 13)),
+                  Text('• Secure digital storage', style: TextStyle(fontSize: 13)),
+                  Text('• Instant ticket generation', style: TextStyle(fontSize: 13)),
                 ],
               ),
             ),
             SizedBox(height: 8),
             Row(
               children: [
-                Icon(Icons.sync, color: Colors.blue, size: 16),
+                Icon(Icons.verified, color: Colors.blue, size: 16),
                 SizedBox(width: 4),
                 Text(
-                  'Connected to Gyro-Comparator System via unique code',
+                  'Secure and validated by Smart Ticket MTC',
                   style: TextStyle(
                     fontSize: 12,
                     color: Colors.blue,
@@ -385,7 +384,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
   }
 
   Future<void> _bookTicket() async {
-    print('🎫 Starting ticket booking with cross-platform fraud detection...');
+    print('🎫 Starting simplified ticket booking...');
     setState(() => _isLoading = true);
     
     double fare = 0.0;
@@ -420,7 +419,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
 
       // Step 4: Show consent dialog
       print('📝 Step 4: Getting user consent...');
-      bool? proceedWithBooking = await _showEnhancedConsentDialog();
+      bool? proceedWithBooking = await _showSimpleConsentDialog();
       if (proceedWithBooking != true) {
         print('❌ User declined consent');
         setState(() => _isLoading = false);
@@ -428,86 +427,44 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
       }
       print('✅ User provided consent');
 
-      // Step 5: Create trip data
-      print('📊 Step 5: Creating trip data...');
-      TripData tripData = TripData(
-        ticketId: _uuid.v4(),
-        userId: 'demo_user_123', // In production, get from auth
-        sourceName: _selectedFromStop!,
-        destinationName: _selectedToStop!,
-        startTime: DateTime.now(),
-        sourceLocation: LatLng(sourceStop.latitude, sourceStop.longitude),
-        destinationLocation: LatLng(destStop.latitude, destStop.longitude),
-        status: TripStatus.active,
-        gpsTrail: [],
-        sensorData: [],
-      );
-      print('✅ Trip data created');
+      // Step 5: Create simple ticket data
+      print('📊 Step 5: Creating ticket data...');
+      String ticketId = _uuid.v4();
+      String simpleSessionId = 'ticket_${DateTime.now().millisecondsSinceEpoch}';
+      
+      print('✅ Ticket data created: $ticketId');
 
-      // Step 6: Initialize fraud detection service and create session
-      print('🔧 Step 6: Initializing fraud detection service...');
-      try {
-        await FraudDetectionService.initialize();
-        print('✅ Fraud detection service initialized');
-        
-        // Create ticket with fraud detection (now returns connection data)
-        print('🔗 Creating ticket with fraud detection...');
-        Map<String, String> connectionData = await FraudDetectionService.createTicketWithFraudDetection(tripData);
-        sessionId = connectionData['sessionId'] ?? 'fallback_${DateTime.now().millisecondsSinceEpoch}';
-        connectionCode = connectionData['connectionCode'];
-        
-        print('✅ Session created with ID: $sessionId');
-        if (connectionCode != null) {
-          print('� Connection code generated: $connectionCode');
-          print('📱 Gyro-comparator app can use this code to connect');
-        }
-      } catch (e) {
-        print('⚠️ Warning: Cross-platform service failed: $e');
-        sessionId = 'fallback_session_${DateTime.now().millisecondsSinceEpoch}';
-        print('📝 Using fallback session ID: $sessionId');
-        
-        // Show user a warning but continue with booking
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('⚠️ Advanced fraud detection unavailable. Basic ticket issued.'),
-            backgroundColor: Colors.orange,
-            duration: Duration(seconds: 3),
-          ),
-        );
-      }
-
-      // Step 7: Issue ticket (store in main database)
-      print('🎫 Step 7: Issuing enhanced ticket...');
+      // Step 6: Issue ticket directly (simplified process)
+      print('🎫 Step 6: Issuing ticket...');
       EnhancedTicket ticket = await EnhancedTicketService.issueTicket(
         sourceName: _selectedFromStop!,
         destinationName: _selectedToStop!,
         fare: fare,
       );
 
-      // Update ticket with session ID and connection code
-      ticket = ticket.copyWith(
-        sessionId: sessionId,
-        metadata: {
-          ...ticket.metadata,
-          'connectionCode': connectionCode,
-        },
-      );
-      print('✅ Enhanced ticket issued: ${ticket.ticketId}');
-      print('🔗 Linked to session: $sessionId');
-      if (connectionCode != null) {
-        print('🔑 Connection code: $connectionCode');
-      }
+      print('✅ Ticket issued successfully: ${ticket.ticketId}');
 
-      // Step 8: Navigate to ticket display
-      print('🚀 Step 8: Navigating to ticket display...');
+      // Step 7: Navigate to ticket display
+      print('🚀 Step 7: Navigating to ticket display...');
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) => TicketDisplayScreen(
             ticket: ticket,
-            sessionId: sessionId!,
-            tripData: tripData,
-            connectionCode: connectionCode,
+            sessionId: simpleSessionId, // Use the definite non-null value
+            tripData: TripData(
+              ticketId: ticket.ticketId,
+              userId: 'demo_user_123',
+              sourceName: _selectedFromStop!,
+              destinationName: _selectedToStop!,
+              startTime: DateTime.now(),
+              sourceLocation: LatLng(sourceStop.latitude, sourceStop.longitude),
+              destinationLocation: LatLng(destStop.latitude, destStop.longitude),
+              status: TripStatus.active,
+              gpsTrail: [],
+              sensorData: [],
+            ),
+            connectionCode: null, // Simplified - no connection code needed
           ),
         ),
       );
@@ -591,97 +548,61 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
     }
   }
 
-  Future<bool?> _showEnhancedConsentDialog() {
+  Future<bool?> _showSimpleConsentDialog() {
     return showDialog<bool>(
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
         title: Row(
           children: [
-            Icon(Icons.security, color: Colors.red),
+            Icon(Icons.confirmation_number, color: Colors.blue),
             SizedBox(width: 8),
-            Text('Fraud Detection Consent'),
+            Text('Ticket Booking Confirmation'),
           ],
         ),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'This ticket uses advanced fraud detection to prevent fare evasion.',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Please confirm your ticket booking:',
+              style: TextStyle(fontWeight: FontWeight.w500),
+            ),
+            SizedBox(height: 16),
+            Container(
+              padding: EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.blue.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
               ),
-              SizedBox(height: 16),
-              Container(
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.blue.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('📱 What we monitor:', style: TextStyle(fontWeight: FontWeight.bold)),
-                    SizedBox(height: 8),
-                    Text('• GPS location for 2 hours'),
-                    Text('• Phone gyroscope & accelerometer'),
-                    Text('• Movement patterns to detect bus travel'),
-                    Text('• Exit stop verification'),
-                  ],
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Route: $_selectedFromStop → $_selectedToStop'),
+                  Text('Fare: ₹${_estimatedFare.toStringAsFixed(0)}'),
+                  Text('Validity: 2 hours from booking'),
+                  SizedBox(height: 8),
+                  Text(
+                    'You agree to:',
+                    style: TextStyle(fontWeight: FontWeight.w500),
+                  ),
+                  Text('• Use ticket for intended journey only'),
+                  Text('• Present QR code when requested'),
+                  Text('• Follow MTC guidelines'),
+                ],
               ),
-              SizedBox(height: 12),
-              Container(
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.orange.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('🚌 Cross-Platform Sync:', style: TextStyle(fontWeight: FontWeight.bold)),
-                    SizedBox(height: 8),
-                    Text('• Data shared with bus gyroscope system'),
-                    Text('• Real-time sensor comparison'),
-                    Text('• Automatic fraud detection'),
-                  ],
-                ),
-              ),
-              SizedBox(height: 12),
-              Container(
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.red.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('⚠️ Penalties:', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red[700])),
-                    SizedBox(height: 8),
-                    Text('• ₹5 penalty per extra stop traveled', style: TextStyle(color: Colors.red[700])),
-                    Text('• Automatic detection of fare evasion', style: TextStyle(color: Colors.red[700])),
-                    Text('• No appeals for verified violations', style: TextStyle(color: Colors.red[700])),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: Text('Cancel', style: TextStyle(color: Colors.grey)),
+            child: Text('Cancel'),
           ),
           ElevatedButton(
             onPressed: () => Navigator.of(context).pop(true),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
-            ),
-            child: Text('Accept & Start Monitoring'),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+            child: Text('Confirm & Book', style: TextStyle(color: Colors.white)),
           ),
         ],
       ),
