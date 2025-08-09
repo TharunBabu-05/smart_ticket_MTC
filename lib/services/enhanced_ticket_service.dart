@@ -58,6 +58,7 @@ class EnhancedTicketService {
     required String sourceName,
     required String destinationName,
     required double fare,
+    String? paymentId, // Added payment ID parameter
   }) async {
     try {
       // Get current user
@@ -122,6 +123,7 @@ class EnhancedTicketService {
           'sourceLongitude': sourceStop.longitude,
           'destLatitude': destStop.latitude,
           'destLongitude': destStop.longitude,
+          if (paymentId != null) 'paymentId': paymentId, // Add payment ID to metadata
         },
       );
 
@@ -146,6 +148,7 @@ class EnhancedTicketService {
     required String sourceName,
     required String destinationName,
     required double fare,
+    String? paymentId, // Added payment ID parameter
   }) async {
     try {
       print('🚀 Starting simple ticket creation...');
@@ -195,6 +198,7 @@ class EnhancedTicketService {
           'destLongitude': destStop.longitude,
           'distantBooking': true,
           'simpleBooking': true, // Flag for simplified booking
+          if (paymentId != null) 'paymentId': paymentId, // Add payment ID to metadata
         },
       );
       print('✅ Ticket object created successfully');

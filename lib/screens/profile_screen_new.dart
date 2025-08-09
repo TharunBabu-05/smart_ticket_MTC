@@ -91,12 +91,14 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
             isLoading = false;
           });
         } else {
+          // User document doesn't exist, use default data
           setState(() {
             userData = _defaultUserData;
             isLoading = false;
           });
         }
       } else {
+        // No user signed in, use default data for demo
         setState(() {
           userData = _defaultUserData;
           isLoading = false;
@@ -105,7 +107,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
     } catch (e) {
       print('Error loading user data: $e');
       setState(() {
-        userData = _defaultUserData;
+        userData = _defaultUserData; // Fallback to default data
         isLoading = false;
       });
     }
@@ -193,7 +195,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                                             radius: 46,
                                             backgroundColor: const Color(0xFF0E7A55),
                                             child: Text(
-                                              (userData?['name'] ?? 'S').toString().substring(0, 1).toUpperCase(),
+                                              userData?['name']?.substring(0, 1).toUpperCase() ?? 'S',
                                               style: const TextStyle(
                                                 fontSize: 32,
                                                 fontWeight: FontWeight.bold,
@@ -211,7 +213,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                             const SizedBox(height: 16),
                             // User Name
                             Text(
-                              userData?['name']?.toString() ?? 'Smart Ticket User',
+                              userData?['name'] ?? 'Smart Ticket User',
                               style: const TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -228,7 +230,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                             const SizedBox(height: 8),
                             // Phone Number
                             Text(
-                              userData?['phone']?.toString() ?? '+91 98765 43210',
+                              userData?['phone'] ?? '+91 98765 43210',
                               style: TextStyle(
                                 fontSize: 16,
                                 color: Colors.white.withOpacity(0.9),
@@ -244,7 +246,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                                 border: Border.all(color: Colors.white.withOpacity(0.3)),
                               ),
                               child: Text(
-                                'Member since ${userData?['memberSince']?.toString() ?? '2024'}',
+                                'Member since ${userData?['memberSince'] ?? '2024'}',
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,
@@ -436,12 +438,12 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
             ),
           ),
           const SizedBox(height: 16),
-          _buildInfoRow(Icons.person, 'Full Name', userData?['name']?.toString() ?? 'Smart Ticket User'),
-          _buildInfoRow(Icons.phone, 'Phone', userData?['phone']?.toString() ?? '+91 98765 43210'),
-          _buildInfoRow(Icons.email, 'Email', userData?['email']?.toString() ?? 'user@smartticket.com'),
+          _buildInfoRow(Icons.person, 'Full Name', userData?['name'] ?? 'Smart Ticket User'),
+          _buildInfoRow(Icons.phone, 'Phone', userData?['phone'] ?? '+91 98765 43210'),
+          _buildInfoRow(Icons.email, 'Email', userData?['email'] ?? 'user@smartticket.com'),
           _buildInfoRow(Icons.cake, 'Age', '${userData?['age'] ?? 28} years'),
-          _buildInfoRow(Icons.work, 'Occupation', userData?['occupation']?.toString() ?? 'Professional'),
-          _buildInfoRow(Icons.language, 'Language', userData?['preferredLanguage']?.toString() ?? 'English'),
+          _buildInfoRow(Icons.work, 'Occupation', userData?['occupation'] ?? 'Professional'),
+          _buildInfoRow(Icons.language, 'Language', userData?['preferredLanguage'] ?? 'English'),
         ],
       ),
     );
@@ -475,9 +477,9 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
             ),
           ),
           const SizedBox(height: 16),
-          _buildInfoRow(Icons.location_city, 'City', userData?['city']?.toString() ?? 'Chennai'),
-          _buildInfoRow(Icons.route, 'Favorite Route', userData?['favoriteBusRoute']?.toString() ?? 'Route 27 - T.Nagar to Airport'),
-          _buildInfoRow(Icons.schedule, 'Member Since', userData?['memberSince']?.toString() ?? '2024'),
+          _buildInfoRow(Icons.location_city, 'City', userData?['city'] ?? 'Chennai'),
+          _buildInfoRow(Icons.route, 'Favorite Route', userData?['favoriteBusRoute'] ?? 'Route 27 - T.Nagar to Airport'),
+          _buildInfoRow(Icons.schedule, 'Member Since', userData?['memberSince'] ?? '2024'),
         ],
       ),
     );

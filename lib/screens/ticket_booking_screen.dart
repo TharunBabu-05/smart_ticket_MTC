@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:math' as math;
 import '../models/trip_data_model.dart';
 import '../models/enhanced_ticket_model.dart';
 import '../models/bus_stop_model.dart';
 import '../services/location_service.dart';
 import '../services/enhanced_ticket_service.dart';
+import '../services/razorpay_service.dart';
 import '../data/bus_stops_data.dart';
 import 'ticket_display_screen.dart';
 
@@ -384,12 +387,12 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
   }
 
   Future<void> _bookTicket() async {
-    print('🎫 Starting simplified ticket booking...');
+    print('🎫 Starting ticket booking with location verification...');
     setState(() => _isLoading = true);
     
     double fare = 0.0;
-    String? sessionId;
-    String? connectionCode; // Declare here so it's available in catch block
+    BusStop? sourceStop;
+    BusStop? destStop;
 
     try {
       // Step 1: Validate selections
@@ -404,11 +407,11 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
 
       // Step 2: Find selected stops
       print('🔍 Step 2: Finding bus stops...');
-      BusStop? sourceStop = BusStopsData.getStopByName(_selectedFromStop!);
-      BusStop? destStop = BusStopsData.getStopByName(_selectedToStop!);
+      sourceStop = BusStopsData.getStopByName(_selectedFromStop!);
+      destStop = BusStopsData.getStopByName(_selectedToStop!);
       
       if (sourceStop == null || destStop == null) {
-        throw Exception('Invalid bus stops selected.');
+        throw Exception('Invalid bus stops selected');
       }
 
       // Step 3: Calculate fare
@@ -417,58 +420,23 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
       fare = 10.0 + (stops * 5.0);
       print('✅ Fare calculated: ₹$fare for $stops stops');
 
-      // Step 4: Show consent dialog
-      print('📝 Step 4: Getting user consent...');
-      bool? proceedWithBooking = await _showSimpleConsentDialog();
-      if (proceedWithBooking != true) {
-        print('❌ User declined consent');
-        setState(() => _isLoading = false);
-        return;
-      }
-      print('✅ User provided consent');
-
-      // Step 5: Create simple ticket data
-      print('📊 Step 5: Creating ticket data...');
-      String ticketId = _uuid.v4();
-      String simpleSessionId = 'ticket_${DateTime.now().millisecondsSinceEpoch}';
+      // Step 4: Location condition check
+      print('📍 Step 4: Checking user location...');
+      bool locationVerified = await _verifyUserLocation(sourceStop);
       
-      print('✅ Ticket data created: $ticketId');
+      if (!locationVerified) {
+        // Show location verification failed, but allow to continue
+        bool? continueAnyway = await _showLocationWarningDialog();
+        if (continueAnyway != true) {
+          print('❌ User cancelled due to location verification');
+          setState(() => _isLoading = false);
+          return;
+        }
+      }
 
-      // Step 6: Issue ticket directly (simplified process)
-      print('🎫 Step 6: Issuing ticket...');
-      EnhancedTicket ticket = await EnhancedTicketService.issueTicket(
-        sourceName: _selectedFromStop!,
-        destinationName: _selectedToStop!,
-        fare: fare,
-      );
-
-      print('✅ Ticket issued successfully: ${ticket.ticketId}');
-
-      // Step 7: Navigate to ticket display
-      print('🚀 Step 7: Navigating to ticket display...');
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => TicketDisplayScreen(
-            ticket: ticket,
-            sessionId: simpleSessionId, // Use the definite non-null value
-            tripData: TripData(
-              ticketId: ticket.ticketId,
-              userId: 'demo_user_123',
-              sourceName: _selectedFromStop!,
-              destinationName: _selectedToStop!,
-              startTime: DateTime.now(),
-              sourceLocation: LatLng(sourceStop.latitude, sourceStop.longitude),
-              destinationLocation: LatLng(destStop.latitude, destStop.longitude),
-              status: TripStatus.active,
-              gpsTrail: [],
-              sensorData: [],
-            ),
-            connectionCode: null, // Simplified - no connection code needed
-          ),
-        ),
-      );
-      print('✅ Navigation completed');
+      // Step 5: Proceed to payment after location checks
+      print('💳 Step 5: Proceeding to payment...');
+      await _proceedToPayment(fare, sourceStop, destStop);
 
     } catch (e) {
       String errorMessage = e.toString();
@@ -483,115 +451,182 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
           '$warningMessage\n\nWould you like to proceed with booking the ticket?',
           () async {
             // User chose to continue despite distance warning
-            try {
-              print('🎫 User confirmed to book despite distance warning');
-              setState(() => _isLoading = true);
-              
-              // Issue ticket without location verification
-              EnhancedTicket ticket = await EnhancedTicketService.issueTicketWithoutLocationCheck(
-                sourceName: _selectedFromStop!,
-                destinationName: _selectedToStop!,
-                fare: fare,
-              );
-
-              ticket = ticket.copyWith(
-                sessionId: sessionId,
-                metadata: {
-                  ...ticket.metadata,
-                  'connectionCode': connectionCode,
-                },
-              );
-              print('✅ Ticket issued with warning: ${ticket.ticketId}');
-
-              // Navigate to ticket display screen
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => TicketDisplayScreen(
-                    ticket: ticket,
-                    sessionId: sessionId ?? 'fallback_session',
-                    connectionCode: connectionCode,
-                    tripData: TripData(
-                      ticketId: ticket.ticketId,
-                      userId: 'demo_user_123',
-                      sourceName: _selectedFromStop!,
-                      destinationName: _selectedToStop!,
-                      startTime: DateTime.now(),
-                      sourceLocation: LatLng(0, 0),
-                      destinationLocation: LatLng(0, 0),
-                      status: TripStatus.active,
-                      gpsTrail: [],
-                      sensorData: [],
-                    ),
-                  ),
-                ),
-              );
-            } catch (innerE) {
-              print('❌ Error in ticket booking after warning: $innerE');
-              _showErrorDialog('Failed to book ticket after warning: $innerE');
-            } finally {
-              if (mounted) {
-                setState(() => _isLoading = false);
-              }
-            }
+            print('✅ User confirmed to continue despite distance warning');
+            await _proceedToPayment(fare, sourceStop!, destStop!);
           },
         );
       } else {
         // This is a real error
-        _showErrorDialog('Failed to book ticket: $errorMessage');
+        _showErrorDialog('Booking Failed', errorMessage);
       }
     } finally {
-      // Always ensure loading is stopped
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
+      setState(() => _isLoading = false);
     }
   }
 
-  Future<bool?> _showSimpleConsentDialog() {
+  Future<bool> _verifyUserLocation(BusStop sourceStop) async {
+    try {
+      // Get current location
+      LocationService locationService = LocationService();
+      LocationPoint? currentLocation = await locationService.getCurrentLocation();
+      
+      if (currentLocation == null) {
+        print('⚠️ Could not get current location');
+        return false;
+      }
+
+      // Calculate distance to source stop using LocationService method
+      LatLng sourceStopLocation = LatLng(sourceStop.latitude, sourceStop.longitude);
+      double distance = locationService.calculateDistance(
+        currentLocation.position,
+        sourceStopLocation,
+      );
+
+      print('📏 Distance to ${sourceStop.name}: ${distance.toStringAsFixed(0)}m');
+
+      // If too far from source stop, throw distance warning
+      if (distance > 500) { // 500 meters threshold
+        throw Exception('DISTANCE_WARNING:You are ${distance.toStringAsFixed(0)}m away from ${sourceStop.name}. For accurate ticket validation, please be closer to the bus stop.');
+      }
+
+      return true;
+    } catch (e) {
+      if (e.toString().contains('DISTANCE_WARNING:')) {
+        rethrow; // Re-throw distance warnings
+      }
+      print('⚠️ Location verification error: $e');
+      return false; // Return false for other location errors
+    }
+  }
+
+  Future<void> _proceedToPayment(double fare, BusStop sourceStop, BusStop destStop) async {
+    try {
+      // Get user information for payment
+      User? user = FirebaseAuth.instance.currentUser;
+      String userName = user?.displayName ?? 'Smart Ticket User';
+      String userEmail = user?.email ?? 'user@smartticket.com';
+      String userPhone = user?.phoneNumber ?? '+919876543210';
+
+      // Show payment confirmation
+      bool? proceedWithPayment = await _showPaymentConfirmationDialog(fare);
+      if (proceedWithPayment != true) {
+        print('❌ User cancelled payment');
+        return;
+      }
+
+      // Process payment with Razorpay
+      print('💳 Processing payment...');
+      await RazorpayService.payForTicket(
+        context: context,
+        ticketPrice: fare,
+        ticketType: 'Regular',
+        fromStation: _selectedFromStop!,
+        toStation: _selectedToStop!,
+        userName: userName,
+        userEmail: userEmail,
+        userPhone: userPhone,
+        onPaymentSuccess: (paymentId) async {
+          print('✅ Payment successful: $paymentId');
+          await _handlePaymentSuccess(paymentId, sourceStop, destStop, fare);
+        },
+        onPaymentFailure: (error) {
+          print('❌ Payment failed: $error');
+          _handlePaymentFailure(error);
+        },
+      );
+    } catch (e) {
+      print('❌ Error in payment process: $e');
+      _showErrorDialog('Payment Error', 'Failed to process payment: $e');
+    }
+  }
+
+  Future<void> _handlePaymentSuccess(String paymentId, BusStop sourceStop, BusStop destStop, double fare) async {
+    try {
+      print('🎫 Payment successful, creating ticket...');
+      
+      // Create ticket after successful payment (skip location verification since we already did it)
+      EnhancedTicket ticket = await EnhancedTicketService.issueTicketWithoutLocationCheck(
+        sourceName: _selectedFromStop!,
+        destinationName: _selectedToStop!,
+        fare: fare,
+        paymentId: paymentId, // Include payment ID
+      );
+
+      print('✅ Ticket issued successfully: ${ticket.ticketId}');
+      String sessionId = 'ticket_${DateTime.now().millisecondsSinceEpoch}';
+
+      // Navigate to ticket display
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TicketDisplayScreen(
+            ticket: ticket,
+            sessionId: sessionId,
+            tripData: TripData(
+              ticketId: ticket.ticketId,
+              userId: 'demo_user_123',
+              sourceName: _selectedFromStop!,
+              destinationName: _selectedToStop!,
+              startTime: DateTime.now(),
+              sourceLocation: LatLng(sourceStop.latitude, sourceStop.longitude),
+              destinationLocation: LatLng(destStop.latitude, destStop.longitude),
+              status: TripStatus.active,
+              gpsTrail: [],
+              sensorData: [],
+            ),
+            connectionCode: null,
+          ),
+        ),
+      );
+      print('✅ Navigation completed');
+    } catch (e) {
+      print('❌ Error creating ticket after payment: $e');
+      _showErrorDialog('Ticket Creation Failed', 
+        'Payment was successful but ticket creation failed. Please contact support with payment ID: $paymentId');
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
+
+  void _handlePaymentFailure(String error) {
+    setState(() => _isLoading = false);
+    _showErrorDialog('Payment Failed', 'Payment could not be processed: $error');
+  }
+
+  Future<bool?> _showPaymentConfirmationDialog(double fare) async {
     return showDialog<bool>(
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
         title: Row(
           children: [
-            Icon(Icons.confirmation_number, color: Colors.blue),
+            Icon(Icons.payment, color: Colors.green),
             SizedBox(width: 8),
-            Text('Ticket Booking Confirmation'),
+            Text('Confirm Payment'),
           ],
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Please confirm your ticket booking:',
-              style: TextStyle(fontWeight: FontWeight.w500),
+            Text('Journey Details:', style: TextStyle(fontWeight: FontWeight.bold)),
+            SizedBox(height: 8),
+            Text('From: $_selectedFromStop'),
+            Text('To: $_selectedToStop'),
+            SizedBox(height: 12),
+            Divider(),
+            SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Total Fare:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                Text('₹${fare.toStringAsFixed(2)}', 
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.green)),
+              ],
             ),
             SizedBox(height: 16),
-            Container(
-              padding: EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.blue.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Route: $_selectedFromStop → $_selectedToStop'),
-                  Text('Fare: ₹${_estimatedFare.toStringAsFixed(0)}'),
-                  Text('Validity: 2 hours from booking'),
-                  SizedBox(height: 8),
-                  Text(
-                    'You agree to:',
-                    style: TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                  Text('• Use ticket for intended journey only'),
-                  Text('• Present QR code when requested'),
-                  Text('• Follow MTC guidelines'),
-                ],
-              ),
-            ),
+            Text('You will be redirected to Razorpay for secure payment processing.',
+              style: TextStyle(fontSize: 12, color: Colors.grey[600])),
           ],
         ),
         actions: [
@@ -601,19 +636,90 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
           ),
           ElevatedButton(
             onPressed: () => Navigator.of(context).pop(true),
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-            child: Text('Confirm & Book', style: TextStyle(color: Colors.white)),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.payment, size: 16),
+                SizedBox(width: 4),
+                Text('Pay Now'),
+              ],
+            ),
           ),
         ],
       ),
     );
   }
 
-  void _showErrorDialog(String message) {
+  Future<bool?> _showLocationWarningDialog() async {
+    return showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: Row(
+          children: [
+            Icon(Icons.location_off, color: Colors.orange),
+            SizedBox(width: 8),
+            Text('Location Verification'),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Unable to verify your location near the bus stop.',
+              style: TextStyle(fontWeight: FontWeight.w500),
+            ),
+            SizedBox(height: 12),
+            Text('This could be due to:'),
+            Text('• GPS signal issues'),
+            Text('• Location permissions'),
+            Text('• Being too far from the stop'),
+            SizedBox(height: 12),
+            Container(
+              padding: EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.orange.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                'For best experience, please enable location and be near the bus stop.',
+                style: TextStyle(fontSize: 12, color: Colors.orange[700]),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text('Cancel Booking'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.orange,
+            ),
+            child: Text('Continue Anyway'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showErrorDialog(String title, String message) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Error'),
+        title: Row(
+          children: [
+            Icon(Icons.error, color: Colors.red),
+            SizedBox(width: 8),
+            Text(title),
+          ],
+        ),
         content: Text(message),
         actions: [
           TextButton(

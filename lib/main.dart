@@ -13,6 +13,8 @@ import 'screens/support_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/demo_test_screen.dart';
 import 'screens/debug_screen.dart';
+import 'screens/payment_test_screen.dart';
+import 'services/razorpay_service.dart';
 import 'services/background_service.dart';
 import 'services/bus_stop_service.dart';
 import 'services/enhanced_auth_service.dart';
@@ -52,6 +54,15 @@ void main() async {
   } catch (e) {
     print('Offline storage initialization error: $e');
     performanceService.recordError('offline_storage_init_error', errorMessage: e.toString());
+  }
+  
+  try {
+    // Initialize Razorpay
+    RazorpayService.initialize();
+    print('Razorpay service initialized successfully');
+  } catch (e) {
+    print('Razorpay initialization error: $e');
+    performanceService.recordError('razorpay_init_error', errorMessage: e.toString());
   }
   
   try {
@@ -162,6 +173,7 @@ class SmartTicketingApp extends StatelessWidget {
               '/settings': (context) => const SettingsScreen(),
               '/demo': (context) => DemoTestScreen(),
               '/debug': (context) => const DebugScreen(),
+              '/payment_test': (context) => PaymentTestScreen(),
             },
             builder: (context, child) {
               // Global error boundary and performance monitoring with offline indicator

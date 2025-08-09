@@ -39,7 +39,7 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
           ),
         ),
         child: SafeArea(
-          child: Padding(
+          child: SingleChildScrollView(
             padding: EdgeInsets.all(16),
             child: Column(
               children: [
@@ -48,8 +48,9 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
                 _buildSessionInfo(),
                 SizedBox(height: 20),
                 _buildInstructions(),
-                Spacer(),
+                SizedBox(height: 20),
                 _buildValidationInfo(),
+                SizedBox(height: 20), // Extra bottom padding
               ],
             ),
           ),

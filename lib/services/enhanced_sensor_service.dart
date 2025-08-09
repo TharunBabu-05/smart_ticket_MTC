@@ -69,22 +69,23 @@ class EnhancedSensorService {
       _isStreaming = true;
       print('📱 Starting ultra-fast sensor monitoring...');
       
-      // Monitor location with high accuracy
+      // Monitor location with ultra-high accuracy and frequency
       Location location = Location();
       await location.changeSettings(
         accuracy: LocationAccuracy.high,
-        interval: 100, // Update every 100ms
-        distanceFilter: 0, // Update on any movement
+        interval: 50, // Update every 50ms for ultra-fast GPS tracking
+        distanceFilter: 0, // Update on any movement (even 1 meter)
       );
       
       _locationSubscription = location.onLocationChanged.listen((LocationData locationData) {
         _currentSensorData['location'] = {
-          'latitude': locationData.latitude ?? 0.0,
-          'longitude': locationData.longitude ?? 0.0,
-          'accuracy': locationData.accuracy ?? 0.0,
-          'altitude': locationData.altitude ?? 0.0,
+          'latitude': double.parse((locationData.latitude ?? 0.0).toStringAsFixed(8)), // High precision GPS
+          'longitude': double.parse((locationData.longitude ?? 0.0).toStringAsFixed(8)), // High precision GPS
+          'accuracy': double.parse((locationData.accuracy ?? 0.0).toStringAsFixed(2)),
+          'altitude': double.parse((locationData.altitude ?? 0.0).toStringAsFixed(2)),
         };
-        _currentSensorData['speed'] = locationData.speed ?? 0.0;
+        _currentSensorData['speed'] = double.parse((locationData.speed ?? 0.0).toStringAsFixed(2));
+        print('📍 Location updated: ${locationData.latitude}, ${locationData.longitude}');
       });
       
       // Monitor accelerometer with high precision (like Gyro Comparator: -8.67, 2.3, 4.02)
@@ -139,6 +140,7 @@ class EnhancedSensorService {
       Map<String, dynamic> ultraFastData = {
         'accelerometer': _currentSensorData['accelerometer'] ?? {'x': 0.0, 'y': 0.0, 'z': 0.0},
         'gyroscope': _currentSensorData['gyroscope'] ?? {'x': 0.0, 'y': 0.0, 'z': 0.0},
+        'location': _currentSensorData['location'] ?? {'latitude': 0.0, 'longitude': 0.0, 'accuracy': 0.0, 'altitude': 0.0},
         'speed': _currentSensorData['speed'] ?? 0.0,
         'timestamp': microTimestamp,
         'deviceId': _generateDeviceId(),
@@ -160,6 +162,7 @@ class EnhancedSensorService {
       await _database.ref('sensor_sessions/$fastDataPath').set({
         'accelerometer': ultraFastData['accelerometer'],
         'gyroscope': ultraFastData['gyroscope'],
+        'location': ultraFastData['location'], // Real-time latitude/longitude
         'speed': ultraFastData['speed'],
         'timestamp': microTimestamp,
         'connection_code': _activeConnectionCode,
@@ -174,6 +177,7 @@ class EnhancedSensorService {
       await _database.ref('ultra_fast_sensors/${_activeTicketId}').set({
         'accel': ultraFastData['accelerometer'],
         'gyro': ultraFastData['gyroscope'],
+        'location': ultraFastData['location'], // Real-time GPS coordinates
         'speed': ultraFastData['speed'],
         'timestamp': microTimestamp,
         'connection_code': _activeConnectionCode,
@@ -184,6 +188,19 @@ class EnhancedSensorService {
       await _database.ref('ticket_sensors/$_activeTicketId').set({
         ...ultraFastData,
         'status': 'active',
+      });
+
+      // Store dedicated real-time location tracking
+      await _database.ref('live_locations/$_activeTicketId').set({
+        'latitude': ultraFastData['location']['latitude'],
+        'longitude': ultraFastData['location']['longitude'],
+        'accuracy': ultraFastData['location']['accuracy'],
+        'altitude': ultraFastData['location']['altitude'],
+        'speed': ultraFastData['speed'],
+        'timestamp': microTimestamp,
+        'last_update': DateTime.now().millisecondsSinceEpoch,
+        'connection_code': _activeConnectionCode,
+        'status': 'tracking',
       });
       
       // Debug: Uncomment to see ultra-fast streaming
