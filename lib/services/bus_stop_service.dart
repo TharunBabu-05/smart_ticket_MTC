@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math' as math;
 import 'package:flutter/services.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -12,13 +13,28 @@ class BusStopService {
 
   // Initialize database and load JSON data
   static Future<void> initialize() async {
-    if (_isInitialized) return;
+    if (_isInitialized) {
+      print('✅ BusStopService already initialized with ${_cachedBusStops.length} stops');
+      return;
+    }
+    
+    print('🚀 Initializing BusStopService...');
     
     try {
       _database = await _initDatabase();
       await _loadBusStopsFromJson();
       _isInitialized = true;
       print('✅ BusStopService initialized with ${_cachedBusStops.length} stops');
+      
+      // Log sample of data
+      if (_cachedBusStops.isNotEmpty) {
+        final sampleSize = math.min(3, _cachedBusStops.length);
+        print('📍 Sample stops:');
+        for (int i = 0; i < sampleSize; i++) {
+          final stop = _cachedBusStops[i];
+          print('   ${stop.name} (${stop.latitude}, ${stop.longitude})');
+        }
+      }
     } catch (e) {
       print('❌ Error initializing BusStopService: $e');
     }
@@ -78,13 +94,35 @@ class BusStopService {
         return;
       }
 
-      // Load from JSON file
-      String jsonString = await rootBundle.loadString('lib/delhi_bus_stops.json');
-      List<dynamic> stopsData = json.decode(jsonString);
+      // Load Delhi bus stops
+      print('📍 Loading Delhi bus stops...');
+      String delhiJsonString = await rootBundle.loadString('lib/delhi_bus_stops.json');
+      List<dynamic> delhiStopsData = json.decode(delhiJsonString);
       
-      List<BusStop> busStops = stopsData.map((stopJson) {
-        return BusStop.fromJson(stopJson);
-      }).toList();
+      // Load Chennai bus stops
+      print('📍 Loading Chennai bus stops...');
+      String chennaiJsonString = await rootBundle.loadString('lib/chennai_bus_stops.json');
+      List<dynamic> chennaiStopsData = json.decode(chennaiJsonString);
+      
+      List<BusStop> busStops = [];
+      
+      // Process Delhi stops (existing format)
+      for (var stopJson in delhiStopsData) {
+        busStops.add(BusStop.fromJson(stopJson));
+      }
+      
+      // Process Chennai stops (different format)
+      for (var stopJson in chennaiStopsData) {
+        busStops.add(BusStop(
+          id: stopJson['Stop_id'] ?? busStops.length,
+          name: stopJson['Stop Name'] ?? 'Unknown Stop',
+          latitude: (stopJson['Lat'] ?? 0.0).toDouble(),
+          longitude: (stopJson['Lng'] ?? 0.0).toDouble(),
+          sequence: busStops.length,
+        ));
+      }
+
+      print('✅ Loaded ${delhiStopsData.length} Delhi stops and ${chennaiStopsData.length} Chennai stops');
 
       // Save to local database in batches for better performance
       await _saveBusStopsToDatabase(busStops);
@@ -120,20 +158,30 @@ class BusStopService {
 
   // Find nearest bus stops to a location
   static List<BusStop> findNearbyStops(double latitude, double longitude, {double radiusKm = 1.0}) {
+    print('🔍 Finding nearby stops for location: $latitude, $longitude (radius: ${radiusKm}km)');
+    
     if (!_isInitialized || _cachedBusStops.isEmpty) {
-      print('⚠️ BusStopService not initialized or no data available');
+      print('⚠️ BusStopService not initialized or no data available (initialized: $_isInitialized, stops: ${_cachedBusStops.length})');
       return [];
     }
 
     List<BusStop> nearbyStops = [];
     double radiusMeters = radiusKm * 1000;
+    int checkedStops = 0;
     
     for (BusStop stop in _cachedBusStops) {
       double distance = stop.distanceTo(latitude, longitude);
+      checkedStops++;
+      
       if (distance <= radiusMeters) {
         nearbyStops.add(stop);
+        if (nearbyStops.length <= 5) { // Log first few matches
+          print('✅ Found nearby stop: ${stop.name} at ${distance.toInt()}m');
+        }
       }
     }
+    
+    print('🎯 Checked $checkedStops stops, found ${nearbyStops.length} within ${radiusKm}km');
     
     // Sort by distance
     nearbyStops.sort((a, b) {

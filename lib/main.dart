@@ -14,6 +14,7 @@ import 'screens/settings_screen.dart';
 import 'screens/demo_test_screen.dart';
 import 'screens/debug_screen.dart';
 import 'screens/payment_test_screen.dart';
+import 'screens/notifications_screen.dart';
 import 'services/razorpay_service.dart';
 import 'services/background_service.dart';
 import 'services/bus_stop_service.dart';
@@ -171,6 +172,7 @@ class SmartTicketingApp extends StatelessWidget {
               '/conductor': (context) => ConductorVerificationScreen(),
               '/map': (context) => const MapScreen(),
               '/settings': (context) => const SettingsScreen(),
+              '/notifications': (context) => const NotificationsScreen(),
               '/demo': (context) => DemoTestScreen(),
               '/debug': (context) => const DebugScreen(),
               '/payment_test': (context) => PaymentTestScreen(),

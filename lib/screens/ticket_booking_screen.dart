@@ -8,6 +8,7 @@ import '../models/bus_stop_model.dart';
 import '../services/location_service.dart';
 import '../services/enhanced_ticket_service.dart';
 import '../services/razorpay_service.dart';
+import '../services/notification_service.dart';
 import '../data/bus_stops_data.dart';
 import 'ticket_display_screen.dart';
 
@@ -553,6 +554,14 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
       );
 
       print('✅ Ticket issued successfully: ${ticket.ticketId}');
+      
+      // Add payment success notification
+      await NotificationService().addPaymentNotification(
+        paymentId: paymentId,
+        amount: fare.toStringAsFixed(2),
+        route: '$_selectedFromStop to $_selectedToStop',
+      );
+      
       String sessionId = 'ticket_${DateTime.now().millisecondsSinceEpoch}';
 
       // Navigate to ticket display

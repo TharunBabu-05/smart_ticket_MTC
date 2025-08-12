@@ -22,6 +22,16 @@ class TicketDisplayScreen extends StatefulWidget {
 
 class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
   @override
+  void initState() {
+    super.initState();
+    // Debug prints to check values
+    print('🎫 Ticket sourceName: "${widget.ticket.sourceName}"');
+    print('🎫 Ticket destinationName: "${widget.ticket.destinationName}"');
+    print('🎫 TripData sourceName: "${widget.tripData.sourceName}"');
+    print('🎫 TripData destinationName: "${widget.tripData.destinationName}"');
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -98,57 +108,149 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
             Container(
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.grey.shade50,
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Colors.blue.shade50, Colors.green.shade50],
+                ),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey.shade200),
+                border: Border.all(color: Colors.green.shade200, width: 2),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.green.withOpacity(0.1),
+                    blurRadius: 8,
+                    offset: Offset(0, 2),
+                  ),
+                ],
               ),
               child: Column(
                 children: [
                   Row(
                     children: [
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(8),
+                          gradient: LinearGradient(
+                            colors: [Colors.blue.shade500, Colors.blue.shade700],
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.blue.withOpacity(0.3),
+                              blurRadius: 6,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
                         ),
-                        child: Icon(Icons.location_on, color: Colors.white, size: 20),
+                        child: Icon(Icons.my_location, color: Colors.white, size: 24),
                       ),
-                      SizedBox(width: 12),
+                      SizedBox(width: 16),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('From', style: TextStyle(fontSize: 12, color: Colors.grey)),
                             Text(
-                              widget.ticket.sourceName,
-                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              'FROM',
+                              style: TextStyle(
+                                fontSize: 12, 
+                                color: Colors.blue.shade700,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1.2,
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              widget.ticket.sourceName ?? 
+                              widget.tripData.sourceName ?? 
+                              'Source Stop',
+                              style: TextStyle(
+                                fontSize: 18, 
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black87,
+                              ),
                             ),
                           ],
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 16),
+                  SizedBox(height: 20),
+                  // Journey Arrow
+                  Container(
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 60,
+                          height: 2,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Colors.green.shade400, Colors.blue.shade400],
+                            ),
+                          ),
+                        ),
+                        Icon(
+                          Icons.arrow_forward,
+                          color: Colors.green.shade600,
+                          size: 24,
+                        ),
+                        Container(
+                          width: 60,
+                          height: 2,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Colors.blue.shade400, Colors.green.shade400],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20),
                   Row(
                     children: [
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(8),
+                          gradient: LinearGradient(
+                            colors: [Colors.red.shade500, Colors.red.shade700],
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.red.withOpacity(0.3),
+                              blurRadius: 6,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
                         ),
-                        child: Icon(Icons.location_on, color: Colors.white, size: 20),
+                        child: Icon(Icons.location_on, color: Colors.white, size: 24),
                       ),
-                      SizedBox(width: 12),
+                      SizedBox(width: 16),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('To', style: TextStyle(fontSize: 12, color: Colors.grey)),
                             Text(
-                              widget.ticket.destinationName,
-                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              'TO',
+                              style: TextStyle(
+                                fontSize: 12, 
+                                color: Colors.red.shade700,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1.2,
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              widget.ticket.destinationName ?? 
+                              widget.tripData.destinationName ?? 
+                              'Destination Stop',
+                              style: TextStyle(
+                                fontSize: 18, 
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black87,
+                              ),
                             ),
                           ],
                         ),
@@ -162,22 +264,76 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
             SizedBox(height: 20),
             
             // Ticket Details
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildDetailItem('Ticket ID', widget.ticket.ticketId.substring(0, 8).toUpperCase()),
-                _buildDetailItem('Fare', '₹${widget.ticket.fare.toStringAsFixed(2)}'),
-              ],
-            ),
-            
-            SizedBox(height: 16),
-            
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildDetailItem('Date', _formatDate(widget.ticket.issueTime)),
-                _buildDetailItem('Time', _formatTime(widget.ticket.issueTime)),
-              ],
+            Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Colors.green.shade50, Colors.blue.shade50],
+                ),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.green.shade200),
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _buildEnhancedDetailItem('Ticket ID', widget.ticket.ticketId.substring(0, 8).toUpperCase(), Colors.green),
+                      _buildEnhancedDetailItem('Fare', '₹${widget.ticket.fare.toStringAsFixed(2)}', Colors.blue),
+                    ],
+                  ),
+                  
+                  SizedBox(height: 20),
+                  
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _buildEnhancedDetailItem('Date', _formatDate(widget.ticket.issueTime), Colors.orange),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [Colors.blue.shade500, Colors.blue.shade700],
+                          ),
+                          borderRadius: BorderRadius.circular(25),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.blue.withOpacity(0.4),
+                              blurRadius: 8,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            Text(
+                              'Time',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.white.withOpacity(0.9),
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 1.0,
+                              ),
+                            ),
+                            SizedBox(height: 6),
+                            Text(
+                              _formatTime(widget.ticket.issueTime),
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -207,6 +363,40 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildEnhancedDetailItem(String label, String value, Color color) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: color.withOpacity(0.3)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              color: color.withOpacity(0.8),
+              fontWeight: FontWeight.w600,
+              letterSpacing: 0.5,
+            ),
+          ),
+          SizedBox(height: 6),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -442,6 +632,11 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
   }
 
   String _formatTime(DateTime dateTime) {
-    return '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
+    final hour = dateTime.hour;
+    final minute = dateTime.minute;
+    final period = hour >= 12 ? 'PM' : 'AM';
+    final displayHour = hour > 12 ? hour - 12 : (hour == 0 ? 12 : hour);
+    
+    return '${displayHour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')} $period';
   }
 }

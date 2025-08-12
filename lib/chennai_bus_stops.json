@@ -1,0 +1,7682 @@
+[
+    {
+        "Stop_id":0,
+        "Stop Name":"CEMENTRY(MANDAVELI)",
+        "Lat":13.0299,
+        "Lng":80.26191
+    },
+    {
+        "Stop_id":3,
+        "Stop Name":"A.M.S.Hospital",
+        "Lat":13.01647,
+        "Lng":80.25963
+    },
+    {
+        "Stop_id":5,
+        "Stop Name":"RoyapettaHospital",
+        "Lat":13.05377,
+        "Lng":80.26564
+    },
+    {
+        "Stop_id":9,
+        "Stop Name":"SrinivasaTheater",
+        "Lat":13.031,
+        "Lng":80.22432
+    },
+    {
+        "Stop_id":12,
+        "Stop Name":"SAIDAPET",
+        "Lat":13.021571,
+        "Lng":80.226036
+    },
+    {
+        "Stop_id":14,
+        "Stop Name":"SAIDAPET_WEST",
+        "Lat":13.02496,
+        "Lng":80.21951
+    },
+    {
+        "Stop_id":18,
+        "Stop Name":"Cipet",
+        "Lat":13.01384,
+        "Lng":80.20436
+    },
+    {
+        "Stop_id":19,
+        "Stop Name":"BharathElectronics",
+        "Lat":13.01645,
+        "Lng":80.19002
+    },
+    {
+        "Stop_id":20,
+        "Stop Name":"Ramapuram",
+        "Lat":13.02112,
+        "Lng":80.18346
+    },
+    {
+        "Stop_id":21,
+        "Stop Name":"A.G.SOfficeColony",
+        "Lat":12.98298,
+        "Lng":80.21022
+    },
+    {
+        "Stop_id":26,
+        "Stop Name":"I.R.T.Rd.Jn.",
+        "Lat":12.98156,
+        "Lng":80.23976
+    },
+    {
+        "Stop_id":30,
+        "Stop Name":"MadipakkamB.S",
+        "Lat":12.96575,
+        "Lng":80.20187
+    },
+    {
+        "Stop_id":31,
+        "Stop Name":"A.V.Construction",
+        "Lat":12.96475,
+        "Lng":80.2117
+    },
+    {
+        "Stop_id":33,
+        "Stop Name":"Hasthinapuram",
+        "Lat":12.94024,
+        "Lng":80.15067
+    },
+    {
+        "Stop_id":40,
+        "Stop Name":"CowlBazaar",
+        "Lat":12.98871,
+        "Lng":80.14213
+    },
+    {
+        "Stop_id":41,
+        "Stop Name":"Pozhichalur",
+        "Lat":12.98984,
+        "Lng":80.14183
+    },
+    {
+        "Stop_id":45,
+        "Stop Name":"Pazhanthandalam",
+        "Lat":12.95856,
+        "Lng":80.07892
+    },
+    {
+        "Stop_id":46,
+        "Stop Name":"Noothancheri",
+        "Lat":12.90084,
+        "Lng":80.16852
+    },
+    {
+        "Stop_id":47,
+        "Stop Name":"MahalakshmiNagar",
+        "Lat":12.92292,
+        "Lng":80.14775
+    },
+    {
+        "Stop_id":48,
+        "Stop Name":"VeerabadraNagar",
+        "Lat":12.90519,
+        "Lng":80.18824
+    },
+    {
+        "Stop_id":49,
+        "Stop Name":"NanmabgalamRd.Jn.",
+        "Lat":12.91711,
+        "Lng":80.192
+    },
+    {
+        "Stop_id":50,
+        "Stop Name":"PerumbakkamLimit",
+        "Lat":12.90745,
+        "Lng":80.20088
+    },
+    {
+        "Stop_id":51,
+        "Stop Name":"SozhinganallurP.U.Office",
+        "Lat":12.90117,
+        "Lng":80.22569
+    },
+    {
+        "Stop_id":52,
+        "Stop Name":"BesantNagar",
+        "Lat":13.00033,
+        "Lng":80.26676
+    },
+    {
+        "Stop_id":53,
+        "Stop Name":"AdayarDepot",
+        "Lat":12.99832,
+        "Lng":80.25612
+    },
+    {
+        "Stop_id":54,
+        "Stop Name":"Thiruvanmiyur",
+        "Lat":12.98688,
+        "Lng":80.2589
+    },
+    {
+        "Stop_id":56,
+        "Stop Name":"Palavakkam",
+        "Lat":12.9568,
+        "Lng":80.25487
+    },
+    {
+        "Stop_id":57,
+        "Stop Name":"Kottivakkam",
+        "Lat":12.97027,
+        "Lng":80.25805
+    },
+    {
+        "Stop_id":58,
+        "Stop Name":"Vettuvankanni",
+        "Lat":12.93781,
+        "Lng":80.25247
+    },
+    {
+        "Stop_id":59,
+        "Stop Name":"MOOTAKARAN_CHAVADI",
+        "Lat":12.92995,
+        "Lng":80.23109
+    },
+    {
+        "Stop_id":60,
+        "Stop Name":"Injambakkam",
+        "Lat":12.91698,
+        "Lng":80.25092
+    },
+    {
+        "Stop_id":61,
+        "Stop Name":"UthandiVillage",
+        "Lat":12.87607,
+        "Lng":80.24311
+    },
+    {
+        "Stop_id":62,
+        "Stop Name":"Kovalam",
+        "Lat":12.78667,
+        "Lng":80.24991
+    },
+    {
+        "Stop_id":63,
+        "Stop Name":"ChemmancheryS.C.B.",
+        "Lat":12.8759,
+        "Lng":80.20826
+    },
+    {
+        "Stop_id":64,
+        "Stop Name":"Navalur",
+        "Lat":12.84525,
+        "Lng":80.22648
+    },
+    {
+        "Stop_id":65,
+        "Stop Name":"PallavanNagar",
+        "Lat":12.91539,
+        "Lng":80.19436
+    },
+    {
+        "Stop_id":66,
+        "Stop Name":"KovilamcherryVillage",
+        "Lat":12.88226,
+        "Lng":80.17101
+    },
+    {
+        "Stop_id":67,
+        "Stop Name":"Chitlapakkam",
+        "Lat":12.88725,
+        "Lng":80.18423
+    },
+    {
+        "Stop_id":68,
+        "Stop Name":"Keerapakkam",
+        "Lat":12.82791,
+        "Lng":80.16533
+    },
+    {
+        "Stop_id":69,
+        "Stop Name":"VengambakkamVillage",
+        "Lat":12.86852,
+        "Lng":80.13053
+    },
+    {
+        "Stop_id":70,
+        "Stop Name":"Kolapakkam",
+        "Lat":12.87088,
+        "Lng":80.10544
+    },
+    {
+        "Stop_id":72,
+        "Stop Name":"Manivakkam",
+        "Lat":12.89548,
+        "Lng":80.06166
+    },
+    {
+        "Stop_id":74,
+        "Stop Name":"VandaloorZoo",
+        "Lat":12.87933,
+        "Lng":80.08046
+    },
+    {
+        "Stop_id":75,
+        "Stop Name":"VazhuthalambeduRd.Jn",
+        "Lat":12.96776,
+        "Lng":80.10226
+    },
+    {
+        "Stop_id":80,
+        "Stop Name":"ManapakkamVillage",
+        "Lat":13.01208,
+        "Lng":80.16666
+    },
+    {
+        "Stop_id":81,
+        "Stop Name":"Kuthambakkam",
+        "Lat":13.05682,
+        "Lng":80.03222
+    },
+    {
+        "Stop_id":82,
+        "Stop Name":"Andersonpet",
+        "Lat":13.07814,
+        "Lng":80.0251
+    },
+    {
+        "Stop_id":92,
+        "Stop Name":"AnnaPoornaHotel\/DamsRd",
+        "Lat":13.06844,
+        "Lng":80.26963
+    },
+    {
+        "Stop_id":94,
+        "Stop Name":"LadyMctmSchool\/Millers",
+        "Lat":13.08466,
+        "Lng":80.24985
+    },
+    {
+        "Stop_id":95,
+        "Stop Name":"Naduvankarai",
+        "Lat":13.07705,
+        "Lng":80.21067
+    },
+    {
+        "Stop_id":96,
+        "Stop Name":"Arumbakkam",
+        "Lat":13.07638,
+        "Lng":80.20273
+    },
+    {
+        "Stop_id":98,
+        "Stop Name":"AnnaNagarCircle",
+        "Lat":13.08466,
+        "Lng":80.21779
+    },
+    {
+        "Stop_id":102,
+        "Stop Name":"Sayani\/Aynavaram",
+        "Lat":13.09683,
+        "Lng":80.24182
+    },
+    {
+        "Stop_id":105,
+        "Stop Name":"Shivashanmugapuram",
+        "Lat":13.09476,
+        "Lng":80.25107
+    },
+    {
+        "Stop_id":109,
+        "Stop Name":"Regal",
+        "Lat":13.09277,
+        "Lng":80.27513
+    },
+    {
+        "Stop_id":113,
+        "Stop Name":"V.Nagar",
+        "Lat":13.10556,
+        "Lng":80.27989
+    },
+    {
+        "Stop_id":116,
+        "Stop Name":"MogapairWest",
+        "Lat":13.08282,
+        "Lng":80.17033
+    },
+    {
+        "Stop_id":119,
+        "Stop Name":"AthipetI.C.F.Colony",
+        "Lat":13.09302,
+        "Lng":80.14621
+    },
+    {
+        "Stop_id":120,
+        "Stop Name":"KoladiSchool",
+        "Lat":13.08658,
+        "Lng":80.13256
+    },
+    {
+        "Stop_id":121,
+        "Stop Name":"Ayanambakkam",
+        "Lat":13.07304,
+        "Lng":80.1529
+    },
+    {
+        "Stop_id":123,
+        "Stop Name":"Kolappanchery",
+        "Lat":13.07923,
+        "Lng":80.07265
+    },
+    {
+        "Stop_id":124,
+        "Stop Name":"Thandarai",
+        "Lat":13.11208,
+        "Lng":80.06235
+    },
+    {
+        "Stop_id":125,
+        "Stop Name":"VeppumpattuPuliyamaram",
+        "Lat":13.12654,
+        "Lng":80.01278
+    },
+    {
+        "Stop_id":126,
+        "Stop Name":"Veppampattu",
+        "Lat":13.12521,
+        "Lng":79.99892
+    },
+    {
+        "Stop_id":128,
+        "Stop Name":"Kosapalayam",
+        "Lat":13.09419,
+        "Lng":80.02055
+    },
+    {
+        "Stop_id":130,
+        "Stop Name":"Pattabiram",
+        "Lat":13.12103,
+        "Lng":80.06475
+    },
+    {
+        "Stop_id":131,
+        "Stop Name":"Madanakuppam",
+        "Lat":13.13532,
+        "Lng":80.19103
+    },
+    {
+        "Stop_id":132,
+        "Stop Name":"Kallikuppam",
+        "Lat":13.13231,
+        "Lng":80.17299
+    },
+    {
+        "Stop_id":135,
+        "Stop Name":"T.V.K.Nagar",
+        "Lat":13.12119,
+        "Lng":80.23255
+    },
+    {
+        "Stop_id":137,
+        "Stop Name":"SarmaNagar",
+        "Lat":13.12153,
+        "Lng":80.25298
+    },
+    {
+        "Stop_id":141,
+        "Stop Name":"TheagarayaCollege",
+        "Lat":13.11662,
+        "Lng":80.28379
+    },
+    {
+        "Stop_id":148,
+        "Stop Name":"KorukkupetR.S",
+        "Lat":13.11856,
+        "Lng":80.27804
+    },
+    {
+        "Stop_id":154,
+        "Stop Name":"Thangal",
+        "Lat":13.14573,
+        "Lng":80.29731
+    },
+    {
+        "Stop_id":155,
+        "Stop Name":"I.O.html",
+        "Lat":13.14104,
+        "Lng":80.28246
+    },
+    {
+        "Stop_id":156,
+        "Stop Name":"CoronationNagar",
+        "Lat":13.13235,
+        "Lng":80.27987
+    },
+    {
+        "Stop_id":157,
+        "Stop Name":"AshokLayland",
+        "Lat":13.20797,
+        "Lng":80.31609
+    },
+    {
+        "Stop_id":158,
+        "Stop Name":"Ennore",
+        "Lat":13.21805,
+        "Lng":80.3201
+    },
+    {
+        "Stop_id":159,
+        "Stop Name":"PammadukulamColony",
+        "Lat":13.19382,
+        "Lng":80.17333
+    },
+    {
+        "Stop_id":162,
+        "Stop Name":"ValliyurSchool",
+        "Lat":13.21697,
+        "Lng":80.00493
+    },
+    {
+        "Stop_id":163,
+        "Stop Name":"Kasanoor",
+        "Lat":13.20352,
+        "Lng":80.02939
+    },
+    {
+        "Stop_id":164,
+        "Stop Name":"Padiyanallur",
+        "Lat":13.20736,
+        "Lng":80.1729
+    },
+    {
+        "Stop_id":165,
+        "Stop Name":"Semilivaram",
+        "Lat":13.22457,
+        "Lng":80.16638
+    },
+    {
+        "Stop_id":166,
+        "Stop Name":"Vichoor",
+        "Lat":13.21808,
+        "Lng":80.24624
+    },
+    {
+        "Stop_id":167,
+        "Stop Name":"AmmanKulam",
+        "Lat":13.20636,
+        "Lng":80.25006
+    },
+    {
+        "Stop_id":172,
+        "Stop Name":"Secretariat",
+        "Lat":13.07965,
+        "Lng":80.28791
+    },
+    {
+        "Stop_id":174,
+        "Stop Name":"Doveton",
+        "Lat":13.08704,
+        "Lng":80.25886
+    },
+    {
+        "Stop_id":181,
+        "Stop Name":"Corpn.PlayGround",
+        "Lat":13.05203,
+        "Lng":80.25787
+    },
+    {
+        "Stop_id":191,
+        "Stop Name":"U.S.I.S.",
+        "Lat":13.05055,
+        "Lng":80.25221
+    },
+    {
+        "Stop_id":192,
+        "Stop Name":"D.M.S",
+        "Lat":13.04727,
+        "Lng":80.24968
+    },
+    {
+        "Stop_id":196,
+        "Stop Name":"Gemini%20P.html",
+        "Lat":13.05229,
+        "Lng":80.25123
+    },
+    {
+        "Stop_id":198,
+        "Stop Name":"F.C.IOld",
+        "Lat":13.03791,
+        "Lng":80.25668
+    },
+    {
+        "Stop_id":201,
+        "Stop Name":"C.I.T._COLONY",
+        "Lat":13.04153,
+        "Lng":80.25868
+    },
+    {
+        "Stop_id":214,
+        "Stop Name":"AdayarO.T.",
+        "Lat":13.00644,
+        "Lng":80.25751
+    },
+    {
+        "Stop_id":216,
+        "Stop Name":"AvvaiHome",
+        "Lat":13.0074,
+        "Lng":80.25976
+    },
+    {
+        "Stop_id":220,
+        "Stop Name":"Y.M.I.A",
+        "Lat":13.04454,
+        "Lng":80.26744
+    },
+    {
+        "Stop_id":225,
+        "Stop Name":"MaternityHospital",
+        "Lat":13.0707,
+        "Lng":80.25813
+    },
+    {
+        "Stop_id":227,
+        "Stop Name":"MinjurB.D.O",
+        "Lat":13.27687,
+        "Lng":80.25959
+    },
+    {
+        "Stop_id":228,
+        "Stop Name":"Pollachiammankulam",
+        "Lat":13.40231,
+        "Lng":80.2771
+    },
+    {
+        "Stop_id":230,
+        "Stop Name":"Pazhaverkadu",
+        "Lat":13.41817,
+        "Lng":80.31487
+    },
+    {
+        "Stop_id":234,
+        "Stop Name":"Pattamandiri",
+        "Lat":13.26267,
+        "Lng":80.27384
+    },
+    {
+        "Stop_id":236,
+        "Stop Name":"Kondakkarai",
+        "Lat":13.24228,
+        "Lng":80.27384
+    },
+    {
+        "Stop_id":237,
+        "Stop Name":"Gnayaru",
+        "Lat":13.26125,
+        "Lng":80.21419
+    },
+    {
+        "Stop_id":238,
+        "Stop Name":"Pudukuppam",
+        "Lat":13.27504,
+        "Lng":80.19857
+    },
+    {
+        "Stop_id":239,
+        "Stop Name":"ArumandaiRd.Jn.",
+        "Lat":13.22833,
+        "Lng":80.21779
+    },
+    {
+        "Stop_id":240,
+        "Stop Name":"Perungavoor",
+        "Lat":13.21747,
+        "Lng":80.21921
+    },
+    {
+        "Stop_id":241,
+        "Stop Name":"Pallavaram",
+        "Lat":12.96809,
+        "Lng":80.14887
+    },
+    {
+        "Stop_id":244,
+        "Stop Name":"LATTICE_BRIDGE",
+        "Lat":12.98198,
+        "Lng":80.25272
+    },
+    {
+        "Stop_id":255,
+        "Stop Name":"Kosappur",
+        "Lat":13.18371,
+        "Lng":80.23438
+    },
+    {
+        "Stop_id":256,
+        "Stop Name":"Ariyalur",
+        "Lat":13.19098,
+        "Lng":80.25152
+    },
+    {
+        "Stop_id":257,
+        "Stop Name":"Velangadupakkam",
+        "Lat":13.19675,
+        "Lng":80.2211
+    },
+    {
+        "Stop_id":258,
+        "Stop Name":"Napalayam",
+        "Lat":13.22123,
+        "Lng":80.27264
+    },
+    {
+        "Stop_id":261,
+        "Stop Name":"SathiyamoorthyNagar",
+        "Lat":13.17845,
+        "Lng":80.29633
+    },
+    {
+        "Stop_id":264,
+        "Stop Name":"TNagar",
+        "Lat":13.03495,
+        "Lng":80.23051
+    },
+    {
+        "Stop_id":272,
+        "Stop Name":"AvadiMosque",
+        "Lat":13.11576,
+        "Lng":80.10484
+    },
+    {
+        "Stop_id":274,
+        "Stop Name":"2NdWaterTankOnSecond",
+        "Lat":13.09896,
+        "Lng":80.13239
+    },
+    {
+        "Stop_id":275,
+        "Stop Name":"H.V.F.MainGate",
+        "Lat":13.14205,
+        "Lng":80.08767
+    },
+    {
+        "Stop_id":276,
+        "Stop Name":"VengalCrossRoad",
+        "Lat":13.16661,
+        "Lng":80.09841
+    },
+    {
+        "Stop_id":277,
+        "Stop Name":"AvadiCircle",
+        "Lat":13.11977,
+        "Lng":80.10269
+    },
+    {
+        "Stop_id":278,
+        "Stop Name":"Morai",
+        "Lat":13.17715,
+        "Lng":80.07653
+    },
+    {
+        "Stop_id":279,
+        "Stop Name":"KadhavoorRd.Jn.",
+        "Lat":13.18622,
+        "Lng":80.05892
+    },
+    {
+        "Stop_id":280,
+        "Stop Name":"Thirunindravoor",
+        "Lat":13.12446,
+        "Lng":80.03143
+    },
+    {
+        "Stop_id":281,
+        "Stop Name":"KesavaCrossRoad",
+        "Lat":13.18028,
+        "Lng":80.02922
+    },
+    {
+        "Stop_id":282,
+        "Stop Name":"Veerapuram",
+        "Lat":13.18605,
+        "Lng":80.08368
+    },
+    {
+        "Stop_id":283,
+        "Stop Name":"Polytechnic",
+        "Lat":13.12596,
+        "Lng":80.119
+    },
+    {
+        "Stop_id":284,
+        "Stop Name":"GuruvoyalKaranibattai",
+        "Lat":13.21354,
+        "Lng":80.06355
+    },
+    {
+        "Stop_id":285,
+        "Stop Name":"Kavaraipalayam",
+        "Lat":13.11935,
+        "Lng":80.07986
+    },
+    {
+        "Stop_id":288,
+        "Stop Name":"Ambathur",
+        "Lat":13.12165,
+        "Lng":80.14861
+    },
+    {
+        "Stop_id":289,
+        "Stop Name":"OragadamO.T.",
+        "Lat":13.12429,
+        "Lng":80.15093
+    },
+    {
+        "Stop_id":291,
+        "Stop Name":"AmbOt",
+        "Lat":13.11969,
+        "Lng":80.15003
+    },
+    {
+        "Stop_id":293,
+        "Stop Name":"Vengatapuram",
+        "Lat":13.11864,
+        "Lng":80.15754
+    },
+    {
+        "Stop_id":295,
+        "Stop Name":"Menambedu",
+        "Lat":13.12592,
+        "Lng":80.16831
+    },
+    {
+        "Stop_id":296,
+        "Stop Name":"Pudur",
+        "Lat":13.13039,
+        "Lng":80.15857
+    },
+    {
+        "Stop_id":297,
+        "Stop Name":"SenthilNagar",
+        "Lat":13.1204,
+        "Lng":80.14007
+    },
+    {
+        "Stop_id":298,
+        "Stop Name":"Surapedu",
+        "Lat":13.1446,
+        "Lng":80.18818
+    },
+    {
+        "Stop_id":299,
+        "Stop Name":"Vinayagapuram",
+        "Lat":13.13896,
+        "Lng":80.20659
+    },
+    {
+        "Stop_id":300,
+        "Stop Name":"ScrewFactory",
+        "Lat":13.15894,
+        "Lng":80.19699
+    },
+    {
+        "Stop_id":301,
+        "Stop Name":"Kolathur\/NehruRdJn",
+        "Lat":13.13003,
+        "Lng":80.2141
+    },
+    {
+        "Stop_id":302,
+        "Stop Name":"CycleShop",
+        "Lat":13.15504,
+        "Lng":80.20577
+    },
+    {
+        "Stop_id":303,
+        "Stop Name":"Korattur",
+        "Lat":13.1125,
+        "Lng":80.18354
+    },
+    {
+        "Stop_id":305,
+        "Stop Name":"LucasTvs",
+        "Lat":13.10188,
+        "Lng":80.19299
+    },
+    {
+        "Stop_id":307,
+        "Stop Name":"ElangoNagarOfficerColo",
+        "Lat":13.09106,
+        "Lng":80.185
+    },
+    {
+        "Stop_id":308,
+        "Stop Name":"MogapairEast",
+        "Lat":13.08008,
+        "Lng":80.1802
+    },
+    {
+        "Stop_id":309,
+        "Stop Name":"CollectorNagar",
+        "Lat":13.08771,
+        "Lng":80.19015
+    },
+    {
+        "Stop_id":310,
+        "Stop Name":"Nerkundram",
+        "Lat":13.07162,
+        "Lng":80.18569
+    },
+    {
+        "Stop_id":311,
+        "Stop Name":"GoldenFlat",
+        "Lat":13.08901,
+        "Lng":80.17084
+    },
+    {
+        "Stop_id":313,
+        "Stop Name":"AmbathurEstate",
+        "Lat":13.09971,
+        "Lng":80.1699
+    },
+    {
+        "Stop_id":317,
+        "Stop Name":"JN.OF_CENTRAL_AVENUE",
+        "Lat":13.09794,
+        "Lng":80.17663
+    },
+    {
+        "Stop_id":319,
+        "Stop Name":"AyyappaNagar",
+        "Lat":13.09779,
+        "Lng":80.14054
+    },
+    {
+        "Stop_id":320,
+        "Stop Name":"VilinjambakkamAmmanKoil",
+        "Lat":13.11605,
+        "Lng":80.09647
+    },
+    {
+        "Stop_id":323,
+        "Stop Name":"Dunlop",
+        "Lat":13.10531,
+        "Lng":80.15222
+    },
+    {
+        "Stop_id":324,
+        "Stop Name":"Senneerkuppam",
+        "Lat":13.06853,
+        "Lng":80.11239
+    },
+    {
+        "Stop_id":325,
+        "Stop Name":"Thiruverkadu",
+        "Lat":13.06906,
+        "Lng":80.1242
+    },
+    {
+        "Stop_id":327,
+        "Stop Name":"KonimeduRd.Jn.",
+        "Lat":13.08838,
+        "Lng":80.12303
+    },
+    {
+        "Stop_id":328,
+        "Stop Name":"AthipetJn",
+        "Lat":13.08901,
+        "Lng":80.16174
+    },
+    {
+        "Stop_id":336,
+        "Stop Name":"VinayagarKoil",
+        "Lat":13.10113,
+        "Lng":80.16329
+    },
+    {
+        "Stop_id":337,
+        "Stop Name":"Karakku",
+        "Lat":13.11764,
+        "Lng":80.16934
+    },
+    {
+        "Stop_id":338,
+        "Stop Name":"Thirumullaivoayl",
+        "Lat":13.13076,
+        "Lng":80.13306
+    },
+    {
+        "Stop_id":339,
+        "Stop Name":"VellalaStreet",
+        "Lat":13.10329,
+        "Lng":80.18629
+    },
+    {
+        "Stop_id":340,
+        "Stop Name":"Arikambedu",
+        "Lat":13.16273,
+        "Lng":80.12999
+    },
+    {
+        "Stop_id":342,
+        "Stop Name":"AlamadhiOld",
+        "Lat":13.20101,
+        "Lng":80.14389
+    },
+    {
+        "Stop_id":343,
+        "Stop Name":"Alamadhi",
+        "Lat":13.20602,
+        "Lng":80.1166
+    },
+    {
+        "Stop_id":345,
+        "Stop Name":"RedHills",
+        "Lat":13.1914,
+        "Lng":80.18552
+    },
+    {
+        "Stop_id":346,
+        "Stop Name":"Kummanur",
+        "Lat":13.21856,
+        "Lng":80.19539
+    },
+    {
+        "Stop_id":347,
+        "Stop Name":"Budur",
+        "Lat":13.23878,
+        "Lng":80.19479
+    },
+    {
+        "Stop_id":348,
+        "Stop Name":"Vazhuthunaimedu",
+        "Lat":13.26359,
+        "Lng":80.22972
+    },
+    {
+        "Stop_id":349,
+        "Stop Name":"Periamullaivoyal",
+        "Lat":13.2478,
+        "Lng":80.23075
+    },
+    {
+        "Stop_id":350,
+        "Stop Name":"KaranodaiSchool",
+        "Lat":13.24713,
+        "Lng":80.15737
+    },
+    {
+        "Stop_id":351,
+        "Stop Name":"Seemavaram",
+        "Lat":13.26075,
+        "Lng":80.25217
+    },
+    {
+        "Stop_id":352,
+        "Stop Name":"SholavaramP.S.",
+        "Lat":13.24103,
+        "Lng":80.16028
+    },
+    {
+        "Stop_id":353,
+        "Stop Name":"Sothupermedu",
+        "Lat":13.25415,
+        "Lng":80.17127
+    },
+    {
+        "Stop_id":354,
+        "Stop Name":"Echankuzhi",
+        "Lat":13.20322,
+        "Lng":80.27006
+    },
+    {
+        "Stop_id":355,
+        "Stop Name":"Vadaperumbakkam",
+        "Lat":13.17494,
+        "Lng":80.21547
+    },
+    {
+        "Stop_id":358,
+        "Stop Name":"Chettimedu",
+        "Lat":13.18563,
+        "Lng":80.222
+    },
+    {
+        "Stop_id":359,
+        "Stop Name":"Kavangarai",
+        "Lat":13.16959,
+        "Lng":80.19959
+    },
+    {
+        "Stop_id":360,
+        "Stop Name":"AayurvedaAshramam",
+        "Lat":13.18212,
+        "Lng":80.1929
+    },
+    {
+        "Stop_id":363,
+        "Stop Name":"Andakuppam",
+        "Lat":13.19197,
+        "Lng":80.26953
+    },
+    {
+        "Stop_id":364,
+        "Stop Name":"ThiruvetriyurB.S",
+        "Lat":13.17224,
+        "Lng":80.30546
+    },
+    {
+        "Stop_id":365,
+        "Stop Name":"Royapuram",
+        "Lat":13.1213,
+        "Lng":80.29354
+    },
+    {
+        "Stop_id":366,
+        "Stop Name":"RoyapuramP.S",
+        "Lat":13.10893,
+        "Lng":80.29177
+    },
+    {
+        "Stop_id":368,
+        "Stop Name":"ThambuchettySt",
+        "Lat":13.10275,
+        "Lng":80.29059
+    },
+    {
+        "Stop_id":371,
+        "Stop Name":"Jn.OfPonneriRd",
+        "Lat":13.17769,
+        "Lng":80.27023
+    },
+    {
+        "Stop_id":372,
+        "Stop Name":"I.C.I.",
+        "Lat":13.19055,
+        "Lng":80.3136
+    },
+    {
+        "Stop_id":373,
+        "Stop Name":"ManaliRdJn.",
+        "Lat":13.1614,
+        "Lng":80.26886
+    },
+    {
+        "Stop_id":375,
+        "Stop Name":"KodungaiyurParvathinagar",
+        "Lat":13.14568,
+        "Lng":80.25049
+    },
+    {
+        "Stop_id":376,
+        "Stop Name":"Sidco",
+        "Lat":13.13097,
+        "Lng":80.25135
+    },
+    {
+        "Stop_id":377,
+        "Stop Name":"KaviarasuKannadasanNaga",
+        "Lat":13.13649,
+        "Lng":80.25581
+    },
+    {
+        "Stop_id":381,
+        "Stop Name":"Manali",
+        "Lat":13.17076,
+        "Lng":80.25667
+    },
+    {
+        "Stop_id":382,
+        "Stop Name":"T.V.TRlyGate",
+        "Lat":13.15559,
+        "Lng":80.29199
+    },
+    {
+        "Stop_id":384,
+        "Stop Name":"MadahvaramVillage",
+        "Lat":13.14853,
+        "Lng":80.23006
+    },
+    {
+        "Stop_id":385,
+        "Stop Name":"Madhavaram",
+        "Lat":13.13766,
+        "Lng":80.22955
+    },
+    {
+        "Stop_id":386,
+        "Stop Name":"MadhavaramMillkColony",
+        "Lat":13.15187,
+        "Lng":80.24208
+    },
+    {
+        "Stop_id":387,
+        "Stop Name":"KodungaiyurO.T.",
+        "Lat":13.13858,
+        "Lng":80.24345
+    },
+    {
+        "Stop_id":388,
+        "Stop Name":"MadhavaramPostBox",
+        "Lat":13.14284,
+        "Lng":80.23624
+    },
+    {
+        "Stop_id":392,
+        "Stop Name":"Moolakadai",
+        "Lat":13.1293,
+        "Lng":80.24131
+    },
+    {
+        "Stop_id":393,
+        "Stop Name":"S.R.P.Colony",
+        "Lat":13.12169,
+        "Lng":80.22371
+    },
+    {
+        "Stop_id":400,
+        "Stop Name":"WATERPIPE_THANTHANKUPPAM",
+        "Lat":13.12061,
+        "Lng":80.19899
+    },
+    {
+        "Stop_id":401,
+        "Stop Name":"Poombuhar",
+        "Lat":13.12394,
+        "Lng":80.21225
+    },
+    {
+        "Stop_id":402,
+        "Stop Name":"SRINIVASA_NAGAR",
+        "Lat":13.11863,
+        "Lng":80.20646
+    },
+    {
+        "Stop_id":403,
+        "Stop Name":"SidcoNagar",
+        "Lat":13.10876,
+        "Lng":80.20552
+    },
+    {
+        "Stop_id":405,
+        "Stop Name":"PeriyarNagar",
+        "Lat":13.11434,
+        "Lng":80.22371
+    },
+    {
+        "Stop_id":409,
+        "Stop Name":"G.K.M.Colony",
+        "Lat":13.11024,
+        "Lng":80.22277
+    },
+    {
+        "Stop_id":410,
+        "Stop Name":"Veenus",
+        "Lat":13.114,
+        "Lng":80.23504
+    },
+    {
+        "Stop_id":415,
+        "Stop Name":"NathamuniTalkies",
+        "Lat":13.10347,
+        "Lng":80.20294
+    },
+    {
+        "Stop_id":418,
+        "Stop Name":"KamabarArangam",
+        "Lat":13.09883,
+        "Lng":80.22294
+    },
+    {
+        "Stop_id":424,
+        "Stop Name":"SlumClearanceBoard",
+        "Lat":13.12299,
+        "Lng":80.27746
+    },
+    {
+        "Stop_id":425,
+        "Stop Name":"EzhilNagar",
+        "Lat":13.13333,
+        "Lng":80.26275
+    },
+    {
+        "Stop_id":427,
+        "Stop Name":"M.K.B.NagarEast",
+        "Lat":13.12295,
+        "Lng":80.2656
+    },
+    {
+        "Stop_id":428,
+        "Stop Name":"M.K.B.Nagar",
+        "Lat":13.12312,
+        "Lng":80.25916
+    },
+    {
+        "Stop_id":431,
+        "Stop Name":"GaneshPuram",
+        "Lat":13.10957,
+        "Lng":80.2595
+    },
+    {
+        "Stop_id":432,
+        "Stop Name":"Vyasarpadi",
+        "Lat":13.11426,
+        "Lng":80.26345
+    },
+    {
+        "Stop_id":434,
+        "Stop Name":"PeramburMarket",
+        "Lat":13.11423,
+        "Lng":80.25276
+    },
+    {
+        "Stop_id":437,
+        "Stop Name":"PeramburB.S",
+        "Lat":13.10857,
+        "Lng":80.24792
+    },
+    {
+        "Stop_id":439,
+        "Stop Name":"Jamalaya",
+        "Lat":13.10456,
+        "Lng":80.2529
+    },
+    {
+        "Stop_id":443,
+        "Stop Name":"P1.PoliceStation",
+        "Lat":13.09873,
+        "Lng":80.25976
+    },
+    {
+        "Stop_id":444,
+        "Stop Name":"Dasamahan",
+        "Lat":13.09804,
+        "Lng":80.25118
+    },
+    {
+        "Stop_id":445,
+        "Stop Name":"P1P.S",
+        "Lat":13.1,
+        "Lng":80.26006
+    },
+    {
+        "Stop_id":450,
+        "Stop Name":"ChoolaiMill",
+        "Lat":13.09412,
+        "Lng":80.268
+    },
+    {
+        "Stop_id":452,
+        "Stop Name":"CHOOLAI_P.O.",
+        "Lat":13.09235,
+        "Lng":80.2692
+    },
+    {
+        "Stop_id":453,
+        "Stop Name":"SathumaNagar",
+        "Lat":13.14973,
+        "Lng":80.29916
+    },
+    {
+        "Stop_id":455,
+        "Stop Name":"Tollgate",
+        "Lat":13.14178,
+        "Lng":80.29581
+    },
+    {
+        "Stop_id":456,
+        "Stop Name":"EllaiammanKoil",
+        "Lat":13.15789,
+        "Lng":80.30156
+    },
+    {
+        "Stop_id":457,
+        "Stop Name":"N4PoliceStation",
+        "Lat":13.13448,
+        "Lng":80.29736
+    },
+    {
+        "Stop_id":458,
+        "Stop Name":"Tondaiayrpet",
+        "Lat":13.12623,
+        "Lng":80.2904
+    },
+    {
+        "Stop_id":462,
+        "Stop Name":"UnivercityClub",
+        "Lat":13.09469,
+        "Lng":80.28603
+    },
+    {
+        "Stop_id":469,
+        "Stop Name":"BusBay-17ThKm",
+        "Lat":13.14401,
+        "Lng":80.22097
+    },
+    {
+        "Stop_id":471,
+        "Stop Name":"CliveBattery",
+        "Lat":13.10159,
+        "Lng":80.29435
+    },
+    {
+        "Stop_id":472,
+        "Stop Name":"HighCourt",
+        "Lat":13.0855,
+        "Lng":80.28448
+    },
+    {
+        "Stop_id":475,
+        "Stop Name":"BROADWAY",
+        "Lat":13.08842,
+        "Lng":80.28148
+    },
+    {
+        "Stop_id":476,
+        "Stop Name":"T.N.C.F",
+        "Lat":13.08138,
+        "Lng":80.27818
+    },
+    {
+        "Stop_id":477,
+        "Stop Name":"Parrys",
+        "Lat":13.08888,
+        "Lng":80.2904
+    },
+    {
+        "Stop_id":480,
+        "Stop Name":"CENTRAL",
+        "Lat":13.08186,
+        "Lng":80.27628
+    },
+    {
+        "Stop_id":486,
+        "Stop Name":"EgmoreNorthR.S.",
+        "Lat":13.07946,
+        "Lng":80.25981
+    },
+    {
+        "Stop_id":487,
+        "Stop Name":"Kelleys",
+        "Lat":13.08226,
+        "Lng":80.24363
+    },
+    {
+        "Stop_id":490,
+        "Stop Name":"K.M.html",
+        "Lat":13.07781,
+        "Lng":80.24277
+    },
+    {
+        "Stop_id":492,
+        "Stop Name":"Thirumangalam",
+        "Lat":13.08541,
+        "Lng":80.19848
+    },
+    {
+        "Stop_id":495,
+        "Stop Name":"AnnaNagarWest",
+        "Lat":13.09712,
+        "Lng":80.19839
+    },
+    {
+        "Stop_id":497,
+        "Stop Name":"IcfAnnexe",
+        "Lat":13.09461,
+        "Lng":80.22354
+    },
+    {
+        "Stop_id":502,
+        "Stop Name":"KilpaukGarden",
+        "Lat":13.08374,
+        "Lng":80.23358
+    },
+    {
+        "Stop_id":504,
+        "Stop Name":"I.C.F",
+        "Lat":13.09657,
+        "Lng":80.21908
+    },
+    {
+        "Stop_id":507,
+        "Stop Name":"TaylorsRoad",
+        "Lat":13.07676,
+        "Lng":80.23813
+    },
+    {
+        "Stop_id":512,
+        "Stop Name":"KoyambeduRohiniTheater",
+        "Lat":13.07511,
+        "Lng":80.19509
+    },
+    {
+        "Stop_id":513,
+        "Stop Name":"Jn.OfR.GardenPevrH.",
+        "Lat":13.07427,
+        "Lng":80.21592
+    },
+    {
+        "Stop_id":520,
+        "Stop Name":"CENTRAL",
+        "Lat":13.08136,
+        "Lng":80.27547
+    },
+    {
+        "Stop_id":524,
+        "Stop Name":"AnnaSquare",
+        "Lat":13.06426,
+        "Lng":80.28337
+    },
+    {
+        "Stop_id":525,
+        "Stop Name":"PeriyarBridge",
+        "Lat":13.07163,
+        "Lng":80.27442
+    },
+    {
+        "Stop_id":527,
+        "Stop Name":"P.O.R._SONS",
+        "Lat":13.07061,
+        "Lng":80.2739
+    },
+    {
+        "Stop_id":529,
+        "Stop Name":"Egmore",
+        "Lat":13.07751,
+        "Lng":80.26139
+    },
+    {
+        "Stop_id":534,
+        "Stop Name":"M.M.D.A.Colony",
+        "Lat":13.06476,
+        "Lng":80.21135
+    },
+    {
+        "Stop_id":538,
+        "Stop Name":"M.M.D.A.ColonyRd.Jn.",
+        "Lat":13.06385,
+        "Lng":80.21178
+    },
+    {
+        "Stop_id":540,
+        "Stop Name":"Dasaprakash",
+        "Lat":13.07889,
+        "Lng":80.25032
+    },
+    {
+        "Stop_id":542,
+        "Stop Name":"T.B.Institute",
+        "Lat":13.07225,
+        "Lng":80.25187
+    },
+    {
+        "Stop_id":547,
+        "Stop Name":"HotelArun",
+        "Lat":13.07304,
+        "Lng":80.22079
+    },
+    {
+        "Stop_id":554,
+        "Stop Name":"Aminijikarai",
+        "Lat":13.07398,
+        "Lng":80.22472
+    },
+    {
+        "Stop_id":558,
+        "Stop Name":"PostalAuditOffice",
+        "Lat":13.06359,
+        "Lng":80.26139
+    },
+    {
+        "Stop_id":559,
+        "Stop Name":"D.P.I",
+        "Lat":13.06754,
+        "Lng":80.25202
+    },
+    {
+        "Stop_id":569,
+        "Stop Name":"TriplicaneO.T(Corpn.Sc",
+        "Lat":13.05923,
+        "Lng":80.2715
+    },
+    {
+        "Stop_id":571,
+        "Stop Name":"V.HouseP.S",
+        "Lat":13.05242,
+        "Lng":80.27409
+    },
+    {
+        "Stop_id":576,
+        "Stop Name":"T.V.S",
+        "Lat":13.05963,
+        "Lng":80.25961
+    },
+    {
+        "Stop_id":578,
+        "Stop Name":"WESLEY_H.S.",
+        "Lat":13.05923,
+        "Lng":80.26554
+    },
+    {
+        "Stop_id":582,
+        "Stop Name":"Chepauk",
+        "Lat":13.05757,
+        "Lng":80.28191
+    },
+    {
+        "Stop_id":585,
+        "Stop Name":"V.House",
+        "Lat":13.05038,
+        "Lng":80.28053
+    },
+    {
+        "Stop_id":586,
+        "Stop Name":"V.HouseTerminus",
+        "Lat":13.05072,
+        "Lng":80.27925
+    },
+    {
+        "Stop_id":599,
+        "Stop Name":"SANTHOME_P.O.",
+        "Lat":13.03322,
+        "Lng":80.27783
+    },
+    {
+        "Stop_id":600,
+        "Stop Name":"Q.M.html",
+        "Lat":13.04336,
+        "Lng":80.27916
+    },
+    {
+        "Stop_id":601,
+        "Stop Name":"Luz",
+        "Lat":13.03692,
+        "Lng":80.26757
+    },
+    {
+        "Stop_id":602,
+        "Stop Name":"MYLAPORE",
+        "Lat":13.03232,
+        "Lng":80.26714
+    },
+    {
+        "Stop_id":611,
+        "Stop Name":"UthamarGandhisalai(Corp",
+        "Lat":13.06384,
+        "Lng":80.24337
+    },
+    {
+        "Stop_id":612,
+        "Stop Name":"PushpaNagar",
+        "Lat":13.05851,
+        "Lng":80.24071
+    },
+    {
+        "Stop_id":613,
+        "Stop Name":"NungambakkamR.S",
+        "Lat":13.06552,
+        "Lng":80.23401
+    },
+    {
+        "Stop_id":614,
+        "Stop Name":"SterlingRoad",
+        "Lat":13.06501,
+        "Lng":80.23993
+    },
+    {
+        "Stop_id":615,
+        "Stop Name":"VeterinaryHospital",
+        "Lat":13.05251,
+        "Lng":80.24144
+    },
+    {
+        "Stop_id":617,
+        "Stop Name":"Mahalingapuram",
+        "Lat":13.05801,
+        "Lng":80.23506
+    },
+    {
+        "Stop_id":620,
+        "Stop Name":"Trustpuram",
+        "Lat":13.05339,
+        "Lng":80.22294
+    },
+    {
+        "Stop_id":621,
+        "Stop Name":"BharathiNagar(PeriyarPa",
+        "Lat":13.05419,
+        "Lng":80.22886
+    },
+    {
+        "Stop_id":626,
+        "Stop Name":"SunTheater",
+        "Lat":13.04784,
+        "Lng":80.24543
+    },
+    {
+        "Stop_id":628,
+        "Stop Name":"R020",
+        "Lat":13.04666,
+        "Lng":80.23273
+    },
+    {
+        "Stop_id":632,
+        "Stop Name":"FiveLamps",
+        "Lat":13.0466,
+        "Lng":80.22629
+    },
+    {
+        "Stop_id":633,
+        "Stop Name":"AnjugamSchool",
+        "Lat":13.04198,
+        "Lng":80.22543
+    },
+    {
+        "Stop_id":636,
+        "Stop Name":"PicturePost",
+        "Lat":13.05155,
+        "Lng":80.22165
+    },
+    {
+        "Stop_id":638,
+        "Stop Name":"PudurHighSchool",
+        "Lat":13.04241,
+        "Lng":80.21654
+    },
+    {
+        "Stop_id":639,
+        "Stop Name":"Vidyodaya",
+        "Lat":13.05139,
+        "Lng":80.24062
+    },
+    {
+        "Stop_id":640,
+        "Stop Name":"VadapalaniB.S",
+        "Lat":13.04934,
+        "Lng":80.20856
+    },
+    {
+        "Stop_id":641,
+        "Stop Name":"C.M.B.T.",
+        "Lat":13.06932,
+        "Lng":80.20583
+    },
+    {
+        "Stop_id":642,
+        "Stop Name":"Dasarathapuram",
+        "Lat":13.05726,
+        "Lng":80.20419
+    },
+    {
+        "Stop_id":643,
+        "Stop Name":"Saligraman",
+        "Lat":13.05312,
+        "Lng":80.19721
+    },
+    {
+        "Stop_id":645,
+        "Stop Name":"Virugambakkam",
+        "Lat":13.04666,
+        "Lng":80.19234
+    },
+    {
+        "Stop_id":648,
+        "Stop Name":"Mandaveli",
+        "Lat":13.02668,
+        "Lng":80.26572
+    },
+    {
+        "Stop_id":649,
+        "Stop Name":"ADYAR_GATE",
+        "Lat":13.02927,
+        "Lng":80.24775
+    },
+    {
+        "Stop_id":651,
+        "Stop Name":"PondyBazaar",
+        "Lat":13.04026,
+        "Lng":80.24028
+    },
+    {
+        "Stop_id":655,
+        "Stop Name":"KrishnanTemple\/PondyBaz",
+        "Lat":13.04035,
+        "Lng":80.23992
+    },
+    {
+        "Stop_id":659,
+        "Stop Name":"TelegraphOffice",
+        "Lat":13.04274,
+        "Lng":80.23607
+    },
+    {
+        "Stop_id":663,
+        "Stop Name":"S.H.B",
+        "Lat":13.03021,
+        "Lng":80.24075
+    },
+    {
+        "Stop_id":666,
+        "Stop Name":"SouthBoagS.EastBoag",
+        "Lat":13.035,
+        "Lng":80.24191
+    },
+    {
+        "Stop_id":668,
+        "Stop Name":"JnOfIiiAnd1StAve",
+        "Lat":13.0419,
+        "Lng":80.21232
+    },
+    {
+        "Stop_id":675,
+        "Stop Name":"Govt.GirlsH.Sc",
+        "Lat":13.03138,
+        "Lng":80.216
+    },
+    {
+        "Stop_id":678,
+        "Stop Name":"KalaignarNagar",
+        "Lat":13.03585,
+        "Lng":80.20465
+    },
+    {
+        "Stop_id":680,
+        "Stop Name":"JaffarkhanPet",
+        "Lat":13.02874,
+        "Lng":80.2086
+    },
+    {
+        "Stop_id":681,
+        "Stop Name":"AlwarThirunagar",
+        "Lat":13.03989,
+        "Lng":80.18603
+    },
+    {
+        "Stop_id":682,
+        "Stop Name":"KalaignarNagarWest",
+        "Lat":13.0444,
+        "Lng":80.19389
+    },
+    {
+        "Stop_id":685,
+        "Stop Name":"AngalammanKoil",
+        "Lat":13.03182,
+        "Lng":80.18337
+    },
+    {
+        "Stop_id":686,
+        "Stop Name":"Ramapuram(L.N.PKoil)",
+        "Lat":13.03327,
+        "Lng":80.17479
+    },
+    {
+        "Stop_id":692,
+        "Stop Name":"Maduravoyal",
+        "Lat":13.0615,
+        "Lng":80.1644
+    },
+    {
+        "Stop_id":698,
+        "Stop Name":"Melpakkam",
+        "Lat":13.08633,
+        "Lng":80.1087
+    },
+    {
+        "Stop_id":699,
+        "Stop Name":"Govardanagiri",
+        "Lat":13.10038,
+        "Lng":80.10836
+    },
+    {
+        "Stop_id":700,
+        "Stop Name":"Mettupalayam",
+        "Lat":13.08088,
+        "Lng":80.09572
+    },
+    {
+        "Stop_id":701,
+        "Stop Name":"Padurmedu",
+        "Lat":13.04729,
+        "Lng":80.0257
+    },
+    {
+        "Stop_id":703,
+        "Stop Name":"IndiraNagarWaterTank",
+        "Lat":12.99507,
+        "Lng":80.25277
+    },
+    {
+        "Stop_id":704,
+        "Stop Name":"IndiraNagar",
+        "Lat":12.99235,
+        "Lng":80.25607
+    },
+    {
+        "Stop_id":707,
+        "Stop Name":"Panaiyur",
+        "Lat":12.89966,
+        "Lng":80.2474
+    },
+    {
+        "Stop_id":709,
+        "Stop Name":"WOMEN_POLYTECHNIC",
+        "Lat":12.99889,
+        "Lng":80.24861
+    },
+    {
+        "Stop_id":713,
+        "Stop Name":"Kotturpuram",
+        "Lat":13.01995,
+        "Lng":80.24105
+    },
+    {
+        "Stop_id":720,
+        "Stop Name":"KANDAN_CHAVADI",
+        "Lat":12.96082,
+        "Lng":80.24534
+    },
+    {
+        "Stop_id":728,
+        "Stop Name":"GurunanakCollege",
+        "Lat":12.98758,
+        "Lng":80.22303
+    },
+    {
+        "Stop_id":731,
+        "Stop Name":"ENGG_COLLEGE",
+        "Lat":13.00857,
+        "Lng":80.23144
+    },
+    {
+        "Stop_id":732,
+        "Stop Name":"SAIDAPET_COURT",
+        "Lat":13.01551,
+        "Lng":80.2256
+    },
+    {
+        "Stop_id":733,
+        "Stop Name":"Jn.OfRaceCourseRd",
+        "Lat":13.00661,
+        "Lng":80.22054
+    },
+    {
+        "Stop_id":739,
+        "Stop Name":"VelacheryHospital",
+        "Lat":12.97869,
+        "Lng":80.22148
+    },
+    {
+        "Stop_id":741,
+        "Stop Name":"VelacheryVijayaNagar",
+        "Lat":12.97554,
+        "Lng":80.22058
+    },
+    {
+        "Stop_id":743,
+        "Stop Name":"CONCORDE",
+        "Lat":13.01228,
+        "Lng":80.22159
+    },
+    {
+        "Stop_id":747,
+        "Stop Name":"GuindyR.S",
+        "Lat":13.00713,
+        "Lng":80.20891
+    },
+    {
+        "Stop_id":752,
+        "Stop Name":"SecretariatColony",
+        "Lat":12.99446,
+        "Lng":80.20655
+    },
+    {
+        "Stop_id":753,
+        "Stop Name":"ButtRoad",
+        "Lat":13.00757,
+        "Lng":80.19608
+    },
+    {
+        "Stop_id":757,
+        "Stop Name":"StThomasMountPo",
+        "Lat":13.00177,
+        "Lng":80.20009
+    },
+    {
+        "Stop_id":759,
+        "Stop Name":"Vanuvambedu",
+        "Lat":12.98557,
+        "Lng":80.19736
+    },
+    {
+        "Stop_id":760,
+        "Stop Name":"PadavattammanSchool",
+        "Lat":12.99527,
+        "Lng":80.20114
+    },
+    {
+        "Stop_id":761,
+        "Stop Name":"AdambakkamP.S",
+        "Lat":12.98942,
+        "Lng":80.20204
+    },
+    {
+        "Stop_id":763,
+        "Stop Name":"HinduVidyalaya",
+        "Lat":12.98511,
+        "Lng":80.20504
+    },
+    {
+        "Stop_id":764,
+        "Stop Name":"PonniammanKoilRd.Jn.",
+        "Lat":12.96475,
+        "Lng":80.19615
+    },
+    {
+        "Stop_id":767,
+        "Stop Name":"Jn.Of.PalavanthangalGst",
+        "Lat":12.9941,
+        "Lng":80.18565
+    },
+    {
+        "Stop_id":768,
+        "Stop Name":"MENAMABAKKAM_OLD_AIRPORT",
+        "Lat":12.9899,
+        "Lng":80.17953
+    },
+    {
+        "Stop_id":770,
+        "Stop Name":"ChidambaramStores",
+        "Lat":12.98106,
+        "Lng":80.18809
+    },
+    {
+        "Stop_id":774,
+        "Stop Name":"Nanganallur",
+        "Lat":12.98047,
+        "Lng":80.18286
+    },
+    {
+        "Stop_id":776,
+        "Stop Name":"PuzhithivakkamB.S",
+        "Lat":12.9747,
+        "Lng":80.20346
+    },
+    {
+        "Stop_id":777,
+        "Stop Name":"Moovarasanpet",
+        "Lat":12.96991,
+        "Lng":80.18638
+    },
+    {
+        "Stop_id":782,
+        "Stop Name":"ThirusoolamNationalAirp",
+        "Lat":12.98043,
+        "Lng":80.16495
+    },
+    {
+        "Stop_id":784,
+        "Stop Name":"MadipakkamRd.Jn.",
+        "Lat":12.96605,
+        "Lng":80.18866
+    },
+    {
+        "Stop_id":786,
+        "Stop Name":"Velappanchavadi",
+        "Lat":13.0615,
+        "Lng":80.13814
+    },
+    {
+        "Stop_id":790,
+        "Stop Name":"Kumunanchavadi",
+        "Lat":13.04479,
+        "Lng":80.11634
+    },
+    {
+        "Stop_id":792,
+        "Stop Name":"Vaanagaram",
+        "Lat":13.06134,
+        "Lng":80.15153
+    },
+    {
+        "Stop_id":793,
+        "Stop Name":"VaradarajaPuram",
+        "Lat":13.04704,
+        "Lng":80.07943
+    },
+    {
+        "Stop_id":794,
+        "Stop Name":"Meppur",
+        "Lat":13.02931,
+        "Lng":80.08338
+    },
+    {
+        "Stop_id":795,
+        "Stop Name":"PORUR",
+        "Lat":13.03475,
+        "Lng":80.15616
+    },
+    {
+        "Stop_id":796,
+        "Stop Name":"RamachandraMedl.College",
+        "Lat":13.03672,
+        "Lng":80.14249
+    },
+    {
+        "Stop_id":797,
+        "Stop Name":"AyyappanThangal",
+        "Lat":13.03901,
+        "Lng":80.13376
+    },
+    {
+        "Stop_id":799,
+        "Stop Name":"Poonamallee",
+        "Lat":13.04931,
+        "Lng":80.10443
+    },
+    {
+        "Stop_id":802,
+        "Stop Name":"Thirumalisai",
+        "Lat":13.05373,
+        "Lng":80.0633
+    },
+    {
+        "Stop_id":803,
+        "Stop Name":"KattuKootRoad",
+        "Lat":13.01551,
+        "Lng":79.92774
+    },
+    {
+        "Stop_id":804,
+        "Stop Name":"Mogalivakkam",
+        "Lat":13.03015,
+        "Lng":80.16767
+    },
+    {
+        "Stop_id":806,
+        "Stop Name":"ManapakkamP.U.O",
+        "Lat":13.01659,
+        "Lng":80.17713
+    },
+    {
+        "Stop_id":807,
+        "Stop Name":"Moulivakkam",
+        "Lat":13.01986,
+        "Lng":80.14312
+    },
+    {
+        "Stop_id":809,
+        "Stop Name":"MuruganKoil\/Girugambak",
+        "Lat":13.01074,
+        "Lng":80.14057
+    },
+    {
+        "Stop_id":812,
+        "Stop Name":"Periyapanicheri",
+        "Lat":13.01419,
+        "Lng":80.13434
+    },
+    {
+        "Stop_id":815,
+        "Stop Name":"Paraniputhur",
+        "Lat":13.02112,
+        "Lng":80.12492
+    },
+    {
+        "Stop_id":816,
+        "Stop Name":"Mangadu",
+        "Lat":13.0273,
+        "Lng":80.1105
+    },
+    {
+        "Stop_id":817,
+        "Stop Name":"Koovoor",
+        "Lat":13.01026,
+        "Lng":80.11831
+    },
+    {
+        "Stop_id":818,
+        "Stop Name":"Kollaicheri",
+        "Lat":13.00924,
+        "Lng":80.10115
+    },
+    {
+        "Stop_id":820,
+        "Stop Name":"Valasaravakkam",
+        "Lat":13.04139,
+        "Lng":80.17432
+    },
+    {
+        "Stop_id":823,
+        "Stop Name":"PudupeirCootRoad",
+        "Lat":12.976,
+        "Lng":80.0498
+    },
+    {
+        "Stop_id":824,
+        "Stop Name":"AmarambeduChatram",
+        "Lat":12.96826,
+        "Lng":80.02351
+    },
+    {
+        "Stop_id":825,
+        "Stop Name":"KundrathurB.S",
+        "Lat":12.99803,
+        "Lng":80.09651
+    },
+    {
+        "Stop_id":826,
+        "Stop Name":"Anakaputhur",
+        "Lat":12.98348,
+        "Lng":80.12655
+    },
+    {
+        "Stop_id":827,
+        "Stop Name":"Kamarajapuram",
+        "Lat":12.97052,
+        "Lng":80.12115
+    },
+    {
+        "Stop_id":829,
+        "Stop Name":"Nagalkeni",
+        "Lat":12.95939,
+        "Lng":80.13033
+    },
+    {
+        "Stop_id":831,
+        "Stop Name":"SriSankaraHealthCentre",
+        "Lat":12.96617,
+        "Lng":80.1269
+    },
+    {
+        "Stop_id":832,
+        "Stop Name":"Pammal",
+        "Lat":12.97495,
+        "Lng":80.13411
+    },
+    {
+        "Stop_id":834,
+        "Stop Name":"Kilkattalai",
+        "Lat":12.95409,
+        "Lng":80.18601
+    },
+    {
+        "Stop_id":840,
+        "Stop Name":"Narayanapuram",
+        "Lat":12.93898,
+        "Lng":80.20526
+    },
+    {
+        "Stop_id":842,
+        "Stop Name":"KumaranKundram",
+        "Lat":12.94229,
+        "Lng":80.1417
+    },
+    {
+        "Stop_id":843,
+        "Stop Name":"Vellaikal",
+        "Lat":12.93413,
+        "Lng":80.18183
+    },
+    {
+        "Stop_id":844,
+        "Stop Name":"ChitlapakkamB.S",
+        "Lat":12.93612,
+        "Lng":80.14741
+    },
+    {
+        "Stop_id":848,
+        "Stop Name":"NationalHighSchool",
+        "Lat":12.93561,
+        "Lng":80.13057
+    },
+    {
+        "Stop_id":849,
+        "Stop Name":"T.B.Sanatorium",
+        "Lat":12.93831,
+        "Lng":80.12896
+    },
+    {
+        "Stop_id":850,
+        "Stop Name":"BharathaMathaSt",
+        "Lat":12.92819,
+        "Lng":80.12698
+    },
+    {
+        "Stop_id":852,
+        "Stop Name":"Chrompet",
+        "Lat":12.95253,
+        "Lng":80.13994
+    },
+    {
+        "Stop_id":856,
+        "Stop Name":"Thiruneermalai",
+        "Lat":12.9645,
+        "Lng":80.11634
+    },
+    {
+        "Stop_id":858,
+        "Stop Name":"Kadaperi",
+        "Lat":12.93256,
+        "Lng":80.12375
+    },
+    {
+        "Stop_id":860,
+        "Stop Name":"Tambaram",
+        "Lat":12.92518,
+        "Lng":80.11552
+    },
+    {
+        "Stop_id":865,
+        "Stop Name":"Naduveerapattu",
+        "Lat":12.942,
+        "Lng":80.04948
+    },
+    {
+        "Stop_id":869,
+        "Stop Name":"AmarambeduRoad",
+        "Lat":12.94952,
+        "Lng":80.03669
+    },
+    {
+        "Stop_id":870,
+        "Stop Name":"AmarambeduVillage",
+        "Lat":12.95831,
+        "Lng":80.02017
+    },
+    {
+        "Stop_id":872,
+        "Stop Name":"Kannadapalayam",
+        "Lat":12.93639,
+        "Lng":80.10046
+    },
+    {
+        "Stop_id":873,
+        "Stop Name":"TambaramTownLimit",
+        "Lat":12.92552,
+        "Lng":80.1008
+    },
+    {
+        "Stop_id":879,
+        "Stop Name":"TambaramEast",
+        "Lat":12.92351,
+        "Lng":80.11788
+    },
+    {
+        "Stop_id":883,
+        "Stop Name":"Perungalathur(Old)",
+        "Lat":12.91974,
+        "Lng":80.08707
+    },
+    {
+        "Stop_id":885,
+        "Stop Name":"Irumbuliyur",
+        "Lat":12.91774,
+        "Lng":80.10904
+    },
+    {
+        "Stop_id":888,
+        "Stop Name":"PushpagiriRd.Jn.",
+        "Lat":12.92183,
+        "Lng":80.01952
+    },
+    {
+        "Stop_id":889,
+        "Stop Name":"MullaiNagar",
+        "Lat":12.91598,
+        "Lng":80.06527
+    },
+    {
+        "Stop_id":890,
+        "Stop Name":"Vandaloor",
+        "Lat":12.89297,
+        "Lng":80.08647
+    },
+    {
+        "Stop_id":891,
+        "Stop Name":"Padappai",
+        "Lat":12.88578,
+        "Lng":80.01549
+    },
+    {
+        "Stop_id":892,
+        "Stop Name":"Guduvanchery",
+        "Lat":12.84185,
+        "Lng":80.0578
+    },
+    {
+        "Stop_id":893,
+        "Stop Name":"Perungulathur",
+        "Lat":12.90494,
+        "Lng":80.09548
+    },
+    {
+        "Stop_id":894,
+        "Stop Name":"S.I.V.E.html",
+        "Lat":12.92135,
+        "Lng":80.16673
+    },
+    {
+        "Stop_id":895,
+        "Stop Name":"Jn.OfMambakkamO.Bakka",
+        "Lat":12.89392,
+        "Lng":80.18023
+    },
+    {
+        "Stop_id":904,
+        "Stop Name":"Convent",
+        "Lat":12.92309,
+        "Lng":80.12621
+    },
+    {
+        "Stop_id":905,
+        "Stop Name":"MeppaduHospital",
+        "Lat":12.89121,
+        "Lng":80.14071
+    },
+    {
+        "Stop_id":906,
+        "Stop Name":"SriRamEngg.College",
+        "Lat":13.113,
+        "Lng":79.99343
+    },
+    {
+        "Stop_id":907,
+        "Stop Name":"Athur",
+        "Lat":13.25064,
+        "Lng":80.14166
+    },
+    {
+        "Stop_id":908,
+        "Stop Name":"Manchankaranai",
+        "Lat":13.27127,
+        "Lng":80.10666
+    },
+    {
+        "Stop_id":909,
+        "Stop Name":"Malrosapuram",
+        "Lat":12.83846,
+        "Lng":80.15571
+    },
+    {
+        "Stop_id":910,
+        "Stop Name":"PrithiyangaraDeviTemple",
+        "Lat":12.89988,
+        "Lng":80.23501
+    },
+    {
+        "Stop_id":913,
+        "Stop Name":"KamarajNagar",
+        "Lat":13.10702,
+        "Lng":80.09441
+    },
+    {
+        "Stop_id":915,
+        "Stop Name":"ForeShoreEstate",
+        "Lat":13.02421,
+        "Lng":80.27384
+    },
+    {
+        "Stop_id":919,
+        "Stop Name":"THORAPAKKAM",
+        "Lat":12.951034,
+        "Lng":80.241265
+    },
+    {
+        "Stop_id":920,
+        "Stop Name":"Nallur",
+        "Lat":13.28339,
+        "Lng":80.24405
+    },
+    {
+        "Stop_id":927,
+        "Stop Name":"Q.MArts(Men)",
+        "Lat":12.92041,
+        "Lng":80.18337
+    },
+    {
+        "Stop_id":1505,
+        "Stop Name":"TARAMANI",
+        "Lat":12.986035,
+        "Lng":80.241066
+    },
+    {
+        "Stop_id":1506,
+        "Stop Name":"MADHYAKAILASH",
+        "Lat":13.006626,
+        "Lng":80.246391
+    },
+    {
+        "Stop_id":1507,
+        "Stop Name":"BROADWAY",
+        "Lat":13.088127,
+        "Lng":80.283756
+    },
+    {
+        "Stop_id":1508,
+        "Stop Name":"KOTTURPURAM",
+        "Lat":13.00762,
+        "Lng":80.24026
+    },
+    {
+        "Stop_id":1509,
+        "Stop Name":"C.I.T._COLONY",
+        "Lat":13.041421,
+        "Lng":80.258707
+    },
+    {
+        "Stop_id":1510,
+        "Stop Name":"BROADWAY",
+        "Lat":13.08664,
+        "Lng":80.28385
+    },
+    {
+        "Stop_id":1511,
+        "Stop Name":"BROADWAY",
+        "Lat":13.088305,
+        "Lng":80.282935
+    },
+    {
+        "Stop_id":1512,
+        "Stop Name":"KASTHURBAI_NAGAR",
+        "Lat":13.006164,
+        "Lng":80.247433
+    },
+    {
+        "Stop_id":1513,
+        "Stop Name":"KARAPAKKAM",
+        "Lat":12.913505,
+        "Lng":80.229147
+    },
+    {
+        "Stop_id":1514,
+        "Stop Name":"SEMMANCHERY",
+        "Lat":12.86976,
+        "Lng":80.22669
+    },
+    {
+        "Stop_id":1515,
+        "Stop Name":"PALAVASTIC_CHEMICALS",
+        "Lat":12.816585,
+        "Lng":80.22968
+    },
+    {
+        "Stop_id":1516,
+        "Stop Name":"HEC",
+        "Lat":12.803026,
+        "Lng":80.223672
+    },
+    {
+        "Stop_id":1517,
+        "Stop Name":"KELAMBAKKAM",
+        "Lat":12.786676,
+        "Lng":80.220558
+    },
+    {
+        "Stop_id":2000,
+        "Stop Name":"JAMUNA",
+        "Lat":12.98665,
+        "Lng":80.23866
+    },
+    {
+        "Stop_id":2001,
+        "Stop Name":"MAIN_GATE",
+        "Lat":13.00539,
+        "Lng":80.24188
+    },
+    {
+        "Stop_id":2002,
+        "Stop Name":"GAJENDRA_CIRCLE",
+        "Lat":12.99188,
+        "Lng":80.233718
+    },
+    {
+        "Stop_id":2003,
+        "Stop Name":"CAUVERY",
+        "Lat":12.986577,
+        "Lng":80.233278
+    },
+    {
+        "Stop_id":2005,
+        "Stop Name":"AGS",
+        "Lat":12.849816,
+        "Lng":80.226491
+    },
+    {
+        "Stop_id":2006,
+        "Stop Name":"Coffee Day",
+        "Lat":12.86022,
+        "Lng":80.2264
+    },
+    {
+        "Stop_id":2007,
+        "Stop Name":"SIPCOT",
+        "Lat":12.830205,
+        "Lng":80.229705
+    },
+    {
+        "Stop_id":2008,
+        "Stop Name":"TIDEL_PARK",
+        "Lat":12.98948,
+        "Lng":80.250859
+    },
+    {
+        "Stop_id":2009,
+        "Stop Name":"FISH_MARKET",
+        "Lat":12.893227,
+        "Lng":80.227376
+    },
+    {
+        "Stop_id":2010,
+        "Stop Name":"Odai",
+        "Lat":12.887946,
+        "Lng":80.227263
+    },
+    {
+        "Stop_id":2011,
+        "Stop Name":"Shozinganallaur",
+        "Lat":12.901785,
+        "Lng":80.227848
+    },
+    {
+        "Stop_id":2094,
+        "Stop Name":"KELAMBAKKAM",
+        "Lat":12.786305,
+        "Lng":80.221926
+    },
+    {
+        "Stop_id":2099,
+        "Stop Name":"Taramsg",
+        "Lat":12.457,
+        "Lng":79.4363
+    },
+    {
+        "Stop_id":3003,
+        "Stop Name":"Jayanthi Signal_Cutservice stop from Kelambakkam",
+        "Lat":12.987671,
+        "Lng":80.255752
+    },
+    {
+        "Stop_id":3002,
+        "Stop Name":"Gandhinagar_Cutservice stop Towards Adyar",
+        "Lat":13.006802,
+        "Lng":80.248402
+    },
+    {
+        "Stop_id":3001,
+        "Stop Name":"Sipcot IT Park_Cutservice stop",
+        "Lat":12.827929,
+        "Lng":80.219267
+    },
+    {
+        "Stop_id":9999,
+        "Stop Name":"Aaaalayam",
+        "Lat":971.11111,
+        "Lng":89.0
+    },
+    {
+        "Stop_id":200034,
+        "Stop Name":"Test stop",
+        "Lat":13.11863,
+        "Lng":80.20646
+    },
+    {
+        "Stop_id":3100,
+        "Stop Name":"Broadway",
+        "Lat":13.087596,
+        "Lng":80.283738
+    },
+    {
+        "Stop_id":3101,
+        "Stop Name":"Pondy Bazaar",
+        "Lat":13.040338,
+        "Lng":80.239431
+    },
+    {
+        "Stop_id":3102,
+        "Stop Name":"ESI Hospital",
+        "Lat":13.035214,
+        "Lng":80.208738
+    },
+    {
+        "Stop_id":3103,
+        "Stop Name":"Amutham",
+        "Lat":13.039797,
+        "Lng":80.193195
+    },
+    {
+        "Stop_id":3104,
+        "Stop Name":"DMS",
+        "Lat":13.047059,
+        "Lng":80.248352
+    },
+    {
+        "Stop_id":3105,
+        "Stop Name":"Park Town\/Rippon Building",
+        "Lat":13.081297,
+        "Lng":80.273259
+    },
+    {
+        "Stop_id":3106,
+        "Stop Name":"Aynavaram Depot",
+        "Lat":13.09844,
+        "Lng":80.242292
+    },
+    {
+        "Stop_id":3107,
+        "Stop Name":"Dasaprakash",
+        "Lat":13.080876,
+        "Lng":80.25485
+    },
+    {
+        "Stop_id":3108,
+        "Stop Name":"Egmore Railway Station",
+        "Lat":13.077801,
+        "Lng":80.261976
+    },
+    {
+        "Stop_id":3109,
+        "Stop Name":"Ramachandra Hospital\/SRMC",
+        "Lat":13.036559,
+        "Lng":80.142928
+    },
+    {
+        "Stop_id":3110,
+        "Stop Name":"Nandanam\/YMCA",
+        "Lat":13.029063,
+        "Lng":80.23681
+    },
+    {
+        "Stop_id":3111,
+        "Stop Name":"Ramapuram",
+        "Lat":13.020983,
+        "Lng":80.183925
+    },
+    {
+        "Stop_id":3112,
+        "Stop Name":"Butt Road",
+        "Lat":13.008635,
+        "Lng":80.197825
+    },
+    {
+        "Stop_id":3113,
+        "Stop Name":"Guindy",
+        "Lat":13.00858,
+        "Lng":80.202424
+    },
+    {
+        "Stop_id":3114,
+        "Stop Name":"Guindy Railway Station\/Guindy Air Scotts",
+        "Lat":13.009251,
+        "Lng":80.210712
+    },
+    {
+        "Stop_id":3115,
+        "Stop Name":"Saidapet\/Bali Towers",
+        "Lat":13.018918,
+        "Lng":80.224303
+    },
+    {
+        "Stop_id":3116,
+        "Stop Name":"Thousand Lights\/Church Park",
+        "Lat":13.056747,
+        "Lng":80.256667
+    },
+    {
+        "Stop_id":3117,
+        "Stop Name":"Kumananchavadi",
+        "Lat":13.044864,
+        "Lng":80.116036
+    },
+    {
+        "Stop_id":3118,
+        "Stop Name":"Kattupakkam",
+        "Lat":13.040646,
+        "Lng":80.128795
+    },
+    {
+        "Stop_id":3119,
+        "Stop Name":"Ranimeyammai",
+        "Lat":13.022757,
+        "Lng":80.263839
+    },
+    {
+        "Stop_id":3120,
+        "Stop Name":"Ranimeyammai",
+        "Lat":13.022914,
+        "Lng":80.263678
+    },
+    {
+        "Stop_id":3121,
+        "Stop Name":"Mandhaveli Bus Stand\/CID Quarters",
+        "Lat":13.026527,
+        "Lng":80.263842
+    },
+    {
+        "Stop_id":3122,
+        "Stop Name":"Mandaveli Market\/Post Office",
+        "Lat":13.02935,
+        "Lng":80.265687
+    },
+    {
+        "Stop_id":3123,
+        "Stop Name":"Mylapore Tank",
+        "Lat":13.03374,
+        "Lng":80.267835
+    },
+    {
+        "Stop_id":3124,
+        "Stop Name":"Queen_Marys_College",
+        "Lat":13.043319,
+        "Lng":80.277513
+    },
+    {
+        "Stop_id":3125,
+        "Stop Name":"Baby Hospital",
+        "Lat":13.075473,
+        "Lng":80.258785
+    },
+    {
+        "Stop_id":3126,
+        "Stop Name":"Dasaprakash",
+        "Lat":13.079687,
+        "Lng":80.254505
+    },
+    {
+        "Stop_id":3127,
+        "Stop Name":"Kambar Arangam",
+        "Lat":13.099025,
+        "Lng":80.219808
+    },
+    {
+        "Stop_id":3128,
+        "Stop Name":"Vanavil",
+        "Lat":13.040588,
+        "Lng":80.247036
+    },
+    {
+        "Stop_id":3129,
+        "Stop Name":"Iyyappan Koil\/Amman Koil",
+        "Lat":13.039296,
+        "Lng":80.196936
+    },
+    {
+        "Stop_id":3130,
+        "Stop Name":"Ajantha",
+        "Lat":13.037271,
+        "Lng":80.195971
+    },
+    {
+        "Stop_id":3131,
+        "Stop Name":"Ajantha",
+        "Lat":13.037075,
+        "Lng":80.196431
+    },
+    {
+        "Stop_id":3132,
+        "Stop Name":"Amman Koil\/Ayyapan Koil",
+        "Lat":13.04148,
+        "Lng":80.196607
+    },
+    {
+        "Stop_id":3133,
+        "Stop Name":"Anna Square\/Madras University",
+        "Lat":13.065934,
+        "Lng":80.284035
+    },
+    {
+        "Stop_id":3134,
+        "Stop Name":"Parrys_Corner",
+        "Lat":13.088863,
+        "Lng":80.289717
+    },
+    {
+        "Stop_id":3135,
+        "Stop Name":"Pattinambakkam",
+        "Lat":13.026128,
+        "Lng":80.275338
+    },
+    {
+        "Stop_id":3136,
+        "Stop Name":"Adyar Malar Hospital",
+        "Lat":13.008488,
+        "Lng":80.258931
+    },
+    {
+        "Stop_id":3137,
+        "Stop Name":"Pattinambakkam_Arch",
+        "Lat":13.02531,
+        "Lng":80.274815
+    },
+    {
+        "Stop_id":3138,
+        "Stop Name":"Military Quarters",
+        "Lat":13.032125,
+        "Lng":80.242102
+    },
+    {
+        "Stop_id":3139,
+        "Stop Name":"Guindy\/MKN Road",
+        "Lat":13.007289,
+        "Lng":80.209773
+    },
+    {
+        "Stop_id":3140,
+        "Stop Name":"Butt Road Kalyana Mandapam",
+        "Lat":13.010992,
+        "Lng":80.195515
+    },
+    {
+        "Stop_id":3141,
+        "Stop Name":"Mugalivakkam",
+        "Lat":13.029007,
+        "Lng":80.169151
+    },
+    {
+        "Stop_id":3142,
+        "Stop Name":"DLF\/L&T",
+        "Lat":13.023807,
+        "Lng":80.17892
+    },
+    {
+        "Stop_id":3143,
+        "Stop Name":"I.C.F\/I.C.F Quarters",
+        "Lat":13.100355,
+        "Lng":80.21509
+    },
+    {
+        "Stop_id":3144,
+        "Stop Name":"Dinathanthi\/Commisioner Office",
+        "Lat":13.080424,
+        "Lng":80.263082
+    },
+    {
+        "Stop_id":3145,
+        "Stop Name":"Tambaram Mepz\/Sanatorium",
+        "Lat":12.936701,
+        "Lng":80.127436
+    },
+    {
+        "Stop_id":3146,
+        "Stop Name":"Pallavaram Depot\/Bus Stand",
+        "Lat":12.968621,
+        "Lng":80.149611
+    },
+    {
+        "Stop_id":3147,
+        "Stop Name":"Kasi Theatre",
+        "Lat":13.031519,
+        "Lng":80.209178
+    },
+    {
+        "Stop_id":3148,
+        "Stop Name":"Vadapalani",
+        "Lat":13.04839,
+        "Lng":80.211944
+    },
+    {
+        "Stop_id":3149,
+        "Stop Name":"CMBT",
+        "Lat":13.06878,
+        "Lng":80.20517
+    },
+    {
+        "Stop_id":3150,
+        "Stop Name":"Kasi Theatre",
+        "Lat":13.030218,
+        "Lng":80.209149
+    },
+    {
+        "Stop_id":3151,
+        "Stop Name":"Asarkana\/Kathipara\/Guindy Circle",
+        "Lat":13.003671,
+        "Lng":80.201072
+    },
+    {
+        "Stop_id":3152,
+        "Stop Name":"Chrompet",
+        "Lat":12.951758,
+        "Lng":80.140693
+    },
+    {
+        "Stop_id":3153,
+        "Stop Name":"Tambaram Mepz\/Sanatorium",
+        "Lat":12.937008,
+        "Lng":80.128093
+    },
+    {
+        "Stop_id":3154,
+        "Stop Name":"Nathamuni ",
+        "Lat":13.103379,
+        "Lng":80.201712
+    },
+    {
+        "Stop_id":3155,
+        "Stop Name":"Albert Theatre",
+        "Lat":13.076343,
+        "Lng":80.264107
+    },
+    {
+        "Stop_id":3156,
+        "Stop Name":"Vijaykanth Chathiram",
+        "Lat":13.074195,
+        "Lng":80.200131
+    },
+    {
+        "Stop_id":3157,
+        "Stop Name":"Egmore Court\/Commissioner Office",
+        "Lat":13.07289,
+        "Lng":80.261893
+    },
+    {
+        "Stop_id":3158,
+        "Stop Name":"Mental Hospital",
+        "Lat":13.090511,
+        "Lng":80.240799
+    },
+    {
+        "Stop_id":3159,
+        "Stop Name":"Commissioner Office",
+        "Lat":13.073685,
+        "Lng":80.261715
+    },
+    {
+        "Stop_id":3160,
+        "Stop Name":"Pudupet",
+        "Lat":13.071619,
+        "Lng":80.264633
+    },
+    {
+        "Stop_id":3161,
+        "Stop Name":"Motcham Theatre",
+        "Lat":13.08467,
+        "Lng":80.250119
+    },
+    {
+        "Stop_id":3162,
+        "Stop Name":"PTC Quarters\/Mutakaranchavadi",
+        "Lat":12.934265,
+        "Lng":80.233206
+    },
+    {
+        "Stop_id":3163,
+        "Stop Name":"Chettinad Hospital",
+        "Lat":12.796304,
+        "Lng":80.222929
+    },
+    {
+        "Stop_id":3164,
+        "Stop Name":"Kazhipattur",
+        "Lat":12.819577,
+        "Lng":80.230362
+    },
+    {
+        "Stop_id":3165,
+        "Stop Name":"Navallur",
+        "Lat":12.844897,
+        "Lng":80.226492
+    },
+    {
+        "Stop_id":3166,
+        "Stop Name":"Semmenchery Alamaram",
+        "Lat":12.860492,
+        "Lng":80.226449
+    },
+    {
+        "Stop_id":3167,
+        "Stop Name":"Karapakkam",
+        "Lat":12.913505,
+        "Lng":80.229147
+    },
+    {
+        "Stop_id":3168,
+        "Stop Name":"PTC Quarters\/Mutakaranchavadi",
+        "Lat":12.932945,
+        "Lng":80.232379
+    },
+    {
+        "Stop_id":3169,
+        "Stop Name":"Ambedkar College",
+        "Lat":13.118267,
+        "Lng":80.259182
+    },
+    {
+        "Stop_id":3170,
+        "Stop Name":"Puzhal Central Jail",
+        "Lat":13.164228,
+        "Lng":80.202287
+    },
+    {
+        "Stop_id":3171,
+        "Stop Name":"Sharma Nagar",
+        "Lat":13.120331,
+        "Lng":80.254626
+    },
+    {
+        "Stop_id":3172,
+        "Stop Name":"Madhavaram Depot",
+        "Lat":13.13195,
+        "Lng":80.237081
+    },
+    {
+        "Stop_id":3173,
+        "Stop Name":"Kanagachathiram",
+        "Lat":13.136228,
+        "Lng":80.231255
+    },
+    {
+        "Stop_id":3174,
+        "Stop Name":"Cycle Shop",
+        "Lat":13.153196,
+        "Lng":80.208167
+    },
+    {
+        "Stop_id":3175,
+        "Stop Name":"Kavankarai",
+        "Lat":13.170475,
+        "Lng":80.199187
+    },
+    {
+        "Stop_id":3176,
+        "Stop Name":"Red Hills Market",
+        "Lat":13.189566,
+        "Lng":80.187484
+    },
+    {
+        "Stop_id":3177,
+        "Stop Name":"Kavangarai",
+        "Lat":13.170355,
+        "Lng":80.199438
+    },
+    {
+        "Stop_id":3178,
+        "Stop Name":"Madhavaram Bypass",
+        "Lat":13.144035,
+        "Lng":80.220947
+    },
+    {
+        "Stop_id":3179,
+        "Stop Name":"Kanagachathiram",
+        "Lat":13.136702,
+        "Lng":80.230914
+    },
+    {
+        "Stop_id":3180,
+        "Stop Name":"Madhavaram Depot",
+        "Lat":13.132144,
+        "Lng":80.237124
+    },
+    {
+        "Stop_id":3181,
+        "Stop Name":"Moolakadai",
+        "Lat":13.128974,
+        "Lng":80.241594
+    },
+    {
+        "Stop_id":3182,
+        "Stop Name":"Sharma Nagar",
+        "Lat":13.120373,
+        "Lng":80.254826
+    },
+    {
+        "Stop_id":3183,
+        "Stop Name":"Doveton",
+        "Lat":13.0881,
+        "Lng":80.262047
+    },
+    {
+        "Stop_id":3184,
+        "Stop Name":"Doveton",
+        "Lat":13.086122,
+        "Lng":80.261682
+    },
+    {
+        "Stop_id":3185,
+        "Stop Name":"Adyar Bus Depot",
+        "Lat":12.996908,
+        "Lng":80.256731
+    },
+    {
+        "Stop_id":3186,
+        "Stop Name":"Chinnamalai\/Little Mount\/Saidapet Court",
+        "Lat":13.01538,
+        "Lng":80.224976
+    },
+    {
+        "Stop_id":3187,
+        "Stop Name":"Podi Kadai",
+        "Lat":13.097426,
+        "Lng":80.248148
+    },
+    {
+        "Stop_id":3188,
+        "Stop Name":"Otteri",
+        "Lat":13.097842,
+        "Lng":80.252587
+    },
+    {
+        "Stop_id":3189,
+        "Stop Name":"Pattalam",
+        "Lat":13.097346,
+        "Lng":80.258067
+    },
+    {
+        "Stop_id":3190,
+        "Stop Name":"Dashamakan",
+        "Lat":13.097547,
+        "Lng":80.254655
+    },
+    {
+        "Stop_id":3191,
+        "Stop Name":"Otteri",
+        "Lat":13.097735,
+        "Lng":80.252241
+    },
+    {
+        "Stop_id":3192,
+        "Stop Name":"Podi Kadai",
+        "Lat":13.097309,
+        "Lng":80.248186
+    },
+    {
+        "Stop_id":3193,
+        "Stop Name":"Aynavaram ESI",
+        "Lat":13.097333,
+        "Lng":80.242389
+    },
+    {
+        "Stop_id":3194,
+        "Stop Name":"Sayani",
+        "Lat":13.097751,
+        "Lng":80.238714
+    },
+    {
+        "Stop_id":3195,
+        "Stop Name":"Noor Hotel",
+        "Lat":13.098416,
+        "Lng":80.234901
+    },
+    {
+        "Stop_id":3196,
+        "Stop Name":"Railway Quarters",
+        "Lat":13.099781,
+        "Lng":80.225135
+    },
+    {
+        "Stop_id":3197,
+        "Stop Name":"TVS Lucas",
+        "Lat":13.101167,
+        "Lng":80.190176
+    },
+    {
+        "Stop_id":3198,
+        "Stop Name":"Railway Quarters",
+        "Lat":13.100081,
+        "Lng":80.226314
+    },
+    {
+        "Stop_id":3199,
+        "Stop Name":"Thirumangalam",
+        "Lat":13.087055,
+        "Lng":80.197986
+    },
+    {
+        "Stop_id":3200,
+        "Stop Name":"Collector Nagar\/MM Hospital",
+        "Lat":13.087805,
+        "Lng":80.189885
+    },
+    {
+        "Stop_id":3201,
+        "Stop Name":"Tambaram Depot",
+        "Lat":12.926966,
+        "Lng":80.11798
+    },
+    {
+        "Stop_id":3202,
+        "Stop Name":"Tirusulam\/Airport",
+        "Lat":12.980011,
+        "Lng":80.162639
+    },
+    {
+        "Stop_id":3203,
+        "Stop Name":"Adayar Bus Depot",
+        "Lat":12.998459,
+        "Lng":80.256085
+    },
+    {
+        "Stop_id":3204,
+        "Stop Name":"Park\/Corporation Building\/Central",
+        "Lat":13.08119,
+        "Lng":80.271156
+    },
+    {
+        "Stop_id":3205,
+        "Stop Name":"Indra Nagar Water Tank",
+        "Lat":12.995249,
+        "Lng":80.252874
+    },
+    {
+        "Stop_id":3206,
+        "Stop Name":"Velankanni Koil\/Besant Nagar Church",
+        "Lat":12.996111,
+        "Lng":80.267669
+    },
+    {
+        "Stop_id":3207,
+        "Stop Name":"MRC_Nagar",
+        "Lat":13.021257,
+        "Lng":80.270174
+    },
+    {
+        "Stop_id":3208,
+        "Stop Name":"Kannagi_Statue",
+        "Lat":13.056277,
+        "Lng":80.281705
+    },
+    {
+        "Stop_id":3209,
+        "Stop Name":"Secretariat",
+        "Lat":13.080693,
+        "Lng":80.288209
+    },
+    {
+        "Stop_id":3210,
+        "Stop Name":"Secretariat",
+        "Lat":13.080652,
+        "Lng":80.288443
+    },
+    {
+        "Stop_id":3211,
+        "Stop Name":"Kannagi_Statue",
+        "Lat":13.056789,
+        "Lng":80.281919
+    },
+    {
+        "Stop_id":3212,
+        "Stop Name":"Queen_Marys_College",
+        "Lat":13.045713,
+        "Lng":80.280214
+    },
+    {
+        "Stop_id":3213,
+        "Stop Name":"MRC_Nagar",
+        "Lat":13.020857,
+        "Lng":80.269941
+    },
+    {
+        "Stop_id":3214,
+        "Stop Name":"Velankanni Koil\/Besant Nagar Church",
+        "Lat":12.995614,
+        "Lng":80.267438
+    },
+    {
+        "Stop_id":3215,
+        "Stop Name":"Shanthi Theater",
+        "Lat":13.067212,
+        "Lng":80.270482
+    },
+    {
+        "Stop_id":3216,
+        "Stop Name":"Velachery Terminus",
+        "Lat":12.976218,
+        "Lng":80.221504
+    },
+    {
+        "Stop_id":3217,
+        "Stop Name":"V_House",
+        "Lat":13.050348,
+        "Lng":80.280808
+    },
+    {
+        "Stop_id":3218,
+        "Stop Name":"AMS Hospital\/Satya Studio\/Janaki College",
+        "Lat":13.016078,
+        "Lng":80.259762
+    },
+    {
+        "Stop_id":3219,
+        "Stop Name":"Check Post",
+        "Lat":12.9975,
+        "Lng":80.216574
+    },
+    {
+        "Stop_id":3220,
+        "Stop Name":"Keelkatalai ",
+        "Lat":12.955813,
+        "Lng":80.186972
+    },
+    {
+        "Stop_id":3221,
+        "Stop Name":"Srinivasa Nagar",
+        "Lat":12.964632,
+        "Lng":80.211211
+    },
+    {
+        "Stop_id":3222,
+        "Stop Name":"Check Post",
+        "Lat":12.997567,
+        "Lng":80.216417
+    },
+    {
+        "Stop_id":3223,
+        "Stop Name":"AMS Hospital\/Satya Studio\/Janaki College",
+        "Lat":13.016284,
+        "Lng":80.259574
+    },
+    {
+        "Stop_id":3224,
+        "Stop Name":"Jayanthi Theatre",
+        "Lat":12.988712,
+        "Lng":80.255806
+    },
+    {
+        "Stop_id":3225,
+        "Stop Name":"Thiruvanmiyur Depot",
+        "Lat":12.987434,
+        "Lng":80.259164
+    },
+    {
+        "Stop_id":3226,
+        "Stop Name":"Jayanthi Theatre",
+        "Lat":12.988511,
+        "Lng":80.256028
+    },
+    {
+        "Stop_id":3227,
+        "Stop Name":"Sayani",
+        "Lat":13.097726,
+        "Lng":80.24038
+    },
+    {
+        "Stop_id":3228,
+        "Stop Name":"Dashamakan",
+        "Lat":13.097621,
+        "Lng":80.255944
+    },
+    {
+        "Stop_id":3229,
+        "Stop Name":"Veterinary Hospital",
+        "Lat":13.085226,
+        "Lng":80.265727
+    },
+    {
+        "Stop_id":3230,
+        "Stop Name":"Bhuvaneswari",
+        "Lat":13.09042,
+        "Lng":80.258598
+    },
+    {
+        "Stop_id":3231,
+        "Stop Name":"Otteri TB Hospital",
+        "Lat":13.096818,
+        "Lng":80.245787
+    },
+    {
+        "Stop_id":3232,
+        "Stop Name":"SIDCO Bus Stop",
+        "Lat":13.103105,
+        "Lng":80.199343
+    },
+    {
+        "Stop_id":3233,
+        "Stop Name":"Padi Edatheru",
+        "Lat":13.100094,
+        "Lng":80.186512
+    },
+    {
+        "Stop_id":3234,
+        "Stop Name":"UCO Bank",
+        "Lat":13.103606,
+        "Lng":80.186248
+    },
+    {
+        "Stop_id":3235,
+        "Stop Name":"Joint Office",
+        "Lat":13.099615,
+        "Lng":80.230442
+    },
+    {
+        "Stop_id":3236,
+        "Stop Name":"Noor Hotel",
+        "Lat":13.098456,
+        "Lng":80.235275
+    },
+    {
+        "Stop_id":3237,
+        "Stop Name":"Bhuvaneswari\/Vasanthi",
+        "Lat":13.090623,
+        "Lng":80.258745
+    },
+    {
+        "Stop_id":3238,
+        "Stop Name":"Government Hospital\/Nurse Quarters",
+        "Lat":13.082233,
+        "Lng":80.279143
+    },
+    {
+        "Stop_id":3239,
+        "Stop Name":"Ambal Nagar\/Ekkaduthangal",
+        "Lat":13.019151,
+        "Lng":80.20638
+    },
+    {
+        "Stop_id":3240,
+        "Stop Name":"Tharamani",
+        "Lat":12.981417,
+        "Lng":80.242552
+    },
+    {
+        "Stop_id":3241,
+        "Stop Name":"SRP Tools",
+        "Lat":12.980148,
+        "Lng":80.252121
+    },
+    {
+        "Stop_id":3242,
+        "Stop Name":"WPT\/Indira Nagar",
+        "Lat":12.997355,
+        "Lng":80.249087
+    },
+    {
+        "Stop_id":3243,
+        "Stop Name":"SRP Tools",
+        "Lat":12.980199,
+        "Lng":80.251244
+    },
+    {
+        "Stop_id":3244,
+        "Stop Name":"Tharamani Pillaiyar Koil\/Periyar Nagar",
+        "Lat":12.981187,
+        "Lng":80.238875
+    },
+    {
+        "Stop_id":3245,
+        "Stop Name":"Srinivasa Nagar",
+        "Lat":12.964499,
+        "Lng":80.211254
+    },
+    {
+        "Stop_id":3246,
+        "Stop Name":"Sadasivam Nagar",
+        "Lat":12.965466,
+        "Lng":80.204747
+    },
+    {
+        "Stop_id":3247,
+        "Stop Name":"Ponniamman Koil",
+        "Lat":12.964744,
+        "Lng":80.196872
+    },
+    {
+        "Stop_id":3248,
+        "Stop Name":"Iyyappan Koil",
+        "Lat":12.965314,
+        "Lng":80.191575
+    },
+    {
+        "Stop_id":3249,
+        "Stop Name":"Ganesh Nagar",
+        "Lat":12.960853,
+        "Lng":80.187253
+    },
+    {
+        "Stop_id":3250,
+        "Stop Name":"Keelkatalai",
+        "Lat":12.95612,
+        "Lng":80.186839
+    },
+    {
+        "Stop_id":3251,
+        "Stop Name":"Balaiya Garden",
+        "Lat":12.965411,
+        "Lng":80.201139
+    },
+    {
+        "Stop_id":3252,
+        "Stop Name":"Jayanthi Theatre Signal",
+        "Lat":12.987716,
+        "Lng":80.254829
+    },
+    {
+        "Stop_id":3253,
+        "Stop Name":"Tidel Park Railway Station",
+        "Lat":12.987821,
+        "Lng":80.251712
+    },
+    {
+        "Stop_id":3254,
+        "Stop Name":"Okkiyampettai",
+        "Lat":12.925832,
+        "Lng":80.231046
+    },
+    {
+        "Stop_id":3255,
+        "Stop Name":"Sembakkam",
+        "Lat":12.923098,
+        "Lng":80.16062
+    },
+    {
+        "Stop_id":3256,
+        "Stop Name":"Kamarajapuram",
+        "Lat":12.923372,
+        "Lng":80.154973
+    },
+    {
+        "Stop_id":3257,
+        "Stop Name":"Camp Road",
+        "Lat":12.922392,
+        "Lng":80.141458
+    },
+    {
+        "Stop_id":3258,
+        "Stop Name":"Christ King\/Convent",
+        "Lat":12.922758,
+        "Lng":80.130343
+    },
+    {
+        "Stop_id":3259,
+        "Stop Name":"Christ King\/Convent",
+        "Lat":12.92287,
+        "Lng":80.131053
+    },
+    {
+        "Stop_id":3260,
+        "Stop Name":"Camp Road",
+        "Lat":12.922588,
+        "Lng":80.14359
+    },
+    {
+        "Stop_id":3261,
+        "Stop Name":"Kamarajapuram",
+        "Lat":12.923466,
+        "Lng":80.1546
+    },
+    {
+        "Stop_id":3262,
+        "Stop Name":"Santhoshapuram",
+        "Lat":12.919968,
+        "Lng":80.170959
+    },
+    {
+        "Stop_id":3263,
+        "Stop Name":"TCS Karapakkam ",
+        "Lat":12.919783,
+        "Lng":80.230015
+    },
+    {
+        "Stop_id":3264,
+        "Stop Name":"TVS\/Spencers",
+        "Lat":13.059521,
+        "Lng":80.259737
+    },
+    {
+        "Stop_id":3265,
+        "Stop Name":"Saidapet",
+        "Lat":13.021907,
+        "Lng":80.226027
+    },
+    {
+        "Stop_id":3266,
+        "Stop Name":"Udhayam Theatre",
+        "Lat":13.032637,
+        "Lng":80.211897
+    },
+    {
+        "Stop_id":3267,
+        "Stop Name":"Padma Sheshadri School",
+        "Lat":13.038956,
+        "Lng":80.198653
+    },
+    {
+        "Stop_id":3268,
+        "Stop Name":"Tata Udipi\/Amman Kovil",
+        "Lat":13.036921,
+        "Lng":80.198309
+    },
+    {
+        "Stop_id":3269,
+        "Stop Name":"Pondicherry Guest House",
+        "Lat":13.041874,
+        "Lng":80.193628
+    },
+    {
+        "Stop_id":3270,
+        "Stop Name":"Padma Sheshadri School",
+        "Lat":13.041046,
+        "Lng":80.199281
+    },
+    {
+        "Stop_id":3271,
+        "Stop Name":"Central Jail\/Puzhal Camp",
+        "Lat":13.158144,
+        "Lng":80.203702
+    },
+    {
+        "Stop_id":3272,
+        "Stop Name":"Red Hills",
+        "Lat":13.192835,
+        "Lng":80.18392
+    },
+    {
+        "Stop_id":3273,
+        "Stop Name":"Puzhal Central Jail",
+        "Lat":13.164051,
+        "Lng":80.202629
+    },
+    {
+        "Stop_id":3274,
+        "Stop Name":"Central Jail\/Puzhal Camp",
+        "Lat":13.158343,
+        "Lng":80.203894
+    },
+    {
+        "Stop_id":3275,
+        "Stop Name":"V_House",
+        "Lat":13.049175,
+        "Lng":80.280493
+    },
+    {
+        "Stop_id":3276,
+        "Stop Name":"Parrys_Corner",
+        "Lat":13.088601,
+        "Lng":80.289459
+    },
+    {
+        "Stop_id":3277,
+        "Stop Name":"M.M.D.A",
+        "Lat":13.064892,
+        "Lng":80.21145
+    },
+    {
+        "Stop_id":3278,
+        "Stop Name":"Chrompet Depot",
+        "Lat":12.951091,
+        "Lng":80.139741
+    },
+    {
+        "Stop_id":3279,
+        "Stop Name":"Ambal Nagar\/Ekkaduthangal",
+        "Lat":13.018548,
+        "Lng":80.20585
+    },
+    {
+        "Stop_id":3280,
+        "Stop Name":"Adyar Depot",
+        "Lat":12.997539,
+        "Lng":80.256778
+    },
+    {
+        "Stop_id":3281,
+        "Stop Name":"Kandanchavadi",
+        "Lat":12.965317,
+        "Lng":80.247539
+    },
+    {
+        "Stop_id":3282,
+        "Stop Name":"TCS Karapakkam",
+        "Lat":12.919631,
+        "Lng":80.230181
+    },
+    {
+        "Stop_id":3283,
+        "Stop Name":"Kumaran Nagar",
+        "Lat":12.877097,
+        "Lng":80.226788
+    },
+    {
+        "Stop_id":3284,
+        "Stop Name":"Semmenchery U.S",
+        "Lat":12.879292,
+        "Lng":80.211006
+    },
+    {
+        "Stop_id":3285,
+        "Stop Name":"Ponniamman Koil",
+        "Lat":12.885128,
+        "Lng":80.226572
+    },
+    {
+        "Stop_id":3286,
+        "Stop Name":"Mettukuppam",
+        "Lat":12.939086,
+        "Lng":80.235267
+    },
+    {
+        "Stop_id":3287,
+        "Stop Name":"Jain College",
+        "Lat":12.946467,
+        "Lng":80.239581
+    },
+    {
+        "Stop_id":3288,
+        "Stop Name":"Perungudi",
+        "Lat":12.958922,
+        "Lng":80.2444
+    },
+    {
+        "Stop_id":3289,
+        "Stop Name":"Kandanchavadi",
+        "Lat":12.966898,
+        "Lng":80.247926
+    },
+    {
+        "Stop_id":3290,
+        "Stop Name":"Adyar Depot",
+        "Lat":12.997669,
+        "Lng":80.25585
+    },
+    {
+        "Stop_id":3291,
+        "Stop Name":"Adyar Bus Depot",
+        "Lat":12.998986,
+        "Lng":80.255972
+    },
+    {
+        "Stop_id":3292,
+        "Stop Name":"T. Nagar Bus Terminus",
+        "Lat":13.03376,
+        "Lng":80.230514
+    },
+    {
+        "Stop_id":3293,
+        "Stop Name":"C.I.T Nagar",
+        "Lat":13.030023,
+        "Lng":80.230828
+    },
+    {
+        "Stop_id":3294,
+        "Stop Name":"Anna University\/Gandhi Mandabam",
+        "Lat":13.008251,
+        "Lng":80.2334
+    },
+    {
+        "Stop_id":3295,
+        "Stop Name":"Thiruvanmiyur Terminus",
+        "Lat":12.987261,
+        "Lng":80.259121
+    },
+    {
+        "Stop_id":3296,
+        "Stop Name":"Bharathi Nagar",
+        "Lat":12.98165,
+        "Lng":80.233502
+    },
+    {
+        "Stop_id":3297,
+        "Stop Name":"Tansi Nagar",
+        "Lat":12.978672,
+        "Lng":80.225207
+    },
+    {
+        "Stop_id":3298,
+        "Stop Name":"Ram Nagar",
+        "Lat":12.965333,
+        "Lng":80.207
+    },
+    {
+        "Stop_id":3299,
+        "Stop Name":"Balaiya Garden",
+        "Lat":12.9655,
+        "Lng":80.200333
+    },
+    {
+        "Stop_id":3300,
+        "Stop Name":"Iyyappan Koil",
+        "Lat":12.965419,
+        "Lng":80.19146
+    },
+    {
+        "Stop_id":3301,
+        "Stop Name":"Ponniamman Koil",
+        "Lat":12.964833,
+        "Lng":80.197
+    },
+    {
+        "Stop_id":3302,
+        "Stop Name":"Ram Nagar",
+        "Lat":12.965167,
+        "Lng":80.207
+    },
+    {
+        "Stop_id":3303,
+        "Stop Name":"Kaiveli",
+        "Lat":12.964099,
+        "Lng":80.216072
+    },
+    {
+        "Stop_id":3304,
+        "Stop Name":"Velachery",
+        "Lat":12.974667,
+        "Lng":80.2205
+    },
+    {
+        "Stop_id":3305,
+        "Stop Name":"Tansi Nagar",
+        "Lat":12.978,
+        "Lng":80.224667
+    },
+    {
+        "Stop_id":3306,
+        "Stop Name":"Tharamani",
+        "Lat":12.981226,
+        "Lng":80.242535
+    },
+    {
+        "Stop_id":3307,
+        "Stop Name":"Saidapet",
+        "Lat":13.024167,
+        "Lng":80.228333
+    },
+    {
+        "Stop_id":3308,
+        "Stop Name":"Guindy Race Course\/Railway Station Bus Stop",
+        "Lat":13.007883,
+        "Lng":80.213017
+    },
+    {
+        "Stop_id":3309,
+        "Stop Name":"Guindy\/MKN Road",
+        "Lat":13.007333,
+        "Lng":80.209833
+    },
+    {
+        "Stop_id":3310,
+        "Stop Name":"Nandhambakkam\/Trade Centre",
+        "Lat":13.016321,
+        "Lng":80.189709
+    },
+    {
+        "Stop_id":3311,
+        "Stop Name":"Iyyappanthangal Depot",
+        "Lat":13.038,
+        "Lng":80.135167
+    },
+    {
+        "Stop_id":3312,
+        "Stop Name":"Retteri\/Chettiyar Agaram",
+        "Lat":13.036159,
+        "Lng":80.146269
+    },
+    {
+        "Stop_id":3313,
+        "Stop Name":"Perungudi",
+        "Lat":12.959618,
+        "Lng":80.244968
+    },
+    {
+        "Stop_id":3314,
+        "Stop Name":"Mettukuppam",
+        "Lat":12.939264,
+        "Lng":80.235579
+    },
+    {
+        "Stop_id":3315,
+        "Stop Name":"Kannagi Nagar",
+        "Lat":12.93129,
+        "Lng":80.2386
+    },
+    {
+        "Stop_id":3316,
+        "Stop Name":"Kannagi Nagar Depot",
+        "Lat":12.925525,
+        "Lng":80.238184
+    },
+    {
+        "Stop_id":3317,
+        "Stop Name":"Thuraipakkam Tea Stall\/Shivaram",
+        "Lat":12.951034,
+        "Lng":80.241265
+    },
+    {
+        "Stop_id":3318,
+        "Stop Name":"Gandhi Mandapam\/Anna University",
+        "Lat":13.007388,
+        "Lng":80.236858
+    },
+    {
+        "Stop_id":3319,
+        "Stop Name":"TVS\/HDFC",
+        "Lat":13.059252,
+        "Lng":80.259749
+    },
+    {
+        "Stop_id":3320,
+        "Stop Name":"Thousand Lights\/Church Park",
+        "Lat":13.054142,
+        "Lng":80.253604
+    },
+    {
+        "Stop_id":3321,
+        "Stop Name":"Yellow Pages\/Radha Krishnan Street\/YMCA",
+        "Lat":13.04448,
+        "Lng":80.268625
+    },
+    {
+        "Stop_id":3322,
+        "Stop Name":"Ramapuram",
+        "Lat":13.02062,
+        "Lng":80.18432
+    },
+    {
+        "Stop_id":3323,
+        "Stop Name":"Moon Light",
+        "Lat":13.025214,
+        "Lng":80.175874
+    },
+    {
+        "Stop_id":3324,
+        "Stop Name":"Sakthi nagar",
+        "Lat":13.032325,
+        "Lng":80.163137
+    },
+    {
+        "Stop_id":3325,
+        "Stop Name":"Gopala Krishna Theatre",
+        "Lat":13.03387,
+        "Lng":80.16034
+    },
+    {
+        "Stop_id":3326,
+        "Stop Name":"Kattupakkam",
+        "Lat":13.041097,
+        "Lng":80.12713
+    },
+    {
+        "Stop_id":3327,
+        "Stop Name":"Vannankulam",
+        "Lat":13.04302,
+        "Lng":80.12271
+    },
+    {
+        "Stop_id":3328,
+        "Stop Name":"Kumunanchavadi",
+        "Lat":13.04395,
+        "Lng":80.11542
+    },
+    {
+        "Stop_id":3329,
+        "Stop Name":"Gangai Amman Koil",
+        "Lat":13.03807,
+        "Lng":80.1132
+    },
+    {
+        "Stop_id":3330,
+        "Stop Name":"Mangadu",
+        "Lat":13.03508,
+        "Lng":80.11209
+    },
+    {
+        "Stop_id":3331,
+        "Stop Name":"Kamatchi Amman Koil",
+        "Lat":13.03094,
+        "Lng":80.11126
+    },
+    {
+        "Stop_id":3332,
+        "Stop Name":"Pattu Koot Road\/X Road",
+        "Lat":13.027108,
+        "Lng":80.110871
+    },
+    {
+        "Stop_id":3333,
+        "Stop Name":"Cement Road",
+        "Lat":13.02531,
+        "Lng":80.11472
+    },
+    {
+        "Stop_id":3334,
+        "Stop Name":"Cement Road",
+        "Lat":13.02527,
+        "Lng":80.115
+    },
+    {
+        "Stop_id":3335,
+        "Stop Name":"Aalamaram",
+        "Lat":13.0255,
+        "Lng":80.11327
+    },
+    {
+        "Stop_id":3336,
+        "Stop Name":"Gangai Amman Koil",
+        "Lat":13.03797,
+        "Lng":80.11294
+    },
+    {
+        "Stop_id":3337,
+        "Stop Name":"Gopala Krishna Theatre",
+        "Lat":13.03369,
+        "Lng":80.161111
+    },
+    {
+        "Stop_id":3338,
+        "Stop Name":"Sakthi nagar",
+        "Lat":13.032713,
+        "Lng":80.162922
+    },
+    {
+        "Stop_id":3339,
+        "Stop Name":"Moon Light",
+        "Lat":13.025036,
+        "Lng":80.176664
+    },
+    {
+        "Stop_id":3340,
+        "Stop Name":"Nandhambakkam",
+        "Lat":13.01677,
+        "Lng":80.18954
+    },
+    {
+        "Stop_id":3341,
+        "Stop Name":"Butt Road Kalyana Mandapam",
+        "Lat":13.011043,
+        "Lng":80.19569
+    },
+    {
+        "Stop_id":3342,
+        "Stop Name":"Saidapet",
+        "Lat":13.023234,
+        "Lng":80.227444
+    },
+    {
+        "Stop_id":3343,
+        "Stop Name":"Karapakkam",
+        "Lat":12.913289,
+        "Lng":80.229341
+    },
+    {
+        "Stop_id":3344,
+        "Stop Name":"Odai",
+        "Lat":12.88844,
+        "Lng":80.22725
+    },
+    {
+        "Stop_id":3345,
+        "Stop Name":"IGP",
+        "Lat":12.973769,
+        "Lng":80.250572
+    },
+    {
+        "Stop_id":3346,
+        "Stop Name":"Maduvinkarai",
+        "Lat":13.00419,
+        "Lng":80.21224
+    },
+    {
+        "Stop_id":3347,
+        "Stop Name":"IIT",
+        "Lat":13.006692,
+        "Lng":80.240341
+    },
+    {
+        "Stop_id":3348,
+        "Stop Name":"Tharamani Pillaiyar Koil\/Periyar Nagar",
+        "Lat":12.981348,
+        "Lng":80.238572
+    },
+    {
+        "Stop_id":3349,
+        "Stop Name":"Thiru Nagar",
+        "Lat":13.0576,
+        "Lng":80.21136
+    },
+    {
+        "Stop_id":3350,
+        "Stop Name":"Koyambedu Busstand",
+        "Lat":13.06811,
+        "Lng":80.20547
+    },
+    {
+        "Stop_id":3351,
+        "Stop Name":"Thiru Nagar",
+        "Lat":13.057766,
+        "Lng":80.211598
+    },
+    {
+        "Stop_id":3352,
+        "Stop Name":"Dhandeeswaram",
+        "Lat":12.983326,
+        "Lng":80.22224
+    },
+    {
+        "Stop_id":3353,
+        "Stop Name":"Pallikkarani",
+        "Lat":12.93389,
+        "Lng":80.20395
+    },
+    {
+        "Stop_id":3354,
+        "Stop Name":"Pallikkaranai Oil Mill",
+        "Lat":12.92954,
+        "Lng":80.20283
+    },
+    {
+        "Stop_id":3355,
+        "Stop Name":"Pallikaranai",
+        "Lat":12.93396,
+        "Lng":80.20384
+    },
+    {
+        "Stop_id":3356,
+        "Stop Name":"Gandhi Road",
+        "Lat":12.98655,
+        "Lng":80.22292
+    },
+    {
+        "Stop_id":3357,
+        "Stop Name":"SRP Tools",
+        "Lat":12.978538,
+        "Lng":80.252309
+    },
+    {
+        "Stop_id":3358,
+        "Stop Name":"Ponniamman koil",
+        "Lat":12.884917,
+        "Lng":80.226794
+    },
+    {
+        "Stop_id":3359,
+        "Stop Name":"Kumaran Nagar",
+        "Lat":12.877933,
+        "Lng":80.22693
+    },
+    {
+        "Stop_id":3360,
+        "Stop Name":"Kazhipattur",
+        "Lat":12.81901,
+        "Lng":80.230516
+    },
+    {
+        "Stop_id":3361,
+        "Stop Name":"Padur",
+        "Lat":12.804429,
+        "Lng":80.224224
+    },
+    {
+        "Stop_id":3362,
+        "Stop Name":"Hindustan College",
+        "Lat":12.80106,
+        "Lng":80.22352
+    },
+    {
+        "Stop_id":3363,
+        "Stop Name":"Kelambakkam",
+        "Lat":12.786416,
+        "Lng":80.220347
+    },
+    {
+        "Stop_id":3364,
+        "Stop Name":"Padur",
+        "Lat":12.805557,
+        "Lng":80.224095
+    },
+    {
+        "Stop_id":3365,
+        "Stop Name":"Adyar Bus Stand",
+        "Lat":13.00667,
+        "Lng":80.2555
+    },
+    {
+        "Stop_id":3366,
+        "Stop Name":"T nagar",
+        "Lat":13.03409,
+        "Lng":80.23001
+    },
+    {
+        "Stop_id":3367,
+        "Stop Name":"Chepauk\/Ezhilagam",
+        "Lat":13.06264,
+        "Lng":80.28314
+    },
+    {
+        "Stop_id":3368,
+        "Stop Name":"Thirumangalam",
+        "Lat":13.087306,
+        "Lng":80.197796
+    },
+    {
+        "Stop_id":3369,
+        "Stop Name":"St.Thomas mount post office",
+        "Lat":13.001548,
+        "Lng":80.196275
+    },
+    {
+        "Stop_id":3370,
+        "Stop Name":"UTI Bank Bus Stop",
+        "Lat":12.965905,
+        "Lng":80.188481
+    },
+    {
+        "Stop_id":3371,
+        "Stop Name":"Madipakkam koot road",
+        "Lat":12.968106,
+        "Lng":80.189507
+    },
+    {
+        "Stop_id":3372,
+        "Stop Name":"Parrys",
+        "Lat":13.08531,
+        "Lng":80.2848
+    },
+    {
+        "Stop_id":3373,
+        "Stop Name":"Balaji Nagar",
+        "Lat":12.953997,
+        "Lng":80.212267
+    },
+    {
+        "Stop_id":3374,
+        "Stop Name":"Balaji Dental Hospital",
+        "Lat":12.944388,
+        "Lng":80.208467
+    },
+    {
+        "Stop_id":3375,
+        "Stop Name":"Puliyamaram",
+        "Lat":12.920407,
+        "Lng":80.196593
+    },
+    {
+        "Stop_id":3376,
+        "Stop Name":"Pallikkaranai Oil Mill",
+        "Lat":12.929229,
+        "Lng":80.20266
+    },
+    {
+        "Stop_id":3377,
+        "Stop Name":"Narayanapuram",
+        "Lat":12.939834,
+        "Lng":80.205439
+    },
+    {
+        "Stop_id":3378,
+        "Stop Name":"Balaji Dental Hospital",
+        "Lat":12.944361,
+        "Lng":80.208319
+    },
+    {
+        "Stop_id":3379,
+        "Stop Name":"Balaji Nagar",
+        "Lat":12.953549,
+        "Lng":80.211839
+    },
+    {
+        "Stop_id":3380,
+        "Stop Name":"Velachery Railway Station",
+        "Lat":12.970953,
+        "Lng":80.218811
+    },
+    {
+        "Stop_id":3381,
+        "Stop Name":"Vijaya Nagar Bus Stand",
+        "Lat":12.975873,
+        "Lng":80.220999
+    },
+    {
+        "Stop_id":3382,
+        "Stop Name":"Baby Nagar\/Balaji Nagar",
+        "Lat":12.981672,
+        "Lng":80.230423
+    },
+    {
+        "Stop_id":3383,
+        "Stop Name":"Jayanthi Theatre Signal",
+        "Lat":12.987713,
+        "Lng":80.256035
+    },
+    {
+        "Stop_id":3384,
+        "Stop Name":"Baby Nagar",
+        "Lat":12.980545,
+        "Lng":80.229067
+    },
+    {
+        "Stop_id":3385,
+        "Stop Name":"Gandhi Nagar\/Madhya Kailash",
+        "Lat":13.006892,
+        "Lng":80.249581
+    },
+    {
+        "Stop_id":3386,
+        "Stop Name":"Narayanasamy Thottam",
+        "Lat":13.020148,
+        "Lng":80.262569
+    },
+    {
+        "Stop_id":3387,
+        "Stop Name":"Mandhaveli Market",
+        "Lat":13.029725,
+        "Lng":80.266642
+    },
+    {
+        "Stop_id":3388,
+        "Stop Name":"Mandaveli Bus stand",
+        "Lat":13.025321,
+        "Lng":80.265388
+    },
+    {
+        "Stop_id":3389,
+        "Stop Name":"Madhya Kailash\/CLRI",
+        "Lat":13.006605,
+        "Lng":80.246591
+    },
+    {
+        "Stop_id":3390,
+        "Stop Name":"C.I.T Nagar",
+        "Lat":13.03037,
+        "Lng":80.230641
+    },
+    {
+        "Stop_id":3391,
+        "Stop Name":"Chellammal College\/SPIC",
+        "Lat":13.011673,
+        "Lng":80.219807
+    },
+    {
+        "Stop_id":3392,
+        "Stop Name":"Chellammal College\/SPIC",
+        "Lat":13.012212,
+        "Lng":80.220434
+    },
+    {
+        "Stop_id":3393,
+        "Stop Name":"Little Mount\/Saidapet Court\/Chinnamalai",
+        "Lat":13.015294,
+        "Lng":80.224711
+    },
+    {
+        "Stop_id":3394,
+        "Stop Name":"C.I.T Nagar",
+        "Lat":13.02841,
+        "Lng":80.230854
+    },
+    {
+        "Stop_id":3395,
+        "Stop Name":"T. Nagar Bus Terminus",
+        "Lat":13.033959,
+        "Lng":80.230406
+    },
+    {
+        "Stop_id":3396,
+        "Stop Name":"Saidapet",
+        "Lat":13.022406,
+        "Lng":80.226773
+    },
+    {
+        "Stop_id":3397,
+        "Stop Name":"Kathipara\/Jothi Theatre",
+        "Lat":13.007304,
+        "Lng":80.201539
+    },
+    {
+        "Stop_id":3398,
+        "Stop Name":"Butt Road",
+        "Lat":13.007279,
+        "Lng":80.196958
+    },
+    {
+        "Stop_id":3399,
+        "Stop Name":"Jayanthi Theatre",
+        "Lat":13.014312,
+        "Lng":80.193346
+    },
+    {
+        "Stop_id":3400,
+        "Stop Name":"Porur",
+        "Lat":13.035453,
+        "Lng":80.154279
+    },
+    {
+        "Stop_id":3401,
+        "Stop Name":"Iyyappanthangal Depot",
+        "Lat":13.038195,
+        "Lng":80.1352
+    },
+    {
+        "Stop_id":3402,
+        "Stop Name":"Ramachandra Hospital\/SRMC",
+        "Lat":13.036964,
+        "Lng":80.141731
+    },
+    {
+        "Stop_id":3403,
+        "Stop Name":"Jayanthi Theatre",
+        "Lat":13.014438,
+        "Lng":80.193487
+    },
+    {
+        "Stop_id":3404,
+        "Stop Name":"Ambattur Estate",
+        "Lat":13.099641,
+        "Lng":80.169996
+    },
+    {
+        "Stop_id":3405,
+        "Stop Name":"taylors road",
+        "Lat":13.076744,
+        "Lng":80.238836
+    },
+    {
+        "Stop_id":3406,
+        "Stop Name":"Kalpana Hotel",
+        "Lat":13.103229,
+        "Lng":80.207683
+    },
+    {
+        "Stop_id":3407,
+        "Stop Name":"Kallukadai",
+        "Lat":13.101761,
+        "Lng":80.211685
+    },
+    {
+        "Stop_id":3408,
+        "Stop Name":"I.C.F",
+        "Lat":13.101258,
+        "Lng":80.213202
+    },
+    {
+        "Stop_id":3409,
+        "Stop Name":"Joint Office",
+        "Lat":13.099655,
+        "Lng":80.229921
+    },
+    {
+        "Stop_id":3410,
+        "Stop Name":"Kelleys",
+        "Lat":13.085701,
+        "Lng":80.246666
+    },
+    {
+        "Stop_id":3411,
+        "Stop Name":"Broadway Terminus",
+        "Lat":13.088298,
+        "Lng":80.283604
+    },
+    {
+        "Stop_id":3412,
+        "Stop Name":"Chennai Central\/Government Hospital",
+        "Lat":13.081813,
+        "Lng":80.276867
+    },
+    {
+        "Stop_id":3413,
+        "Stop Name":"LIC",
+        "Lat":13.065774,
+        "Lng":80.26781
+    },
+    {
+        "Stop_id":3414,
+        "Stop Name":"Mylapore Tank",
+        "Lat":13.033019,
+        "Lng":80.267756
+    },
+    {
+        "Stop_id":3415,
+        "Stop Name":"Simpson\/P.Orr Sons",
+        "Lat":13.070893,
+        "Lng":80.273893
+    },
+    {
+        "Stop_id":3416,
+        "Stop Name":"Pallavan House\/PTC",
+        "Lat":13.07531,
+        "Lng":80.276397
+    },
+    {
+        "Stop_id":3417,
+        "Stop Name":"SIET",
+        "Lat":13.0355,
+        "Lng":80.246066
+    },
+    {
+        "Stop_id":3418,
+        "Stop Name":"Mettupalayam",
+        "Lat":13.032111,
+        "Lng":80.220009
+    },
+    {
+        "Stop_id":3419,
+        "Stop Name":"Srinivasa",
+        "Lat":13.031119,
+        "Lng":80.223744
+    },
+    {
+        "Stop_id":3420,
+        "Stop Name":"Kumaran Nagar",
+        "Lat":13.029201,
+        "Lng":80.224215
+    },
+    {
+        "Stop_id":3421,
+        "Stop Name":"Nandanam Housing Board",
+        "Lat":13.029611,
+        "Lng":80.237099
+    },
+    {
+        "Stop_id":3422,
+        "Stop Name":"Nesapakkam",
+        "Lat":13.038587,
+        "Lng":80.192784
+    },
+    {
+        "Stop_id":3423,
+        "Stop Name":"Tata Udipi",
+        "Lat":13.036754,
+        "Lng":80.198443
+    },
+    {
+        "Stop_id":3424,
+        "Stop Name":"MGR Nagar Market",
+        "Lat":13.036289,
+        "Lng":80.201583
+    },
+    {
+        "Stop_id":3425,
+        "Stop Name":"Saidapet",
+        "Lat":13.024309,
+        "Lng":80.228277
+    },
+    {
+        "Stop_id":3426,
+        "Stop Name":"Anna University",
+        "Lat":13.008041,
+        "Lng":80.23342
+    },
+    {
+        "Stop_id":3427,
+        "Stop Name":"MadhyaKailash\/Gandhi Nagar",
+        "Lat":13.006696,
+        "Lng":80.249531
+    },
+    {
+        "Stop_id":3428,
+        "Stop Name":"Vannandurai",
+        "Lat":12.996137,
+        "Lng":80.262838
+    },
+    {
+        "Stop_id":3429,
+        "Stop Name":"Adayar Signal",
+        "Lat":13.006689,
+        "Lng":80.25382
+    },
+    {
+        "Stop_id":3430,
+        "Stop Name":"Raghavan Colony Park",
+        "Lat":13.030499,
+        "Lng":80.216848
+    },
+    {
+        "Stop_id":3431,
+        "Stop Name":"ESI Hospital",
+        "Lat":13.035482,
+        "Lng":80.208326
+    },
+    {
+        "Stop_id":3432,
+        "Stop Name":"Kk Nagar",
+        "Lat":13.035947,
+        "Lng":80.205273
+    },
+    {
+        "Stop_id":3433,
+        "Stop Name":"MGR Nagar",
+        "Lat":13.036403,
+        "Lng":80.202076
+    },
+    {
+        "Stop_id":3434,
+        "Stop Name":"Nesapakkam",
+        "Lat":13.038703,
+        "Lng":80.192906
+    },
+    {
+        "Stop_id":3435,
+        "Stop Name":"Kamaraj Salai\/Nagathamman Koil",
+        "Lat":13.044162,
+        "Lng":80.208882
+    },
+    {
+        "Stop_id":3436,
+        "Stop Name":"Adayar Bus Stand",
+        "Lat":13.001756,
+        "Lng":80.256561
+    },
+    {
+        "Stop_id":3437,
+        "Stop Name":"Adyar Signal\/Malar Hospital",
+        "Lat":13.007145,
+        "Lng":80.258841
+    },
+    {
+        "Stop_id":3438,
+        "Stop Name":"Besant Nagar",
+        "Lat":13.000314,
+        "Lng":80.265709
+    },
+    {
+        "Stop_id":3439,
+        "Stop Name":"Chemman Cheri",
+        "Lat":12.861155,
+        "Lng":80.227188
+    },
+    {
+        "Stop_id":3440,
+        "Stop Name":"Chemmanchery S.C.B.",
+        "Lat":12.874689,
+        "Lng":80.209732
+    },
+    {
+        "Stop_id":3441,
+        "Stop Name":"Concorde",
+        "Lat":13.010411,
+        "Lng":80.222847
+    },
+    {
+        "Stop_id":3442,
+        "Stop Name":"Guindy TVK Estate",
+        "Lat":13.009764,
+        "Lng":80.211128
+    },
+    {
+        "Stop_id":3443,
+        "Stop Name":"Gurunanak College",
+        "Lat":12.990388,
+        "Lng":80.220503
+    },
+    {
+        "Stop_id":3444,
+        "Stop Name":"Hindustan Engg College",
+        "Lat":12.801308,
+        "Lng":80.223732
+    },
+    {
+        "Stop_id":3445,
+        "Stop Name":"I.C.F",
+        "Lat":13.100378,
+        "Lng":80.215012
+    },
+    {
+        "Stop_id":3446,
+        "Stop Name":"Kamabar Arangam",
+        "Lat":13.0992,
+        "Lng":80.219767
+    },
+    {
+        "Stop_id":3447,
+        "Stop Name":"Kilpauk Garden",
+        "Lat":13.083758,
+        "Lng":80.233512
+    },
+    {
+        "Stop_id":3448,
+        "Stop Name":"Koman Nagar Road Junction",
+        "Lat":12.744287,
+        "Lng":80.200479
+    },
+    {
+        "Stop_id":3449,
+        "Stop Name":"Korattur",
+        "Lat":13.111503,
+        "Lng":80.184215
+    },
+    {
+        "Stop_id":3450,
+        "Stop Name":"Kumunanchavadi",
+        "Lat":13.045089,
+        "Lng":80.115921
+    },
+    {
+        "Stop_id":3451,
+        "Stop Name":"TVS Lucas",
+        "Lat":13.101288,
+        "Lng":80.189689
+    },
+    {
+        "Stop_id":3452,
+        "Stop Name":"Mootakaran Chavadi",
+        "Lat":12.929949,
+        "Lng":80.231094
+    },
+    {
+        "Stop_id":3453,
+        "Stop Name":"N.G.O.Colony",
+        "Lat":12.994783,
+        "Lng":80.20654
+    },
+    {
+        "Stop_id":3454,
+        "Stop Name":"Palavasthic Chemicals",
+        "Lat":12.816585,
+        "Lng":80.229683
+    },
+    {
+        "Stop_id":3455,
+        "Stop Name":"St Thomas Mount R.S",
+        "Lat":12.994658,
+        "Lng":80.200231
+    },
+    {
+        "Stop_id":3456,
+        "Stop Name":"Thorappakkam Tea Shop",
+        "Lat":12.952012,
+        "Lng":80.242241
+    },
+    {
+        "Stop_id":3457,
+        "Stop Name":"Vandaloor Gate",
+        "Lat":12.892971,
+        "Lng":80.086472
+    },
+    {
+        "Stop_id":3458,
+        "Stop Name":"Vanuvampet",
+        "Lat":12.981692,
+        "Lng":80.195758
+    },
+    {
+        "Stop_id":3459,
+        "Stop Name":"Santhosapuram",
+        "Lat":12.919733,
+        "Lng":80.171167
+    },
+    {
+        "Stop_id":3460,
+        "Stop Name":"Ashok Pillar\/Udhayam Theater",
+        "Lat":13.034111,
+        "Lng":80.21214
+    },
+    {
+        "Stop_id":3461,
+        "Stop Name":"Nallalaghu Nadar Polytechnic College",
+        "Lat":13.178702,
+        "Lng":80.194548
+    },
+    {
+        "Stop_id":3462,
+        "Stop Name":"Purasaiwalkam Tank",
+        "Lat":13.083888,
+        "Lng":80.254631
+    },
+    {
+        "Stop_id":3463,
+        "Stop Name":"All India Radio Bus Stop\/Light House",
+        "Lat":13.039021,
+        "Lng":80.278671
+    },
+    {
+        "Stop_id":3464,
+        "Stop Name":"Santhome Church",
+        "Lat":13.03121,
+        "Lng":80.27753
+    },
+    {
+        "Stop_id":3465,
+        "Stop Name":"Music_College",
+        "Lat":13.018914,
+        "Lng":80.263148
+    },
+    {
+        "Stop_id":3466,
+        "Stop Name":"Chepauk\/Ezhilagam",
+        "Lat":13.063152,
+        "Lng":80.283166
+    },
+    {
+        "Stop_id":3467,
+        "Stop Name":"Rajaji Bhavan",
+        "Lat":13.003147,
+        "Lng":80.268658
+    },
+    {
+        "Stop_id":3468,
+        "Stop Name":"Whites Road\/Express Avenue\/ TVS",
+        "Lat":13.0604,
+        "Lng":80.26548
+    },
+    {
+        "Stop_id":3469,
+        "Stop Name":"Avvai House",
+        "Lat":13.007407,
+        "Lng":80.261635
+    },
+    {
+        "Stop_id":3470,
+        "Stop Name":"Cement Road",
+        "Lat":12.996203,
+        "Lng":80.189299
+    },
+    {
+        "Stop_id":3471,
+        "Stop Name":"St.Thomas mount post office",
+        "Lat":13.001754,
+        "Lng":80.196173
+    },
+    {
+        "Stop_id":3472,
+        "Stop Name":"Vidhyodaya School",
+        "Lat":13.050829,
+        "Lng":80.240341
+    },
+    {
+        "Stop_id":3473,
+        "Stop Name":"Vandaloor Gate",
+        "Lat":12.89351,
+        "Lng":80.08641
+    },
+    {
+        "Stop_id":3474,
+        "Stop Name":"Perungalathur",
+        "Lat":12.906183,
+        "Lng":80.095984
+    },
+    {
+        "Stop_id":3475,
+        "Stop Name":"Kalaimagal Nagar",
+        "Lat":13.024735,
+        "Lng":80.206788
+    },
+    {
+        "Stop_id":3476,
+        "Stop Name":"Mint New\/Vallalar Nagar\/Thanga Salai",
+        "Lat":13.1045,
+        "Lng":80.27586
+    },
+    {
+        "Stop_id":3477,
+        "Stop Name":"D.M.S",
+        "Lat":13.046934,
+        "Lng":80.248627
+    },
+    {
+        "Stop_id":3478,
+        "Stop Name":"S.I.E.T college",
+        "Lat":13.035355,
+        "Lng":80.246172
+    },
+    {
+        "Stop_id":3479,
+        "Stop Name":"Guru Nanak College",
+        "Lat":12.99062,
+        "Lng":80.220199
+    },
+    {
+        "Stop_id":3480,
+        "Stop Name":"Moolakadai",
+        "Lat":13.1292,
+        "Lng":80.240765
+    },
+    {
+        "Stop_id":3481,
+        "Stop Name":"Thamaraipakkam Sivsn Koil",
+        "Lat":13.02538,
+        "Lng":80.22974
+    },
+    {
+        "Stop_id":3482,
+        "Stop Name":"dams Road",
+        "Lat":13.066966,
+        "Lng":80.268524
+    },
+    {
+        "Stop_id":3483,
+        "Stop Name":"Pudhupettai Market",
+        "Lat":13.070285,
+        "Lng":80.265819
+    },
+    {
+        "Stop_id":3484,
+        "Stop Name":"Medavakkam Tank",
+        "Lat":13.08828,
+        "Lng":80.241908
+    },
+    {
+        "Stop_id":3485,
+        "Stop Name":"Jothi Theatre\/Kathipara",
+        "Lat":13.007317,
+        "Lng":80.201711
+    },
+    {
+        "Stop_id":3486,
+        "Stop Name":"Kalpana ",
+        "Lat":13.138993,
+        "Lng":80.227502
+    },
+    {
+        "Stop_id":3487,
+        "Stop Name":"NGO Colony Depot",
+        "Lat":12.994615,
+        "Lng":80.206586
+    },
+    {
+        "Stop_id":3488,
+        "Stop Name":"Pattu Road Junction",
+        "Lat":13.026989,
+        "Lng":80.110643
+    },
+    {
+        "Stop_id":3489,
+        "Stop Name":"Mangadu Koil",
+        "Lat":13.03178,
+        "Lng":80.11108
+    },
+    {
+        "Stop_id":3490,
+        "Stop Name":"Mugalivakkam",
+        "Lat":13.029415,
+        "Lng":80.168824
+    },
+    {
+        "Stop_id":3491,
+        "Stop Name":"Vadapalani Temple\/Vadapalani",
+        "Lat":13.049688,
+        "Lng":80.212144
+    },
+    {
+        "Stop_id":3492,
+        "Stop Name":"Otteri TB Hospital",
+        "Lat":13.09703,
+        "Lng":80.245182
+    },
+    {
+        "Stop_id":3493,
+        "Stop Name":"Kalaimagal Nagar",
+        "Lat":13.02429,
+        "Lng":80.20694
+    },
+    {
+        "Stop_id":3494,
+        "Stop Name":"Nallalaghu Nadar Polytechnic College",
+        "Lat":13.178088,
+        "Lng":80.195119
+    },
+    {
+        "Stop_id":3495,
+        "Stop Name":"Pallavaram Bus Stand",
+        "Lat":12.969269,
+        "Lng":80.150188
+    },
+    {
+        "Stop_id":3496,
+        "Stop Name":"M.M.D.A Bus Stop",
+        "Lat":13.062929,
+        "Lng":80.21152
+    },
+    {
+        "Stop_id":3497,
+        "Stop Name":"Erukancherry Toll Gate",
+        "Lat":13.122114,
+        "Lng":80.251128
+    },
+    {
+        "Stop_id":3498,
+        "Stop Name":"Bharathi Nagar",
+        "Lat":13.123001,
+        "Lng":80.25949
+    },
+    {
+        "Stop_id":3499,
+        "Stop Name":"Bharathi Nagar\/MKB Nagar",
+        "Lat":13.122922,
+        "Lng":80.259661
+    },
+    {
+        "Stop_id":3500,
+        "Stop Name":"Perungalathur",
+        "Lat":12.905657,
+        "Lng":80.096009
+    },
+    {
+        "Stop_id":3501,
+        "Stop Name":"Vandaloor Zoo",
+        "Lat":12.880858,
+        "Lng":80.080972
+    },
+    {
+        "Stop_id":3502,
+        "Stop Name":"Sidco",
+        "Lat":13.10323,
+        "Lng":80.19923
+    },
+    {
+        "Stop_id":3503,
+        "Stop Name":"Thuraipakkam Tea Stall\/Shivaram",
+        "Lat":12.951766,
+        "Lng":80.241718
+    },
+    {
+        "Stop_id":3504,
+        "Stop Name":"Jain College",
+        "Lat":12.946613,
+        "Lng":80.239839
+    },
+    {
+        "Stop_id":3505,
+        "Stop Name":"Karapakkam Bus Stop",
+        "Lat":12.913905,
+        "Lng":80.229413
+    },
+    {
+        "Stop_id":3506,
+        "Stop Name":"Dollar ",
+        "Lat":12.90607,
+        "Lng":80.22831
+    },
+    {
+        "Stop_id":3507,
+        "Stop Name":"Sholinganallur",
+        "Lat":12.899351,
+        "Lng":80.227919
+    },
+    {
+        "Stop_id":3508,
+        "Stop Name":"Navallur ",
+        "Lat":12.844926,
+        "Lng":80.22666
+    },
+    {
+        "Stop_id":3509,
+        "Stop Name":"SIPCOT",
+        "Lat":12.832617,
+        "Lng":80.229101
+    },
+    {
+        "Stop_id":3510,
+        "Stop Name":"Hindustan College",
+        "Lat":12.801036,
+        "Lng":80.223788
+    },
+    {
+        "Stop_id":3511,
+        "Stop Name":"Kelambakkam",
+        "Lat":12.786276,
+        "Lng":80.220435
+    },
+    {
+        "Stop_id":3512,
+        "Stop Name":"Chengammal\/PSB College",
+        "Lat":12.770775,
+        "Lng":80.213192
+    },
+    {
+        "Stop_id":3513,
+        "Stop Name":"Vyasarapadi Market\/Pillar",
+        "Lat":13.114484,
+        "Lng":80.265676
+    },
+    {
+        "Stop_id":3514,
+        "Stop Name":"Thiruporur Murugan Temple",
+        "Lat":12.725305,
+        "Lng":80.188154
+    },
+    {
+        "Stop_id":3515,
+        "Stop Name":"Cycle Shop",
+        "Lat":13.153057,
+        "Lng":80.20869
+    },
+    {
+        "Stop_id":3516,
+        "Stop Name":"Erukancherry Toll Gate",
+        "Lat":13.122024,
+        "Lng":80.250895
+    },
+    {
+        "Stop_id":3517,
+        "Stop Name":"SIPCOT",
+        "Lat":12.830953,
+        "Lng":80.229335
+    },
+    {
+        "Stop_id":3518,
+        "Stop Name":"AGS ",
+        "Lat":12.85001,
+        "Lng":80.226463
+    },
+    {
+        "Stop_id":3519,
+        "Stop Name":"Okkiyampettai",
+        "Lat":12.92575,
+        "Lng":80.230811
+    },
+    {
+        "Stop_id":3520,
+        "Stop Name":"Periyamet Bus Stop",
+        "Lat":13.084268,
+        "Lng":80.270375
+    },
+    {
+        "Stop_id":3521,
+        "Stop Name":"Golden Flats Bus Stop",
+        "Lat":13.088254,
+        "Lng":80.17844
+    },
+    {
+        "Stop_id":3522,
+        "Stop Name":"Little Mount\/Saidapet Court\/Chinnamalai",
+        "Lat":13.013898,
+        "Lng":80.22657
+    },
+    {
+        "Stop_id":3523,
+        "Stop Name":"Kannigapuram",
+        "Lat":13.004494,
+        "Lng":80.220235
+    },
+    {
+        "Stop_id":3524,
+        "Stop Name":"Gandhi Road",
+        "Lat":12.98772,
+        "Lng":80.22311
+    },
+    {
+        "Stop_id":3525,
+        "Stop Name":"Kaiveli",
+        "Lat":12.963705,
+        "Lng":80.216174
+    },
+    {
+        "Stop_id":3526,
+        "Stop Name":"Red Hills Depot",
+        "Lat":13.192905,
+        "Lng":80.184347
+    },
+    {
+        "Stop_id":3527,
+        "Stop Name":"Medavakkam New Bus Stop",
+        "Lat":12.917219,
+        "Lng":80.191525
+    },
+    {
+        "Stop_id":3528,
+        "Stop Name":"Medavakkam Koot Road",
+        "Lat":12.919909,
+        "Lng":80.182628
+    },
+    {
+        "Stop_id":3529,
+        "Stop Name":"Tambaram East",
+        "Lat":12.92355,
+        "Lng":80.11668
+    },
+    {
+        "Stop_id":3530,
+        "Stop Name":"Erukancherry",
+        "Lat":13.12379,
+        "Lng":80.24792
+    },
+    {
+        "Stop_id":3531,
+        "Stop Name":"Tambaram East",
+        "Lat":12.923362,
+        "Lng":80.121836
+    },
+    {
+        "Stop_id":3532,
+        "Stop Name":"Medavakkam Bus Stop",
+        "Lat":12.917165,
+        "Lng":80.193141
+    },
+    {
+        "Stop_id":3533,
+        "Stop Name":"Halda",
+        "Lat":13.010985,
+        "Lng":80.222862
+    },
+    {
+        "Stop_id":3534,
+        "Stop Name":"Collector Nagar\/MM Hospital",
+        "Lat":13.087667,
+        "Lng":80.189085
+    },
+    {
+        "Stop_id":3535,
+        "Stop Name":"Sathyabama ",
+        "Lat":12.87281,
+        "Lng":80.22654
+    },
+    {
+        "Stop_id":3536,
+        "Stop Name":"Dollar",
+        "Lat":12.907452,
+        "Lng":80.228231
+    },
+    {
+        "Stop_id":3537,
+        "Stop Name":"Ayanavaram ESI",
+        "Lat":13.097412,
+        "Lng":80.242783
+    },
+    {
+        "Stop_id":3538,
+        "Stop Name":"Mint New\/Vallalar Nagar",
+        "Lat":13.104198,
+        "Lng":80.275905
+    },
+    {
+        "Stop_id":3539,
+        "Stop Name":"Tambaram Depot",
+        "Lat":12.9256,
+        "Lng":80.11722
+    },
+    {
+        "Stop_id":3540,
+        "Stop Name":"Anand\/Sathyam Theatre",
+        "Lat":13.056438,
+        "Lng":80.257151
+    },
+    {
+        "Stop_id":3541,
+        "Stop Name":"Nandhanam Post Office\/Military Quarters",
+        "Lat":13.031786,
+        "Lng":80.241015
+    },
+    {
+        "Stop_id":3542,
+        "Stop Name":"Sterling Road",
+        "Lat":13.064227,
+        "Lng":80.24352
+    },
+    {
+        "Stop_id":3543,
+        "Stop Name":"Kannammapettai",
+        "Lat":13.030366,
+        "Lng":80.228137
+    },
+    {
+        "Stop_id":3544,
+        "Stop Name":"Moolakadai Bypass Bus Stand",
+        "Lat":13.144367,
+        "Lng":80.219529
+    },
+    {
+        "Stop_id":3545,
+        "Stop Name":"Pillaiyar Koil\/Sivan Park",
+        "Lat":13.04074,
+        "Lng":80.20514
+    },
+    {
+        "Stop_id":3546,
+        "Stop Name":"Puzhudhivakkam\/Kumaran Theatre Bus Stop",
+        "Lat":12.972168,
+        "Lng":80.191325
+    },
+    {
+        "Stop_id":3547,
+        "Stop Name":"Vanuvampet",
+        "Lat":12.981113,
+        "Lng":80.195355
+    },
+    {
+        "Stop_id":3548,
+        "Stop Name":"Jayalakshmi Theatre",
+        "Lat":12.991821,
+        "Lng":80.198618
+    },
+    {
+        "Stop_id":3549,
+        "Stop Name":"Music_College",
+        "Lat":13.01915,
+        "Lng":80.26404
+    },
+    {
+        "Stop_id":3550,
+        "Stop Name":"Santhome_High_road\/ Santhome_Employement_Office",
+        "Lat":13.02996,
+        "Lng":80.276748
+    },
+    {
+        "Stop_id":3551,
+        "Stop Name":"Thillaiganga Nagar",
+        "Lat":12.99127,
+        "Lng":80.19456
+    },
+    {
+        "Stop_id":3552,
+        "Stop Name":"Thillaiganga Nagar",
+        "Lat":12.99115,
+        "Lng":80.19453
+    },
+    {
+        "Stop_id":3553,
+        "Stop Name":"Vannankulam",
+        "Lat":13.04288,
+        "Lng":80.12353
+    },
+    {
+        "Stop_id":3554,
+        "Stop Name":"Iyappanthangal\/Ambedkar Silai",
+        "Lat":13.03741,
+        "Lng":80.13865
+    },
+    {
+        "Stop_id":3555,
+        "Stop Name":"Gowrivakkam",
+        "Lat":12.920951,
+        "Lng":80.167331
+    },
+    {
+        "Stop_id":3556,
+        "Stop Name":"Mahalakshmi nagar",
+        "Lat":12.922695,
+        "Lng":80.146978
+    },
+    {
+        "Stop_id":3557,
+        "Stop Name":"Guduvanchery Bus Terminus",
+        "Lat":12.84548,
+        "Lng":80.061448
+    },
+    {
+        "Stop_id":3558,
+        "Stop Name":"Guduvanchery Bus Terminus",
+        "Lat":12.845288,
+        "Lng":80.060994
+    },
+    {
+        "Stop_id":3559,
+        "Stop Name":"Guduvanchery Electricity Board",
+        "Lat":12.851341,
+        "Lng":80.065607
+    },
+    {
+        "Stop_id":3560,
+        "Stop Name":"Urapakkam School",
+        "Lat":12.868251,
+        "Lng":80.075748
+    },
+    {
+        "Stop_id":3561,
+        "Stop Name":"Mahalakshmi Nagar Junction Bus Stop",
+        "Lat":12.922562,
+        "Lng":80.147442
+    },
+    {
+        "Stop_id":3562,
+        "Stop Name":"Sembakkam",
+        "Lat":12.92337,
+        "Lng":80.16023
+    },
+    {
+        "Stop_id":3563,
+        "Stop Name":"Medavakkam Koot Road ",
+        "Lat":12.92024,
+        "Lng":80.18337
+    },
+    {
+        "Stop_id":3564,
+        "Stop Name":"Vadapalani BS",
+        "Lat":13.04928,
+        "Lng":80.2068
+    },
+    {
+        "Stop_id":3565,
+        "Stop Name":"All_India_Radio_Bus_Stop",
+        "Lat":13.0391,
+        "Lng":80.27894
+    },
+    {
+        "Stop_id":3566,
+        "Stop Name":"Adyar Signal",
+        "Lat":13.00648,
+        "Lng":80.25394
+    },
+    {
+        "Stop_id":3567,
+        "Stop Name":"Gowrivakkam",
+        "Lat":12.92084,
+        "Lng":80.16808
+    },
+    {
+        "Stop_id":3568,
+        "Stop Name":"Vijayanagaram Bus Stand",
+        "Lat":12.91847,
+        "Lng":80.17674
+    },
+    {
+        "Stop_id":3569,
+        "Stop Name":"Santhome High School",
+        "Lat":13.032549,
+        "Lng":80.277371
+    },
+    {
+        "Stop_id":3570,
+        "Stop Name":"Pillaiyar Koil",
+        "Lat":13.0412,
+        "Lng":80.20515
+    },
+    {
+        "Stop_id":3571,
+        "Stop Name":"Vadapalani Signal\/100 Feet Road",
+        "Lat":13.049779,
+        "Lng":80.211695
+    },
+    {
+        "Stop_id":3572,
+        "Stop Name":"BHEL Nagar",
+        "Lat":12.924795,
+        "Lng":80.182698
+    },
+    {
+        "Stop_id":3573,
+        "Stop Name":"Vellakal Bus Stop",
+        "Lat":12.931413,
+        "Lng":80.181479
+    },
+    {
+        "Stop_id":3574,
+        "Stop Name":"Kovilambakkam Bus Stop",
+        "Lat":12.938958,
+        "Lng":80.182345
+    },
+    {
+        "Stop_id":3575,
+        "Stop Name":"Veeramani Nagar",
+        "Lat":12.944788,
+        "Lng":80.182938
+    },
+    {
+        "Stop_id":3576,
+        "Stop Name":"Echankadu",
+        "Lat":12.94686,
+        "Lng":80.18401
+    },
+    {
+        "Stop_id":3577,
+        "Stop Name":"Ganesh Nagar ",
+        "Lat":12.961354,
+        "Lng":80.18724
+    },
+    {
+        "Stop_id":3578,
+        "Stop Name":"Puzhudhivakkam\/Kumaran Theatre Bus Stop",
+        "Lat":12.972684,
+        "Lng":80.191455
+    },
+    {
+        "Stop_id":3579,
+        "Stop Name":"Surendara Nagar",
+        "Lat":12.986796,
+        "Lng":80.197302
+    },
+    {
+        "Stop_id":3580,
+        "Stop Name":"Guindy Race Course\/Guindy Railway Station Bus Stop",
+        "Lat":13.008179,
+        "Lng":80.213317
+    },
+    {
+        "Stop_id":3581,
+        "Stop Name":"St Thomas Mount",
+        "Lat":12.994598,
+        "Lng":80.200311
+    },
+    {
+        "Stop_id":3582,
+        "Stop Name":"Surendara Nagar",
+        "Lat":12.986397,
+        "Lng":80.197334
+    },
+    {
+        "Stop_id":3583,
+        "Stop Name":"Oil Mill",
+        "Lat":12.977725,
+        "Lng":80.193849
+    },
+    {
+        "Stop_id":3584,
+        "Stop Name":"Echankadu",
+        "Lat":12.946489,
+        "Lng":80.183843
+    },
+    {
+        "Stop_id":3585,
+        "Stop Name":"Veeramani Nagar",
+        "Lat":12.944606,
+        "Lng":80.183067
+    },
+    {
+        "Stop_id":3586,
+        "Stop Name":"Kovilambakkam Bus Stop",
+        "Lat":12.93956,
+        "Lng":80.182636
+    },
+    {
+        "Stop_id":3587,
+        "Stop Name":"Vellakal Bus Stop",
+        "Lat":12.930914,
+        "Lng":80.181585
+    },
+    {
+        "Stop_id":3588,
+        "Stop Name":"BHEL Nagar",
+        "Lat":12.924209,
+        "Lng":80.182892
+    },
+    {
+        "Stop_id":3589,
+        "Stop Name":"UTI Bank Bus Stop",
+        "Lat":12.966024,
+        "Lng":80.188634
+    },
+    {
+        "Stop_id":3590,
+        "Stop Name":"Sadasivam Nagar",
+        "Lat":12.965621,
+        "Lng":80.204587
+    },
+    {
+        "Stop_id":3591,
+        "Stop Name":"Kannigapuram",
+        "Lat":13.004738,
+        "Lng":80.220194
+    },
+    {
+        "Stop_id":3592,
+        "Stop Name":"Guindy Estate Bus Terminus",
+        "Lat":13.009722,
+        "Lng":80.211227
+    },
+    {
+        "Stop_id":3593,
+        "Stop Name":"Ashok Pillar\/Udhayam Theater",
+        "Lat":13.035043,
+        "Lng":80.21113
+    },
+    {
+        "Stop_id":3594,
+        "Stop Name":"Mullai Nagar",
+        "Lat":13.12269,
+        "Lng":80.26575
+    },
+    {
+        "Stop_id":3595,
+        "Stop Name":"Simpson\/P.Orr & Sons",
+        "Lat":13.07067,
+        "Lng":80.27423
+    },
+    {
+        "Stop_id":3596,
+        "Stop Name":"Vanavil\/Anna Arivalayam",
+        "Lat":13.041556,
+        "Lng":80.247512
+    },
+    {
+        "Stop_id":3597,
+        "Stop Name":"Kottur",
+        "Lat":13.01855,
+        "Lng":80.24126
+    },
+    {
+        "Stop_id":3598,
+        "Stop Name":"War_Memorial",
+        "Lat":13.07468,
+        "Lng":80.28623
+    },
+    {
+        "Stop_id":3599,
+        "Stop Name":"Adayar Gate",
+        "Lat":13.028948,
+        "Lng":80.249139
+    },
+    {
+        "Stop_id":3600,
+        "Stop Name":"Errikarai",
+        "Lat":12.98713,
+        "Lng":80.2183
+    },
+    {
+        "Stop_id":3601,
+        "Stop Name":"Murugan Kalyana Mandabam",
+        "Lat":12.984042,
+        "Lng":80.217986
+    },
+    {
+        "Stop_id":3602,
+        "Stop Name":"Murugan Kalyana Mandabam",
+        "Lat":12.983712,
+        "Lng":80.217769
+    },
+    {
+        "Stop_id":3603,
+        "Stop Name":"Housing Board Water Tank",
+        "Lat":12.991768,
+        "Lng":80.212653
+    },
+    {
+        "Stop_id":3604,
+        "Stop Name":"Britto School",
+        "Lat":12.99371,
+        "Lng":80.21008
+    },
+    {
+        "Stop_id":3605,
+        "Stop Name":"Krishna Sweets",
+        "Lat":12.99718,
+        "Lng":80.21046
+    },
+    {
+        "Stop_id":3606,
+        "Stop Name":"Mettupalayam",
+        "Lat":12.998468,
+        "Lng":80.207425
+    },
+    {
+        "Stop_id":3607,
+        "Stop Name":"Pattur Bus Stop",
+        "Lat":13.023196,
+        "Lng":80.1185
+    },
+    {
+        "Stop_id":3608,
+        "Stop Name":"Chetti Theru",
+        "Lat":13.04139,
+        "Lng":80.1145
+    },
+    {
+        "Stop_id":3609,
+        "Stop Name":"Retteri\/Chettiyar Agaram",
+        "Lat":13.0363,
+        "Lng":80.14624
+    },
+    {
+        "Stop_id":3610,
+        "Stop Name":"Check Post",
+        "Lat":12.997392,
+        "Lng":80.216188
+    },
+    {
+        "Stop_id":3611,
+        "Stop Name":"Maduvinkarai",
+        "Lat":13.003662,
+        "Lng":80.211937
+    },
+    {
+        "Stop_id":3612,
+        "Stop Name":"City Centre\/Kalyani Hospital",
+        "Lat":13.043722,
+        "Lng":80.272391
+    },
+    {
+        "Stop_id":3613,
+        "Stop Name":"Golden Flats",
+        "Lat":13.08828,
+        "Lng":80.178894
+    },
+    {
+        "Stop_id":3614,
+        "Stop Name":"Wavin Bus Stop",
+        "Lat":13.088657,
+        "Lng":80.171542
+    },
+    {
+        "Stop_id":3615,
+        "Stop Name":"Lattice Bridge",
+        "Lat":12.98619,
+        "Lng":80.25552
+    },
+    {
+        "Stop_id":3616,
+        "Stop Name":"Infosys\/Aavin",
+        "Lat":12.893152,
+        "Lng":80.227535
+    },
+    {
+        "Stop_id":3617,
+        "Stop Name":"Infosys\/Aavin",
+        "Lat":12.893523,
+        "Lng":80.227407
+    },
+    {
+        "Stop_id":3618,
+        "Stop Name":"Adyar Signal\/Adyar Aavin\/Malar Hospital",
+        "Lat":13.007483,
+        "Lng":80.258342
+    },
+    {
+        "Stop_id":3619,
+        "Stop Name":"RBI",
+        "Lat":13.082862,
+        "Lng":80.289028
+    },
+    {
+        "Stop_id":3620,
+        "Stop Name":"Avvai Home",
+        "Lat":13.007463,
+        "Lng":80.261472
+    },
+    {
+        "Stop_id":3621,
+        "Stop Name":"LIC",
+        "Lat":13.062794,
+        "Lng":80.263678
+    },
+    {
+        "Stop_id":3622,
+        "Stop Name":"Vasanthi",
+        "Lat":13.093371,
+        "Lng":80.258968
+    },
+    {
+        "Stop_id":3623,
+        "Stop Name":"Samiyar Madam",
+        "Lat":13.179195,
+        "Lng":80.194215
+    },
+    {
+        "Stop_id":3624,
+        "Stop Name":"Redhills Market",
+        "Lat":13.189359,
+        "Lng":80.187542
+    },
+    {
+        "Stop_id":3625,
+        "Stop Name":"Kelleys",
+        "Lat":13.085824,
+        "Lng":80.246734
+    },
+    {
+        "Stop_id":3626,
+        "Stop Name":"Medavakkam Koot Road Bus Stop",
+        "Lat":12.920695,
+        "Lng":80.185302
+    },
+    {
+        "Stop_id":3627,
+        "Stop Name":"CLRI\/IIT Madras",
+        "Lat":13.006883,
+        "Lng":80.240639
+    },
+    {
+        "Stop_id":3628,
+        "Stop Name":"Muttukkaranchavadi",
+        "Lat":12.930504,
+        "Lng":80.231753
+    },
+    {
+        "Stop_id":3629,
+        "Stop Name":"Adyar Telephone Exchange Bus Stop",
+        "Lat":13.000581,
+        "Lng":80.256484
+    },
+    {
+        "Stop_id":3630,
+        "Stop Name":"Urapakkam Tea Kadai Bus Stop",
+        "Lat":12.862166,
+        "Lng":80.073404
+    },
+    {
+        "Stop_id":3631,
+        "Stop Name":"Vandalur Zoo Bus Stand",
+        "Lat":12.880288,
+        "Lng":80.080472
+    },
+    {
+        "Stop_id":3632,
+        "Stop Name":"Sholinganallaur",
+        "Lat":12.9031,
+        "Lng":80.227892
+    },
+    {
+        "Stop_id":3633,
+        "Stop Name":"Iyyappanthangal Bus Stop",
+        "Lat":13.039084,
+        "Lng":80.132443
+    },
+    {
+        "Stop_id":3634,
+        "Stop Name":"Navallur Church",
+        "Lat":12.821599,
+        "Lng":80.23063
+    },
+    {
+        "Stop_id":3635,
+        "Stop Name":"Mangadu Bus Stand",
+        "Lat":13.031438,
+        "Lng":80.111092
+    },
+    {
+        "Stop_id":3636,
+        "Stop Name":"Poo Colony",
+        "Lat":12.810274,
+        "Lng":80.227836
+    },
+    {
+        "Stop_id":3637,
+        "Stop Name":"Wavin",
+        "Lat":13.088513,
+        "Lng":80.172038
+    },
+    {
+        "Stop_id":3638,
+        "Stop Name":"Asarkana\/Kathipara\/Guindy Circle",
+        "Lat":13.003769,
+        "Lng":80.200792
+    },
+    {
+        "Stop_id":3639,
+        "Stop Name":"Velachery Railway Station",
+        "Lat":12.970733,
+        "Lng":80.21897
+    },
+    {
+        "Stop_id":3640,
+        "Stop Name":"High Court Bus Terminus",
+        "Lat":13.085613,
+        "Lng":80.285091
+    },
+    {
+        "Stop_id":3641,
+        "Stop Name":"Bharathi Nagar",
+        "Lat":12.981122,
+        "Lng":80.234463
+    },
+    {
+        "Stop_id":3642,
+        "Stop Name":"Baby Nagar",
+        "Lat":12.980611,
+        "Lng":80.229319
+    },
+    {
+        "Stop_id":3643,
+        "Stop Name":"Vijaya Nagar Bus Stand",
+        "Lat":12.975613,
+        "Lng":80.221041
+    },
+    {
+        "Stop_id":3644,
+        "Stop Name":"Tidel Park",
+        "Lat":12.987821,
+        "Lng":80.251712
+    },
+    {
+        "Stop_id":3645,
+        "Stop Name":"SRP Tools",
+        "Lat":12.97873,
+        "Lng":80.252629
+    },
+    {
+        "Stop_id":3646,
+        "Stop Name":"Kandanchavadi",
+        "Lat":12.965151,
+        "Lng":80.24738
+    },
+    {
+        "Stop_id":3647,
+        "Stop Name":"Tidel Park",
+        "Lat":12.988023,
+        "Lng":80.25187
+    },
+    {
+        "Stop_id":3648,
+        "Stop Name":"Devanathan Street",
+        "Lat":13.028149,
+        "Lng":80.263691
+    },
+    {
+        "Stop_id":3649,
+        "Stop Name":"Kaiveli",
+        "Lat":12.963669,
+        "Lng":80.21543
+    },
+    {
+        "Stop_id":3650,
+        "Stop Name":"Madipakkam Koot Road",
+        "Lat":12.965869,
+        "Lng":80.188868
+    },
+    {
+        "Stop_id":3651,
+        "Stop Name":"Kilkatalai Depot",
+        "Lat":12.956132,
+        "Lng":80.186786
+    },
+    {
+        "Stop_id":3652,
+        "Stop Name":"Madipakkam Koot Road",
+        "Lat":12.968297,
+        "Lng":80.189496
+    },
+    {
+        "Stop_id":3653,
+        "Stop Name":"Dhandeeswaram",
+        "Lat":12.983035,
+        "Lng":80.221958
+    },
+    {
+        "Stop_id":3654,
+        "Stop Name":"Sathyabama",
+        "Lat":12.872123,
+        "Lng":80.22677
+    },
+    {
+        "Stop_id":3655,
+        "Stop Name":"Semmanchery Alamaram",
+        "Lat":12.859812,
+        "Lng":80.226491
+    },
+    {
+        "Stop_id":3656,
+        "Stop Name":"Thirumanglam 2",
+        "Lat":13.084393,
+        "Lng":80.198643
+    },
+    {
+        "Stop_id":3657,
+        "Stop Name":"Gurunanak College",
+        "Lat":12.991105,
+        "Lng":80.219511
+    },
+    {
+        "Stop_id":3658,
+        "Stop Name":"Erikarai",
+        "Lat":12.987278,
+        "Lng":80.218207
+    },
+    {
+        "Stop_id":3659,
+        "Stop Name":"Guru Nanak College",
+        "Lat":12.991289,
+        "Lng":80.219312
+    },
+    {
+        "Stop_id":3660,
+        "Stop Name":"Vadapalani Bus Stop",
+        "Lat":13.048887,
+        "Lng":80.206812
+    },
+    {
+        "Stop_id":3661,
+        "Stop Name":"Halda",
+        "Lat":13.010932,
+        "Lng":80.223067
+    },
+    {
+        "Stop_id":3662,
+        "Stop Name":"IGP",
+        "Lat":12.974338,
+        "Lng":80.25043
+    },
+    {
+        "Stop_id":3663,
+        "Stop Name":"Check Post",
+        "Lat":12.997686,
+        "Lng":80.215998
+    },
+    {
+        "Stop_id":3664,
+        "Stop Name":"Vijay Nagar",
+        "Lat":12.977206,
+        "Lng":80.222642
+    },
+    {
+        "Stop_id":3665,
+        "Stop Name":"Narayanapuram",
+        "Lat":12.939643,
+        "Lng":80.205605
+    },
+    {
+        "Stop_id":3666,
+        "Stop Name":"Vannandurai",
+        "Lat":12.996278,
+        "Lng":80.262441
+    },
+    {
+        "Stop_id":3667,
+        "Stop Name":"Besant Nagar Depot",
+        "Lat":13.001126,
+        "Lng":80.26729
+    },
+    {
+        "Stop_id":3668,
+        "Stop Name":"Queen_Marys_College",
+        "Lat":13.045717,
+        "Lng":80.280036
+    },
+    {
+        "Stop_id":3669,
+        "Stop Name":"secretariat",
+        "Lat":13.080559,
+        "Lng":80.288201
+    },
+    {
+        "Stop_id":3670,
+        "Stop Name":"DLF\/L&T",
+        "Lat":13.023811,
+        "Lng":80.178431
+    },
+    {
+        "Stop_id":3671,
+        "Stop Name":"Adyar Depot",
+        "Lat":12.996827,
+        "Lng":80.255645
+    },
+    {
+        "Stop_id":3672,
+        "Stop Name":"Indira Nagar Water Tank",
+        "Lat":12.994577,
+        "Lng":80.252523
+    },
+    {
+        "Stop_id":3673,
+        "Stop Name":"Porur",
+        "Lat":13.034636,
+        "Lng":80.156368
+    },
+    {
+        "Stop_id":3674,
+        "Stop Name":"Guindy Terminus",
+        "Lat":13.009291,
+        "Lng":80.211252
+    },
+    {
+        "Stop_id":3675,
+        "Stop Name":"Kotturpuram",
+        "Lat":13.021764,
+        "Lng":80.242313
+    },
+    {
+        "Stop_id":3676,
+        "Stop Name":"Oil Mill",
+        "Lat":12.978153,
+        "Lng":80.193832
+    },
+    {
+        "Stop_id":3677,
+        "Stop Name":"Villivakkam\/Kalpana",
+        "Lat":13.102759,
+        "Lng":80.208619
+    },
+    {
+        "Stop_id":3678,
+        "Stop Name":"Nathamuni",
+        "Lat":13.103654,
+        "Lng":80.202767
+    },
+    {
+        "Stop_id":3679,
+        "Stop Name":"ESI",
+        "Lat":13.093706,
+        "Lng":80.241134
+    },
+    {
+        "Stop_id":3680,
+        "Stop Name":"Egmore Railway Station",
+        "Lat":13.077257,
+        "Lng":80.261051
+    },
+    {
+        "Stop_id":3681,
+        "Stop Name":"Medavakkam Tank",
+        "Lat":13.087652,
+        "Lng":80.243606
+    },
+    {
+        "Stop_id":3682,
+        "Stop Name":"Mettupalayam",
+        "Lat":13.032171,
+        "Lng":80.21988
+    },
+    {
+        "Stop_id":3683,
+        "Stop Name":"Kk Nagar Depot",
+        "Lat":13.035624,
+        "Lng":80.20609
+    },
+    {
+        "Stop_id":3684,
+        "Stop Name":"War_Memorial",
+        "Lat":13.074369,
+        "Lng":80.286192
+    },
+    {
+        "Stop_id":3685,
+        "Stop Name":"Vanavil\/Anna Arivalayam",
+        "Lat":13.040751,
+        "Lng":80.247065
+    },
+    {
+        "Stop_id":3686,
+        "Stop Name":"Pattalam",
+        "Lat":13.096745,
+        "Lng":80.259201
+    },
+    {
+        "Stop_id":3687,
+        "Stop Name":"Gandhi nagar",
+        "Lat":13.0069,
+        "Lng":80.25028
+    },
+    {
+        "Stop_id":3688,
+        "Stop Name":"Saidapet",
+        "Lat":13.023344,
+        "Lng":80.227667
+    },
+    {
+        "Stop_id":3689,
+        "Stop Name":"Maduvinkarai",
+        "Lat":13.003956,
+        "Lng":80.21194
+    },
+    {
+        "Stop_id":3690,
+        "Stop Name":"Old Mint",
+        "Lat":13.106448,
+        "Lng":80.279954
+    },
+    {
+        "Stop_id":3691,
+        "Stop Name":"Saidapet",
+        "Lat":13.023234,
+        "Lng":80.227444
+    },
+    {
+        "Stop_id":3692,
+        "Stop Name":"Mettupalayam",
+        "Lat":12.998561,
+        "Lng":80.207346
+    },
+    {
+        "Stop_id":3693,
+        "Stop Name":"PTC Quarters",
+        "Lat":12.935665,
+        "Lng":80.234156
+    },
+    {
+        "Stop_id":3694,
+        "Stop Name":"Sivan Koil",
+        "Lat":12.933014,
+        "Lng":80.236143
+    },
+    {
+        "Stop_id":3695,
+        "Stop Name":"Kannagi Nagar Market",
+        "Lat":12.928464,
+        "Lng":80.238895
+    },
+    {
+        "Stop_id":3696,
+        "Stop Name":"Sivan Koil",
+        "Lat":12.932959,
+        "Lng":80.236227
+    },
+    {
+        "Stop_id":3697,
+        "Stop Name":"UTI Bank",
+        "Lat":12.964935,
+        "Lng":80.188214
+    },
+    {
+        "Stop_id":3698,
+        "Stop Name":"Kaliappa\/Billroth\/R.A.Puram",
+        "Lat":13.027075,
+        "Lng":80.256151
+    },
+    {
+        "Stop_id":3699,
+        "Stop Name":"Parrys_Corner",
+        "Lat":13.08836,
+        "Lng":80.290065
+    },
+    {
+        "Stop_id":3700,
+        "Stop Name":"CLS Post Office",
+        "Lat":13.083026,
+        "Lng":80.278858
+    },
+    {
+        "Stop_id":3701,
+        "Stop Name":"Central\/Moore Market",
+        "Lat":13.082137,
+        "Lng":80.275592
+    },
+    {
+        "Stop_id":3702,
+        "Stop Name":"Broadway Terminus",
+        "Lat":13.086674,
+        "Lng":80.283597
+    },
+    {
+        "Stop_id":3703,
+        "Stop Name":"Thirisulam\/Airport",
+        "Lat":12.979434,
+        "Lng":80.16232
+    },
+    {
+        "Stop_id":3704,
+        "Stop Name":"Urapakkam School",
+        "Lat":12.865798,
+        "Lng":80.075032
+    },
+    {
+        "Stop_id":3705,
+        "Stop Name":"Urapakkam Tea Kadai",
+        "Lat":12.861996,
+        "Lng":80.073506
+    },
+    {
+        "Stop_id":3706,
+        "Stop Name":"Guduvanchery Electricity Board",
+        "Lat":12.850806,
+        "Lng":80.065477
+    },
+    {
+        "Stop_id":3707,
+        "Stop Name":"Guindy\/MKN Road",
+        "Lat":13.00923,
+        "Lng":80.210866
+    },
+    {
+        "Stop_id":3708,
+        "Stop Name":"Santhome High Road",
+        "Lat":13.030993,
+        "Lng":80.277428
+    },
+    {
+        "Stop_id":3709,
+        "Stop Name":"Vadapalani 100 Feet Road",
+        "Lat":13.047,
+        "Lng":80.212036
+    },
+    {
+        "Stop_id":3710,
+        "Stop Name":"Matha Koil",
+        "Lat":13.111471,
+        "Lng":80.265523
+    },
+    {
+        "Stop_id":3711,
+        "Stop Name":"Mullai Nagar",
+        "Lat":13.122278,
+        "Lng":80.265821
+    },
+    {
+        "Stop_id":3712,
+        "Stop Name":"Jayalakshmi Theatre",
+        "Lat":12.99122,
+        "Lng":80.198565
+    },
+    {
+        "Stop_id":3713,
+        "Stop Name":"Kalpana",
+        "Lat":13.138921,
+        "Lng":80.22784
+    },
+    {
+        "Stop_id":3714,
+        "Stop Name":"Kalavakkam",
+        "Lat":12.741619,
+        "Lng":80.197187
+    },
+    {
+        "Stop_id":3715,
+        "Stop Name":"Kannagi Nagar Market",
+        "Lat":12.928486,
+        "Lng":80.238771
+    },
+    {
+        "Stop_id":3716,
+        "Stop Name":"Kannagi Nagar",
+        "Lat":12.931302,
+        "Lng":80.238473
+    },
+    {
+        "Stop_id":3717,
+        "Stop Name":"PTC Quarters",
+        "Lat":12.935678,
+        "Lng":80.233967
+    },
+    {
+        "Stop_id":3718,
+        "Stop Name":"Kandanchavadi",
+        "Lat":12.96617,
+        "Lng":80.247577
+    },
+    {
+        "Stop_id":3719,
+        "Stop Name":"Ramalinga swamy",
+        "Lat":13.109032,
+        "Lng":80.267099
+    },
+    {
+        "Stop_id":3720,
+        "Stop Name":"ACP",
+        "Lat":13.141958,
+        "Lng":80.223529
+    },
+    {
+        "Stop_id":3721,
+        "Stop Name":"ACP",
+        "Lat":13.141913,
+        "Lng":80.223756
+    },
+    {
+        "Stop_id":3722,
+        "Stop Name":"Erukkancherry",
+        "Lat":13.123971,
+        "Lng":80.247888
+    },
+    {
+        "Stop_id":3723,
+        "Stop Name":"Ambedkar College",
+        "Lat":13.118484,
+        "Lng":80.259302
+    },
+    {
+        "Stop_id":3724,
+        "Stop Name":"Vyasarapadi Market",
+        "Lat":13.115649,
+        "Lng":80.265757
+    },
+    {
+        "Stop_id":3725,
+        "Stop Name":"Pillar\/Vyasarpadi Market",
+        "Lat":13.114316,
+        "Lng":80.265778
+    },
+    {
+        "Stop_id":3726,
+        "Stop Name":"Maduvinkarai",
+        "Lat":13.003956,
+        "Lng":80.21194
+    },
+    {
+        "Stop_id":3727,
+        "Stop Name":"Vepery",
+        "Lat":13.085368,
+        "Lng":80.262829
+    },
+    {
+        "Stop_id":3728,
+        "Stop Name":"Electricity Board\/Post Office",
+        "Lat":13.105542,
+        "Lng":80.186282
+    },
+    {
+        "Stop_id":3729,
+        "Stop Name":"ESI",
+        "Lat":13.107893,
+        "Lng":80.186199
+    },
+    {
+        "Stop_id":3730,
+        "Stop Name":"Bhakthavatchalam College",
+        "Lat":13.108078,
+        "Lng":80.183645
+    },
+    {
+        "Stop_id":3731,
+        "Stop Name":"Infant Jesus Church",
+        "Lat":13.108549,
+        "Lng":80.180245
+    },
+    {
+        "Stop_id":3732,
+        "Stop Name":"Erikarai",
+        "Lat":13.110266,
+        "Lng":80.180381
+    },
+    {
+        "Stop_id":3733,
+        "Stop Name":"Korattur",
+        "Lat":13.111527,
+        "Lng":80.184346
+    },
+    {
+        "Stop_id":3734,
+        "Stop Name":"Erikarai",
+        "Lat":13.110309,
+        "Lng":80.180549
+    },
+    {
+        "Stop_id":3735,
+        "Stop Name":"Infant Jesus Church",
+        "Lat":13.108571,
+        "Lng":80.180281
+    },
+    {
+        "Stop_id":3736,
+        "Stop Name":"Bhakthavatchalam College",
+        "Lat":13.108207,
+        "Lng":80.183643
+    },
+    {
+        "Stop_id":3737,
+        "Stop Name":"ESI",
+        "Lat":13.108018,
+        "Lng":80.186276
+    },
+    {
+        "Stop_id":3738,
+        "Stop Name":"Electricity Board\/Post Office",
+        "Lat":13.105962,
+        "Lng":80.186496
+    },
+    {
+        "Stop_id":3739,
+        "Stop Name":"UCO Bank",
+        "Lat":13.103909,
+        "Lng":80.186373
+    },
+    {
+        "Stop_id":3740,
+        "Stop Name":"Padi Edatheru",
+        "Lat":13.10002,
+        "Lng":80.186694
+    },
+    {
+        "Stop_id":3741,
+        "Stop Name":"Velachery",
+        "Lat":12.975957,
+        "Lng":80.220146
+    },
+    {
+        "Stop_id":3004,
+        "Stop Name":"Jaynathi bus stop on LB  towards ADYAR",
+        "Lat":12.987947,
+        "Lng":80.255745
+    },
+    {
+        "Stop_id":3005,
+        "Stop Name":"Muthu pharmacy stop on LB  after Jayanthi towards KEL",
+        "Lat":12.987182,
+        "Lng":80.255722
+    },
+    {
+        "Stop_id":3000,
+        "Stop Name":"Tidel park to ECR turning",
+        "Lat":12.98806,
+        "Lng":80.251846
+    },
+    {
+        "Stop_id":3029,
+        "Stop Name":"On LB road towards Kelambakam from Adyar",
+        "Lat":12.996715,
+        "Lng":80.255908
+    },
+    {
+        "Stop_id":3030,
+        "Stop Name":"On LB road towards Saidapet from Adyar Depot",
+        "Lat":12.997863,
+        "Lng":80.255884
+    },
+    {
+        "Stop_id":3031,
+        "Stop Name":"Sipcot IT park - first stop of 1103",
+        "Lat":12.82592,
+        "Lng":80.217239
+    },
+    {
+        "Stop_id":3032,
+        "Stop Name":"Sipcot IT park - second stop of 1103",
+        "Lat":12.8318,
+        "Lng":80.229111
+    },
+    {
+        "Stop_id":3033,
+        "Stop Name":"Thiruvanmiyur Terminus\n",
+        "Lat":12.987319,
+        "Lng":80.259135
+    },
+    {
+        "Stop_id":3742,
+        "Stop Name":"Ennore",
+        "Lat":13.2118,
+        "Lng":80.3204
+    },
+    {
+        "Stop_id":3743,
+        "Stop Name":"Ennore Foundary\n",
+        "Lat":13.21201,
+        "Lng":80.31865
+    },
+    {
+        "Stop_id":3744,
+        "Stop Name":"Leyland\n",
+        "Lat":13.21024,
+        "Lng":80.31672
+    },
+    {
+        "Stop_id":3745,
+        "Stop Name":"Leyland PO\n",
+        "Lat":13.20695,
+        "Lng":80.31542
+    },
+    {
+        "Stop_id":3746,
+        "Stop Name":"ETP camp 1\n",
+        "Lat":13.19614,
+        "Lng":80.3119
+    },
+    {
+        "Stop_id":3747,
+        "Stop Name":"ETP camp 2\n",
+        "Lat":13.18831,
+        "Lng":80.3085
+    },
+    {
+        "Stop_id":3748,
+        "Stop Name":"Ernavur\n",
+        "Lat":13.18628,
+        "Lng":80.30757
+    },
+    {
+        "Stop_id":3749,
+        "Stop Name":"Gandhi nagar\n",
+        "Lat":13.1862,
+        "Lng":80.3035
+    },
+    {
+        "Stop_id":3750,
+        "Stop Name":"Murugan koil\n",
+        "Lat":13.1865,
+        "Lng":80.305
+    },
+    {
+        "Stop_id":3751,
+        "Stop Name":"Mullai nagar\n",
+        "Lat":13.18536,
+        "Lng":80.31069
+    },
+    {
+        "Stop_id":3752,
+        "Stop Name":"Lift gate\n",
+        "Lat":13.18497,
+        "Lng":80.31135
+    },
+    {
+        "Stop_id":3753,
+        "Stop Name":"ITC\n",
+        "Lat":13.17991,
+        "Lng":80.3075
+    },
+    {
+        "Stop_id":3754,
+        "Stop Name":"Wimco\n",
+        "Lat":13.17889,
+        "Lng":80.30556
+    },
+    {
+        "Stop_id":3755,
+        "Stop Name":"Ajex\n",
+        "Lat":13.17299,
+        "Lng":80.30428
+    },
+    {
+        "Stop_id":3756,
+        "Stop Name":"Periyar nagar\n",
+        "Lat":13.16781,
+        "Lng":80.3035
+    },
+    {
+        "Stop_id":3757,
+        "Stop Name":"TVT market\n",
+        "Lat":13.16374,
+        "Lng":80.30252
+    },
+    {
+        "Stop_id":3758,
+        "Stop Name":"Theradi\n",
+        "Lat":13.16012,
+        "Lng":80.30146
+    },
+    {
+        "Stop_id":3759,
+        "Stop Name":"Ellayamman koil\n",
+        "Lat":13.15656,
+        "Lng":80.30087
+    },
+    {
+        "Stop_id":3760,
+        "Stop Name":"Kaladipet\n",
+        "Lat":13.15386,
+        "Lng":80.29982
+    },
+    {
+        "Stop_id":3761,
+        "Stop Name":"Rajakadai\n",
+        "Lat":13.15134,
+        "Lng":80.29837
+    },
+    {
+        "Stop_id":3762,
+        "Stop Name":"Thangal\n",
+        "Lat":13.14788,
+        "Lng":80.2972
+    },
+    {
+        "Stop_id":3763,
+        "Stop Name":"Tollgate\n",
+        "Lat":13.14429,
+        "Lng":80.28472
+    },
+    {
+        "Stop_id":3764,
+        "Stop Name":"Nahoorar thottam\n",
+        "Lat":13.14788,
+        "Lng":80.0
+    },
+    {
+        "Stop_id":3765,
+        "Stop Name":"Kasimedu\n",
+        "Lat":13.1347,
+        "Lng":80.0
+    },
+    {
+        "Stop_id":3766,
+        "Stop Name":"Royapuram PS\n",
+        "Lat":13.12562,
+        "Lng":80.0
+    },
+    {
+        "Stop_id":3767,
+        "Stop Name":"Royapuram Market\n",
+        "Lat":13.11556,
+        "Lng":80.0
+    },
+    {
+        "Stop_id":3768,
+        "Stop Name":"Clay battery\n",
+        "Lat":13.10864,
+        "Lng":80.0
+    },
+    {
+        "Stop_id":3769,
+        "Stop Name":"Beach station\n",
+        "Lat":13.10012,
+        "Lng":80.0
+    },
+    {
+        "Stop_id":3770,
+        "Stop Name":"Parrys_corner\n",
+        "Lat":13.09463,
+        "Lng":80.0
+    },
+    {
+        "Stop_id":3771,
+        "Stop Name":"Parrys \n",
+        "Lat":13.08523,
+        "Lng":80.0
+    },
+    {
+        "Stop_id":3772,
+        "Stop Name":"Central\n",
+        "Lat":13.08513,
+        "Lng":80.0
+    },
+    {
+        "Stop_id":3773,
+        "Stop Name":"MTC\n",
+        "Lat":13.08182,
+        "Lng":80.0
+    },
+    {
+        "Stop_id":3774,
+        "Stop Name":"Porr&sons\n",
+        "Lat":13.07512,
+        "Lng":80.0
+    },
+    {
+        "Stop_id":4043,
+        "Stop Name":"PONNIAMMAN_KOIL",
+        "Lat":12.886138,
+        "Lng":80.226806
+    },
+    {
+        "Stop_id":4042,
+        "Stop Name":"KUMARAN_NAGAR",
+        "Lat":12.877518,
+        "Lng":80.226742
+    },
+    {
+        "Stop_id":4041,
+        "Stop Name":"SATHYABAM_UNIVERSITY",
+        "Lat":12.87106,
+        "Lng":80.226488
+    },
+    {
+        "Stop_id":4040,
+        "Stop Name":"SEMMENCHERY",
+        "Lat":12.861583,
+        "Lng":80.226458
+    },
+    {
+        "Stop_id":4039,
+        "Stop Name":"NAVALUR",
+        "Lat":12.844744,
+        "Lng":80.226504
+    },
+    {
+        "Stop_id":4038,
+        "Stop Name":"EGATTUR",
+        "Lat":12.837108,
+        "Lng":80.228172
+    },
+    {
+        "Stop_id":4037,
+        "Stop Name":"SIRUSERI",
+        "Lat":12.833147,
+        "Lng":80.228796
+    },
+    {
+        "Stop_id":4036,
+        "Stop Name":"VANIYAMCHAVADI",
+        "Lat":12.826298,
+        "Lng":80.231276
+    },
+    {
+        "Stop_id":4034,
+        "Stop Name":"POO_COMPANY",
+        "Lat":12.809799,
+        "Lng":80.227448
+    },
+    {
+        "Stop_id":4035,
+        "Stop Name":"KAZHIPATTUR",
+        "Lat":12.819696,
+        "Lng":80.230385
+    },
+    {
+        "Stop_id":4033,
+        "Stop Name":"HINDUSTAN_COLLEGE",
+        "Lat":12.801506,
+        "Lng":80.223545
+    },
+    {
+        "Stop_id":4032,
+        "Stop Name":"KELAMBAKKAM",
+        "Lat":12.786396,
+        "Lng":80.220312
+    },
+    {
+        "Stop_id":4065,
+        "Stop Name":"Mandaveli_Terminus",
+        "Lat":13.026682,
+        "Lng":80.265724
+    },
+    {
+        "Stop_id":4031,
+        "Stop Name":"KELAMBAKKAM",
+        "Lat":12.786357,
+        "Lng":80.221931
+    },
+    {
+        "Stop_id":4030,
+        "Stop Name":"HINDUSTAN_COLLEGE",
+        "Lat":12.801012,
+        "Lng":80.22363
+    },
+    {
+        "Stop_id":4029,
+        "Stop Name":"POO_COMPANY",
+        "Lat":12.81099,
+        "Lng":80.228124
+    },
+    {
+        "Stop_id":4028,
+        "Stop Name":"KAZHIPATTUR",
+        "Lat":12.81901,
+        "Lng":80.230531
+    },
+    {
+        "Stop_id":4027,
+        "Stop Name":"VANIYAMCHAVADI",
+        "Lat":12.825992,
+        "Lng":80.231447
+    },
+    {
+        "Stop_id":4024,
+        "Stop Name":"NAVALUR",
+        "Lat":12.84493,
+        "Lng":80.226769
+    },
+    {
+        "Stop_id":4025,
+        "Stop Name":"EGATTUR",
+        "Lat":12.836745,
+        "Lng":80.228448
+    },
+    {
+        "Stop_id":4026,
+        "Stop Name":"SIRUSERI",
+        "Lat":12.832681,
+        "Lng":80.229115
+    },
+    {
+        "Stop_id":4023,
+        "Stop Name":"SEMMANCHERY",
+        "Lat":12.85971,
+        "Lng":80.226528
+    },
+    {
+        "Stop_id":4022,
+        "Stop Name":"SATHYABAMA_UNIVERSITY",
+        "Lat":12.87207,
+        "Lng":80.226777
+    },
+    {
+        "Stop_id":4020,
+        "Stop Name":"PONNIAMMAN",
+        "Lat":12.885759,
+        "Lng":80.226951
+    },
+    {
+        "Stop_id":4021,
+        "Stop Name":"KUMARAN_NAGAR",
+        "Lat":12.877922,
+        "Lng":80.226957
+    },
+    {
+        "Stop_id":4019,
+        "Stop Name":"AAVIN",
+        "Lat":12.89352,
+        "Lng":80.22764
+    },
+    {
+        "Stop_id":4018,
+        "Stop Name":"SHOZHINGANALLUR",
+        "Lat":12.898795,
+        "Lng":80.22792
+    },
+    {
+        "Stop_id":4017,
+        "Stop Name":"ACCENTURE",
+        "Lat":12.906031,
+        "Lng":80.228347
+    },
+    {
+        "Stop_id":4016,
+        "Stop Name":"KARAPAKKAM",
+        "Lat":12.913367,
+        "Lng":80.229376
+    },
+    {
+        "Stop_id":4015,
+        "Stop Name":"TCS_KARAPAKKAM",
+        "Lat":12.919613,
+        "Lng":80.230232
+    },
+    {
+        "Stop_id":4014,
+        "Stop Name":"OKKIYAMPET",
+        "Lat":12.925828,
+        "Lng":80.231061
+    },
+    {
+        "Stop_id":4013,
+        "Stop Name":"PTC_QUARTRES",
+        "Lat":12.934222,
+        "Lng":80.23321
+    },
+    {
+        "Stop_id":4012,
+        "Stop Name":"METTUKUPPAM",
+        "Lat":12.93919,
+        "Lng":80.235615
+    },
+    {
+        "Stop_id":4010,
+        "Stop Name":"THURAIPAKKAM",
+        "Lat":12.951706,
+        "Lng":80.241742
+    },
+    {
+        "Stop_id":4011,
+        "Stop Name":"JAIN_COLL",
+        "Lat":12.946553,
+        "Lng":80.239864
+    },
+    {
+        "Stop_id":4009,
+        "Stop Name":"PERUNGUDI",
+        "Lat":12.959519,
+        "Lng":80.244946
+    },
+    {
+        "Stop_id":4007,
+        "Stop Name":"IGP",
+        "Lat":12.972633,
+        "Lng":80.250207
+    },
+    {
+        "Stop_id":4006,
+        "Stop Name":"SRP_TOOLS",
+        "Lat":12.978618,
+        "Lng":80.252599
+    },
+    {
+        "Stop_id":4005,
+        "Stop Name":"TIDEL_PARK",
+        "Lat":12.991302,
+        "Lng":80.250621
+    },
+    {
+        "Stop_id":4004,
+        "Stop Name":"MADHYA_KAILASH",
+        "Lat":13.006232,
+        "Lng":80.247461
+    },
+    {
+        "Stop_id":4003,
+        "Stop Name":"CLRI",
+        "Lat":13.006869,
+        "Lng":80.240674
+    },
+    {
+        "Stop_id":4001,
+        "Stop Name":"LITTLE_MOUNT",
+        "Lat":13.014339,
+        "Lng":80.226308
+    },
+    {
+        "Stop_id":4002,
+        "Stop Name":"ANNA_UNIVERSITY",
+        "Lat":13.008192,
+        "Lng":80.233775
+    },
+    {
+        "Stop_id":4000,
+        "Stop Name":"SAIDAPET  ",
+        "Lat":13.021571,
+        "Lng":80.226036
+    },
+    {
+        "Stop_id":4008,
+        "Stop Name":"KANDANCHAVADI",
+        "Lat":12.965094,
+        "Lng":80.247394
+    },
+    {
+        "Stop_id":4044,
+        "Stop Name":"AAVIN",
+        "Lat":12.894458,
+        "Lng":80.227491
+    },
+    {
+        "Stop_id":4045,
+        "Stop Name":"SHOLINGANALLUR",
+        "Lat":12.903181,
+        "Lng":80.227945
+    },
+    {
+        "Stop_id":4046,
+        "Stop Name":"ACCENTURE",
+        "Lat":12.907473,
+        "Lng":80.22828
+    },
+    {
+        "Stop_id":4047,
+        "Stop Name":"KARAPAKKAM",
+        "Lat":12.913535,
+        "Lng":80.229182
+    },
+    {
+        "Stop_id":4048,
+        "Stop Name":"TCS_KARAPAKKAM",
+        "Lat":12.919788,
+        "Lng":80.230027
+    },
+    {
+        "Stop_id":4049,
+        "Stop Name":"OKKIYAMPETTAI",
+        "Lat":12.925761,
+        "Lng":80.230829
+    },
+    {
+        "Stop_id":4050,
+        "Stop Name":"PTC_QUATRES",
+        "Lat":12.932923,
+        "Lng":80.23238
+    },
+    {
+        "Stop_id":4051,
+        "Stop Name":"METTUKUPPAM",
+        "Lat":12.939101,
+        "Lng":80.235254
+    },
+    {
+        "Stop_id":4052,
+        "Stop Name":"JAIN_COLL",
+        "Lat":12.94653,
+        "Lng":80.239589
+    },
+    {
+        "Stop_id":4053,
+        "Stop Name":"SEEVARAM",
+        "Lat":12.951035,
+        "Lng":80.241244
+    },
+    {
+        "Stop_id":4054,
+        "Stop Name":"PERUNGUDI",
+        "Lat":12.958841,
+        "Lng":80.244288
+    },
+    {
+        "Stop_id":4055,
+        "Stop Name":"KANDANCHAVADI ",
+        "Lat":12.966938,
+        "Lng":80.247971
+    },
+    {
+        "Stop_id":4056,
+        "Stop Name":"IGP",
+        "Lat":12.974354,
+        "Lng":80.250501
+    },
+    {
+        "Stop_id":4057,
+        "Stop Name":"SRP_TOOLS",
+        "Lat":12.978472,
+        "Lng":80.252254
+    },
+    {
+        "Stop_id":4058,
+        "Stop Name":"TIDEL_PARK",
+        "Lat":12.989393,
+        "Lng":80.250896
+    },
+    {
+        "Stop_id":4059,
+        "Stop Name":"VHS",
+        "Lat":13.003507,
+        "Lng":80.247433
+    },
+    {
+        "Stop_id":4060,
+        "Stop Name":"MADHYA_KAILASH",
+        "Lat":13.006582,
+        "Lng":80.246162
+    },
+    {
+        "Stop_id":4061,
+        "Stop Name":"GANDHI_MANDABAM",
+        "Lat":13.00741,
+        "Lng":80.236843
+    },
+    {
+        "Stop_id":4062,
+        "Stop Name":"LITTLE_MOUNT",
+        "Lat":13.015541,
+        "Lng":80.224999
+    },
+    {
+        "Stop_id":4063,
+        "Stop Name":"SAIDAPET_ARCH",
+        "Lat":13.019135,
+        "Lng":80.22427
+    },
+    {
+        "Stop_id":4064,
+        "Stop Name":"SAIDAPET_BUS_STOP",
+        "Lat":13.022131,
+        "Lng":80.226231
+    },
+    {
+        "Stop_id":4066,
+        "Stop Name":"Mandhaveli_Bus_Stand\/CID_Quarters",
+        "Lat":13.026527,
+        "Lng":80.263842
+    },
+    {
+        "Stop_id":4067,
+        "Stop Name":"Siringeri_Madam",
+        "Lat":13.027022,
+        "Lng":80.259054
+    },
+    {
+        "Stop_id":4068,
+        "Stop Name":"Kaliappa\/Billroth\/R.A_Puram",
+        "Lat":13.027075,
+        "Lng":80.256151
+    },
+    {
+        "Stop_id":4069,
+        "Stop Name":"Adayar_Gate\/Park_Sheraton",
+        "Lat":13.028948,
+        "Lng":80.249139
+    },
+    {
+        "Stop_id":4070,
+        "Stop Name":"Kotturpuram",
+        "Lat":13.021764,
+        "Lng":80.242313
+    },
+    {
+        "Stop_id":4071,
+        "Stop Name":"Kottur",
+        "Lat":13.01855,
+        "Lng":80.24126
+    },
+    {
+        "Stop_id":4072,
+        "Stop Name":"Gandhi_Mandapam\/Anna University",
+        "Lat":13.007388,
+        "Lng":80.236858
+    },
+    {
+        "Stop_id":4073,
+        "Stop Name":"Guindy_RS_BusStop",
+        "Lat":13.008179,
+        "Lng":80.213317
+    },
+    {
+        "Stop_id":4074,
+        "Stop Name":"Guindy\/MKN_Road",
+        "Lat":13.007289,
+        "Lng":80.209773
+    },
+    {
+        "Stop_id":4075,
+        "Stop Name":"Asarkana\/Kathipara\/Guindy_Circle",
+        "Lat":13.003671,
+        "Lng":80.201072
+    },
+    {
+        "Stop_id":4076,
+        "Stop Name":"Thirisulam\/Airport",
+        "Lat":12.979434,
+        "Lng":80.16232
+    },
+    {
+        "Stop_id":4077,
+        "Stop Name":"Pallavaram_Bus_Stand",
+        "Lat":12.969269,
+        "Lng":80.150188
+    },
+    {
+        "Stop_id":4078,
+        "Stop Name":"Chrompet",
+        "Lat":12.951758,
+        "Lng":80.140693
+    },
+    {
+        "Stop_id":4079,
+        "Stop Name":"Tambaram_Mepz\/Sanatorium",
+        "Lat":12.937008,
+        "Lng":80.128093
+    },
+    {
+        "Stop_id":4080,
+        "Stop Name":"Tambaram_West",
+        "Lat":12.928088,
+        "Lng":80.119034
+    },
+    {
+        "Stop_id":4081,
+        "Stop Name":"Tambaram_Mepz\/Sanatorium",
+        "Lat":12.936701,
+        "Lng":80.127436
+    },
+    {
+        "Stop_id":4082,
+        "Stop Name":"Chrompet",
+        "Lat":12.951091,
+        "Lng":80.139741
+    },
+    {
+        "Stop_id":4083,
+        "Stop Name":"Pallavaram_Bus_Stand",
+        "Lat":12.968621,
+        "Lng":80.149611
+    },
+    {
+        "Stop_id":4084,
+        "Stop Name":"Tirusulam\/Airport",
+        "Lat":12.980011,
+        "Lng":80.162639
+    },
+    {
+        "Stop_id":4085,
+        "Stop Name":"Asarkana\/Kathipara\/Guindy_Circle",
+        "Lat":13.003769,
+        "Lng":80.200792
+    },
+    {
+        "Stop_id":4086,
+        "Stop Name":"Guindy_Terminus",
+        "Lat":13.009291,
+        "Lng":80.211252
+    },
+    {
+        "Stop_id":4087,
+        "Stop Name":"Anna_University\/Gandhi_Mandabam",
+        "Lat":13.008251,
+        "Lng":80.2334
+    },
+    {
+        "Stop_id":4088,
+        "Stop Name":"IIT\/CLRI",
+        "Lat":13.007365,
+        "Lng":80.240182
+    },
+    {
+        "Stop_id":4089,
+        "Stop Name":"Kottur\/Anna_Library",
+        "Lat":13.018676,
+        "Lng":80.241195
+    },
+    {
+        "Stop_id":4090,
+        "Stop Name":"Kotturpuram",
+        "Lat":13.0233,
+        "Lng":80.24269
+    },
+    {
+        "Stop_id":4091,
+        "Stop Name":"Adyar_Gate\/Park_Sheraton",
+        "Lat":13.029097,
+        "Lng":80.249161
+    },
+    {
+        "Stop_id":4092,
+        "Stop Name":"Kaliappa_Hospital\/Billroth\/R.A_Puram",
+        "Lat":13.02717,
+        "Lng":80.25433
+    },
+    {
+        "Stop_id":4093,
+        "Stop Name":"Siringeri_Madam",
+        "Lat":13.027022,
+        "Lng":80.259054
+    },
+    {
+        "Stop_id":4094,
+        "Stop Name":"Mandaveli_Market\/Post_Office",
+        "Lat":13.02935,
+        "Lng":80.265687
+    },
+    {
+        "Stop_id":4160,
+        "Stop Name":"Tambaram_West",
+        "Lat":12.926966,
+        "Lng":80.11798
+    },
+    {
+        "Stop_id":4159,
+        "Stop Name":"Irumbuliyur",
+        "Lat":12.91724,
+        "Lng":80.10745
+    },
+    {
+        "Stop_id":4158,
+        "Stop Name":"Erikarai",
+        "Lat":12.909051,
+        "Lng":80.098383
+    },
+    {
+        "Stop_id":4157,
+        "Stop Name":"Perungalathur",
+        "Lat":12.906183,
+        "Lng":80.095984
+    },
+    {
+        "Stop_id":4156,
+        "Stop Name":"Iraniamman_koil",
+        "Lat":12.897431,
+        "Lng":80.089383
+    },
+    {
+        "Stop_id":4155,
+        "Stop Name":"Vandaloor_Gate",
+        "Lat":12.89351,
+        "Lng":80.08641
+    },
+    {
+        "Stop_id":4154,
+        "Stop Name":"Vandalur_Zoo ",
+        "Lat":12.880288,
+        "Lng":80.080472
+    },
+    {
+        "Stop_id":4153,
+        "Stop Name":"Urapakkam_School",
+        "Lat":12.868251,
+        "Lng":80.075748
+    },
+    {
+        "Stop_id":4152,
+        "Stop Name":"Urapakkam_Tea_ Kadai",
+        "Lat":12.862166,
+        "Lng":80.073404
+    },
+    {
+        "Stop_id":4151,
+        "Stop Name":"Guduvanchery_EB",
+        "Lat":12.851341,
+        "Lng":80.065607
+    },
+    {
+        "Stop_id":4150,
+        "Stop Name":"Guduvanchery",
+        "Lat":12.845288,
+        "Lng":80.060994
+    },
+    {
+        "Stop_id":4149,
+        "Stop Name":"Srinivasapuram",
+        "Lat":12.8403,
+        "Lng":80.05569
+    },
+    {
+        "Stop_id":4148,
+        "Stop Name":"Thailavaram",
+        "Lat":12.83087,
+        "Lng":80.045908
+    },
+    {
+        "Stop_id":4147,
+        "Stop Name":"VPT\/Valliammai\/SRM",
+        "Lat":12.826999,
+        "Lng":80.041703
+    },
+    {
+        "Stop_id":4146,
+        "Stop Name":"SRM_Potheri",
+        "Lat":12.820195,
+        "Lng":80.036704
+    },
+    {
+        "Stop_id":4145,
+        "Stop Name":"Sivanandha_Gurukulam",
+        "Lat":12.814611,
+        "Lng":80.032767
+    },
+    {
+        "Stop_id":4144,
+        "Stop Name":"Kattankulathur",
+        "Lat":12.809058,
+        "Lng":80.02917
+    },
+    {
+        "Stop_id":4143,
+        "Stop Name":"Maraimalai_Nagar",
+        "Lat":12.799837,
+        "Lng":80.023155
+    },
+    {
+        "Stop_id":4142,
+        "Stop Name":"Peramanur",
+        "Lat":12.79488,
+        "Lng":80.01985
+    },
+    {
+        "Stop_id":4141,
+        "Stop Name":"Tansi",
+        "Lat":12.790542,
+        "Lng":80.017038
+    },
+    {
+        "Stop_id":4140,
+        "Stop Name":"Ford",
+        "Lat":12.78709,
+        "Lng":80.01505
+    },
+    {
+        "Stop_id":4139,
+        "Stop Name":"Kilekarni",
+        "Lat":12.77686,
+        "Lng":80.01012
+    },
+    {
+        "Stop_id":4138,
+        "Stop Name":"Malrosapuram",
+        "Lat":12.7707,
+        "Lng":80.00738
+    },
+    {
+        "Stop_id":4137,
+        "Stop Name":"Singaperumal_Kovil",
+        "Lat":12.760952,
+        "Lng":80.003396
+    },
+    {
+        "Stop_id":4136,
+        "Stop Name":"Thirutheri",
+        "Lat":12.754956,
+        "Lng":80.001041
+    },
+    {
+        "Stop_id":4135,
+        "Stop Name":"Sathya_nagar",
+        "Lat":12.75013,
+        "Lng":79.99783
+    },
+    {
+        "Stop_id":4134,
+        "Stop Name":"Mahindra_City",
+        "Lat":12.74387,
+        "Lng":79.99268
+    },
+    {
+        "Stop_id":4133,
+        "Stop Name":"Paranur_RTO",
+        "Lat":12.73791,
+        "Lng":79.98805
+    },
+    {
+        "Stop_id":4132,
+        "Stop Name":"Rajakulipettai",
+        "Lat":12.71653,
+        "Lng":79.98061
+    },
+    {
+        "Stop_id":4131,
+        "Stop Name":"Pulipakkam",
+        "Lat":12.711528,
+        "Lng":79.978754
+    },
+    {
+        "Stop_id":4130,
+        "Stop Name":"Chengalpattu_Bypass",
+        "Lat":12.699907,
+        "Lng":79.968312
+    },
+    {
+        "Stop_id":4129,
+        "Stop Name":"Old_Chengalpet",
+        "Lat":12.696929,
+        "Lng":79.976735
+    },
+    {
+        "Stop_id":4128,
+        "Stop Name":"New_Chengalpet",
+        "Lat":12.691175,
+        "Lng":79.980791
+    },
+    {
+        "Stop_id":4127,
+        "Stop Name":"New_Chengalpet",
+        "Lat":12.691175,
+        "Lng":79.980791
+    },
+    {
+        "Stop_id":4126,
+        "Stop Name":"Old_Chengalpet",
+        "Lat":12.697015,
+        "Lng":79.976733
+    },
+    {
+        "Stop_id":4125,
+        "Stop Name":"Chengalpattu_Bypass",
+        "Lat":12.699921,
+        "Lng":79.968633
+    },
+    {
+        "Stop_id":4124,
+        "Stop Name":"Pulipakkam",
+        "Lat":12.711506,
+        "Lng":79.978922
+    },
+    {
+        "Stop_id":4123,
+        "Stop Name":"Rajakulipettai",
+        "Lat":12.717467,
+        "Lng":79.981123
+    },
+    {
+        "Stop_id":4122,
+        "Stop Name":"Paranur_RTO",
+        "Lat":12.73812,
+        "Lng":79.98859
+    },
+    {
+        "Stop_id":4121,
+        "Stop Name":"Mahindra_City",
+        "Lat":12.743226,
+        "Lng":79.992812
+    },
+    {
+        "Stop_id":4120,
+        "Stop Name":"Sathya_nagar",
+        "Lat":12.7498,
+        "Lng":79.99774
+    },
+    {
+        "Stop_id":4119,
+        "Stop Name":"Thirutheri",
+        "Lat":12.75583,
+        "Lng":80.00191
+    },
+    {
+        "Stop_id":4118,
+        "Stop Name":"Singa_Perumal_Kovil",
+        "Lat":12.76102,
+        "Lng":80.00363
+    },
+    {
+        "Stop_id":4117,
+        "Stop Name":"Malrosapuram",
+        "Lat":12.77034,
+        "Lng":80.00755
+    },
+    {
+        "Stop_id":4116,
+        "Stop Name":"Kilekarni",
+        "Lat":12.776962,
+        "Lng":80.010642
+    },
+    {
+        "Stop_id":4115,
+        "Stop Name":"Ford",
+        "Lat":12.78717,
+        "Lng":80.01541
+    },
+    {
+        "Stop_id":4114,
+        "Stop Name":"Tansi",
+        "Lat":12.78936,
+        "Lng":80.01679
+    },
+    {
+        "Stop_id":4113,
+        "Stop Name":"Peramanur\/Saamiyar_Gate",
+        "Lat":12.794314,
+        "Lng":80.019874
+    },
+    {
+        "Stop_id":4112,
+        "Stop Name":"Maraimalai_Nagar",
+        "Lat":12.799597,
+        "Lng":80.023356
+    },
+    {
+        "Stop_id":4111,
+        "Stop Name":"Kattankulathur",
+        "Lat":12.808806,
+        "Lng":80.029261
+    },
+    {
+        "Stop_id":4110,
+        "Stop Name":"Sivanandha_Gurukulam",
+        "Lat":12.814616,
+        "Lng":80.033016
+    },
+    {
+        "Stop_id":4109,
+        "Stop Name":"SRM_Potheri",
+        "Lat":12.81978,
+        "Lng":80.03666
+    },
+    {
+        "Stop_id":4108,
+        "Stop Name":"VPT\/Valliammai\/SRM",
+        "Lat":12.826044,
+        "Lng":80.041139
+    },
+    {
+        "Stop_id":4107,
+        "Stop Name":"Thailavaram",
+        "Lat":12.830435,
+        "Lng":80.045687
+    },
+    {
+        "Stop_id":4106,
+        "Stop Name":"Srinivasapuram",
+        "Lat":12.83978,
+        "Lng":80.055552
+    },
+    {
+        "Stop_id":4105,
+        "Stop Name":"Guduvanchery",
+        "Lat":12.84548,
+        "Lng":80.061448
+    },
+    {
+        "Stop_id":4104,
+        "Stop Name":"Guduvanchery_EB",
+        "Lat":12.850806,
+        "Lng":80.065477
+    },
+    {
+        "Stop_id":4103,
+        "Stop Name":"Urapakkam_Tea_Kadai",
+        "Lat":12.861996,
+        "Lng":80.073506
+    },
+    {
+        "Stop_id":4102,
+        "Stop Name":"Urapakkam_School",
+        "Lat":12.865798,
+        "Lng":80.075032
+    },
+    {
+        "Stop_id":4101,
+        "Stop Name":"Vandaloor_Zoo",
+        "Lat":12.880858,
+        "Lng":80.080972
+    },
+    {
+        "Stop_id":4100,
+        "Stop Name":"Vandaloor_Gate",
+        "Lat":12.892971,
+        "Lng":80.086472
+    },
+    {
+        "Stop_id":4099,
+        "Stop Name":"Iraniamma_ Koil",
+        "Lat":12.89711,
+        "Lng":80.08939
+    },
+    {
+        "Stop_id":4098,
+        "Stop Name":"Perungalathur",
+        "Lat":12.905657,
+        "Lng":80.096009
+    },
+    {
+        "Stop_id":4097,
+        "Stop Name":"Erikarai",
+        "Lat":12.90874,
+        "Lng":80.098609
+    },
+    {
+        "Stop_id":4096,
+        "Stop Name":"Irumbuliyur",
+        "Lat":12.916638,
+        "Lng":80.106802
+    },
+    {
+        "Stop_id":4095,
+        "Stop Name":"Tambaram_Depot",
+        "Lat":12.9256,
+        "Lng":80.11722
+    }
+]

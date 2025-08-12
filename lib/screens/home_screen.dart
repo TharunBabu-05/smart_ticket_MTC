@@ -9,6 +9,7 @@ import 'active_trips_screen.dart';
 import 'active_tickets_screen.dart';
 import 'live_bus_tracking_screen.dart';
 import 'enhanced_ticket_screen.dart';
+import 'nearby_bus_stops_screen.dart';
 import '../models/trip_data_model.dart';
 import '../models/enhanced_ticket_model.dart';
 import '../services/fraud_detection_service_new.dart';
@@ -227,9 +228,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 Row(
                   children: [
                     IconButton(
-                      onPressed: () => Navigator.pushNamed(context, '/settings'),
+                      onPressed: () => Navigator.pushNamed(context, '/notifications'),
                       icon: Icon(
                         Icons.notifications_outlined,
+                        color: colorScheme.onPrimary,
+                        size: 24,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () => Navigator.pushNamed(context, '/settings'),
+                      icon: Icon(
+                        Icons.settings_outlined,
                         color: colorScheme.onPrimary,
                         size: 24,
                       ),
@@ -730,13 +739,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 const SizedBox(width: 16),
                 Expanded(
                   child: _buildActionCard(
-                    icon: Icons.history,
-                    title: 'Trip History',
-                    subtitle: 'Past journeys',
-                    color: colorScheme.secondary,
+                    icon: Icons.location_on,
+                    title: 'Nearby Stops',
+                    subtitle: 'Within 5 KM',
+                    color: Colors.grey.shade600,
                     onTap: () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ActiveTicketsScreen()),
+                      MaterialPageRoute(builder: (context) => const NearbyBusStopsScreen()),
                     ),
                   ),
                 ),
@@ -747,6 +756,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               children: [
                 Expanded(
                   child: _buildActionCard(
+                    icon: Icons.history,
+                    title: 'Trip History',
+                    subtitle: 'Past journeys',
+                    color: colorScheme.secondary,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ActiveTicketsScreen()),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: _buildActionCard(
                     icon: Icons.support_agent_outlined,
                     title: 'Support',
                     subtitle: 'Help & feedback',
@@ -754,7 +776,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     onTap: () => Navigator.pushNamed(context, '/support'),
                   ),
                 ),
-                const SizedBox(width: 16),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
                 Expanded(
                   child: _buildActionCard(
                     icon: Icons.settings_outlined,
@@ -763,6 +789,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     color: Colors.grey.shade600,
                     onTap: () => Navigator.pushNamed(context, '/settings'),
                   ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Container(), // Empty space for balance
                 ),
               ],
             ),
@@ -886,15 +916,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
               child: Icon(
                 icon,
-                color: color,
+                color: Colors.white,
                 size: 20,
               ),
             ),
             const SizedBox(height: 12),
             Text(
               title,
-              style: TextStyle(
-                color: color,
+              style: const TextStyle(
+                color: Colors.white,
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
               ),
@@ -902,8 +932,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             const SizedBox(height: 4),
             Text(
               subtitle,
-              style: TextStyle(
-                color: color.withOpacity(0.7),
+              style: const TextStyle(
+                color: Colors.white70,
                 fontSize: 12,
               ),
             ),

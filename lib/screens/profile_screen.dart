@@ -80,22 +80,32 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
     try {
       final user = FirebaseAuth.instance.currentUser;
       if (user != null) {
+        // Get user data from Firebase Auth first
+        String displayName = user.displayName ?? 'Smart Ticket User';
+        String email = user.email ?? 'user@smartticket.com';
+        String phone = user.phoneNumber ?? '+91 98765 43210';
+        
+        // Try to get additional data from Firestore
         final doc = await FirebaseFirestore.instance
             .collection('users')
             .doc(user.uid)
             .get();
         
+        Map<String, dynamic> finalUserData = {
+          ..._defaultUserData,
+          'name': displayName,
+          'email': email,
+          'phone': phone,
+        };
+        
         if (doc.exists) {
-          setState(() {
-            userData = {..._defaultUserData, ...doc.data()!};
-            isLoading = false;
-          });
-        } else {
-          setState(() {
-            userData = _defaultUserData;
-            isLoading = false;
-          });
+          finalUserData = {...finalUserData, ...doc.data()!};
         }
+        
+        setState(() {
+          userData = finalUserData;
+          isLoading = false;
+        });
       } else {
         setState(() {
           userData = _defaultUserData;
@@ -108,6 +118,79 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
         userData = _defaultUserData;
         isLoading = false;
       });
+    }
+  }
+
+  Future<void> _editUserName() async {
+    final TextEditingController nameController = TextEditingController(
+      text: userData?['name']?.toString() ?? 'Smart Ticket User'
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Edit Name'),
+          content: TextField(
+            controller: nameController,
+            decoration: const InputDecoration(
+              labelText: 'Full Name',
+              border: OutlineInputBorder(),
+            ),
+            maxLength: 30,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                if (nameController.text.trim().isNotEmpty) {
+                  await _updateUserName(nameController.text.trim());
+                  Navigator.of(context).pop();
+                }
+              },
+              child: const Text('Save'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _updateUserName(String newName) async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        // Update Firebase Auth display name
+        await user.updateDisplayName(newName);
+        
+        // Update Firestore user document
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .set({'name': newName}, SetOptions(merge: true));
+        
+        // Update local state
+        setState(() {
+          userData = {...?userData, 'name': newName};
+        });
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Name updated to: $newName'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to update name: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 
@@ -209,18 +292,41 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                               },
                             ),
                             const SizedBox(height: 16),
-                            // User Name
-                            Text(
-                              userData?['name']?.toString() ?? 'Smart Ticket User',
-                              style: const TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                shadows: [
-                                  Shadow(
-                                    offset: Offset(1, 1),
-                                    blurRadius: 3,
-                                    color: Colors.black26,
+                            // User Name with Edit Button
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      userData?['name']?.toString() ?? 'Smart Ticket User',
+                                      style: const TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                        shadows: [
+                                          Shadow(
+                                            offset: Offset(1, 1),
+                                            blurRadius: 3,
+                                            color: Colors.black26,
+                                          ),
+                                        ],
+                                      ),
+                                      textAlign: TextAlign.center,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: _editUserName,
+                                    icon: const Icon(
+                                      Icons.edit,
+                                      color: Colors.white70,
+                                      size: 20,
+                                    ),
+                                    tooltip: 'Edit Name',
                                   ),
                                 ],
                               ),
