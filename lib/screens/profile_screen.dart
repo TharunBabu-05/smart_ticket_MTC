@@ -11,580 +11,436 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateMixin {
+class _ProfileScreenState extends State<ProfileScreen> {
   Map<String, dynamic>? userData;
   bool isLoading = true;
-  late AnimationController _avatarController;
-  late AnimationController _pulseController;
-  late Animation<double> _scaleAnimation;
-  late Animation<double> _pulseAnimation;
-
-  // Default user data for demo purposes
-  final Map<String, dynamic> _defaultUserData = {
-    'name': 'Smart Ticket User',
-    'phone': '+91 98765 43210',
-    'email': 'user@smartticket.com',
-    'ticketsBooked': 42,
-    'totalTrips': 128,
-    'memberSince': '2024',
-    'preferredLanguage': 'English',
-    'occupation': 'Professional',
-    'age': 28,
-    'city': 'Chennai',
-    'favoriteBusRoute': 'Route 27 - T.Nagar to Airport',
-  };
+  
+  // Controllers for editing
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _initAnimations();
     _loadUserData();
-  }
-
-  void _initAnimations() {
-    _avatarController = AnimationController(
-      duration: const Duration(seconds: 2),
-      vsync: this,
-    )..repeat();
-    
-    _pulseController = AnimationController(
-      duration: const Duration(milliseconds: 1500),
-      vsync: this,
-    )..repeat(reverse: true);
-
-    _scaleAnimation = Tween<double>(
-      begin: 0.9,
-      end: 1.1,
-    ).animate(CurvedAnimation(
-      parent: _avatarController,
-      curve: Curves.easeInOut,
-    ));
-
-    _pulseAnimation = Tween<double>(
-      begin: 0.8,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _pulseController,
-      curve: Curves.easeInOut,
-    ));
   }
 
   @override
   void dispose() {
-    _avatarController.dispose();
-    _pulseController.dispose();
+    _nameController.dispose();
+    _phoneController.dispose();
     super.dispose();
   }
 
   Future<void> _loadUserData() async {
     try {
+      setState(() {
+        isLoading = true;
+      });
+
       final user = FirebaseAuth.instance.currentUser;
       if (user != null) {
-        // Get user data from Firebase Auth first
-        String displayName = user.displayName ?? 'Smart Ticket User';
-        String email = user.email ?? 'user@smartticket.com';
-        String phone = user.phoneNumber ?? '+91 98765 43210';
-        
-        // Try to get additional data from Firestore
+        // Get user data from Firestore
         final doc = await FirebaseFirestore.instance
             .collection('users')
             .doc(user.uid)
             .get();
         
-        Map<String, dynamic> finalUserData = {
-          ..._defaultUserData,
-          'name': displayName,
-          'email': email,
-          'phone': phone,
+        Map<String, dynamic> userInfo = {
+          'name': user.displayName ?? 'Smart Ticket User',
+          'email': user.email ?? 'user@smartticket.com',
+          'phone': '+91 98765 43210',
+          'memberSince': '2024',
+          'ticketsBooked': 42,
+          'totalTrips': 128,
+          'age': 28,
+          'city': 'Chennai',
+          'favoriteBusRoute': 'Route 27 - T.Nagar to Airport',
+          'occupation': 'Professional',
+          'preferredLanguage': 'English'
         };
-        
+
         if (doc.exists) {
-          finalUserData = {...finalUserData, ...doc.data()!};
+          // Merge Firestore data with defaults
+          userInfo.addAll(doc.data() ?? {});
         }
-        
+
         setState(() {
-          userData = finalUserData;
+          userData = userInfo;
           isLoading = false;
         });
       } else {
         setState(() {
-          userData = _defaultUserData;
           isLoading = false;
         });
       }
     } catch (e) {
       print('Error loading user data: $e');
       setState(() {
-        userData = _defaultUserData;
         isLoading = false;
       });
     }
   }
 
-  Future<void> _editUserName() async {
-    final TextEditingController nameController = TextEditingController(
-      text: userData?['name']?.toString() ?? 'Smart Ticket User'
-    );
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Edit Name'),
-          content: TextField(
-            controller: nameController,
-            decoration: const InputDecoration(
-              labelText: 'Full Name',
-              border: OutlineInputBorder(),
-            ),
-            maxLength: 30,
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                if (nameController.text.trim().isNotEmpty) {
-                  await _updateUserName(nameController.text.trim());
-                  Navigator.of(context).pop();
-                }
-              },
-              child: const Text('Save'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Future<void> _updateUserName(String newName) async {
-    try {
-      final user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-        // Update Firebase Auth display name
-        await user.updateDisplayName(newName);
-        
-        // Update Firestore user document
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(user.uid)
-            .set({'name': newName}, SetOptions(merge: true));
-        
-        // Update local state
-        setState(() {
-          userData = {...?userData, 'name': newName};
-        });
-        
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Name updated to: $newName'),
-            backgroundColor: Colors.green,
-          ),
-        );
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Failed to update name: $e'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
-  }
-
   Future<void> _logout() async {
     try {
-      await FirebaseAuth.instance.signOut();
-      if (mounted) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const AuthScreen()),
-        );
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Error signing out'),
-          backgroundColor: Colors.red,
+      final shouldLogout = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Confirm Logout'),
+          content: const Text('Are you sure you want to sign out?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text('Logout'),
+            ),
+          ],
         ),
       );
+
+      if (shouldLogout == true) {
+        await FirebaseAuth.instance.signOut();
+        if (mounted) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const AuthScreen()),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Error signing out'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: colorScheme.background,
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
-          : CustomScrollView(
-              slivers: [
-                // Enhanced App Bar with Gradient
-                SliverAppBar(
-                  expandedHeight: 240,
-                  floating: false,
-                  pinned: true,
-                  backgroundColor: const Color(0xFF1DB584),
-                  flexibleSpace: FlexibleSpaceBar(
-                    background: Container(
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            Color(0xFF1DB584),
-                            Color(0xFF159F6E),
-                            Color(0xFF0E7A55),
-                          ],
-                        ),
-                      ),
-                      child: SafeArea(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const SizedBox(height: 20),
-                            // Animated Profile Picture
-                            AnimatedBuilder(
-                              animation: _scaleAnimation,
-                              builder: (context, child) {
-                                return Transform.scale(
-                                  scale: _scaleAnimation.value,
-                                  child: AnimatedBuilder(
-                                    animation: _pulseAnimation,
-                                    builder: (context, child) {
-                                      return Container(
-                                        padding: const EdgeInsets.all(4),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                            color: Colors.white.withOpacity(_pulseAnimation.value),
-                                            width: 3,
-                                          ),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.white.withOpacity(0.3),
-                                              blurRadius: 20,
-                                              spreadRadius: 5,
-                                            ),
-                                          ],
-                                        ),
-                                        child: CircleAvatar(
-                                          radius: 50,
-                                          backgroundColor: Colors.white,
-                                          child: CircleAvatar(
-                                            radius: 46,
-                                            backgroundColor: const Color(0xFF0E7A55),
-                                            child: Text(
-                                              (userData?['name'] ?? 'S').toString().substring(0, 1).toUpperCase(),
-                                              style: const TextStyle(
-                                                fontSize: 32,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                );
-                              },
-                            ),
-                            const SizedBox(height: 16),
-                            // User Name with Edit Button
-                            Container(
-                              width: double.infinity,
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      userData?['name']?.toString() ?? 'Smart Ticket User',
-                                      style: const TextStyle(
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                        shadows: [
-                                          Shadow(
-                                            offset: Offset(1, 1),
-                                            blurRadius: 3,
-                                            color: Colors.black26,
-                                          ),
-                                        ],
-                                      ),
-                                      textAlign: TextAlign.center,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                    ),
-                                  ),
-                                  IconButton(
-                                    onPressed: _editUserName,
-                                    icon: const Icon(
-                                      Icons.edit,
-                                      color: Colors.white70,
-                                      size: 20,
-                                    ),
-                                    tooltip: 'Edit Name',
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            // Phone Number
-                            Text(
-                              userData?['phone']?.toString() ?? '+91 98765 43210',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white.withOpacity(0.9),
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            // Member Badge
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(color: Colors.white.withOpacity(0.3)),
-                              ),
-                              child: Text(
-                                'Member since ${userData?['memberSince']?.toString() ?? '2024'}',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+          : FirebaseAuth.instance.currentUser == null
+              ? _buildNotLoggedIn(colorScheme)
+              : CustomScrollView(
+                  slivers: [
+                    // App Bar with Gradient
+                    SliverAppBar(
+                      expandedHeight: 240,
+                      floating: false,
+                      pinned: true,
+                      backgroundColor: colorScheme.primary,
+                      flexibleSpace: FlexibleSpaceBar(
+                        background: _buildProfileHeader(colorScheme),
                       ),
                     ),
-                  ),
-                  actions: [
-                    PopupMenuButton<String>(
-                      icon: const Icon(Icons.more_vert, color: Colors.white),
-                      onSelected: (value) {
-                        if (value == 'logout') {
-                          _logout();
-                        }
-                      },
-                      itemBuilder: (context) => [
-                        const PopupMenuItem(
-                          value: 'logout',
-                          child: Row(
-                            children: [
-                              Icon(Icons.logout, color: Colors.red),
-                              SizedBox(width: 8),
-                              Text('Logout'),
-                            ],
-                          ),
-                        ),
-                      ],
+                    // Content
+                    SliverToBoxAdapter(
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 24),
+                          _buildProfileCompletion(colorScheme),
+                          const SizedBox(height: 24),
+                          _buildPersonalInfo(colorScheme),
+                          const SizedBox(height: 24),
+                          _buildAccountInfo(colorScheme),
+                          const SizedBox(height: 24),
+                          _buildQuickActions(colorScheme),
+                          const SizedBox(height: 24),
+                          _buildLogoutButton(colorScheme),
+                          const SizedBox(height: 32),
+                        ],
+                      ),
                     ),
                   ],
                 ),
-                // Profile Details Content
-                SliverToBoxAdapter(
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 20),
-                      // Stats Cards
-                      _buildStatsSection(),
-                      const SizedBox(height: 20),
-                      // Personal Information
-                      _buildPersonalInfoSection(),
-                      const SizedBox(height: 20),
-                      // Travel Information  
-                      _buildTravelInfoSection(),
-                      const SizedBox(height: 20),
-                      // Menu Items
-                      _buildMenuSection(),
-                      const SizedBox(height: 100),
-                    ],
+    );
+  }
+
+  Widget _buildNotLoggedIn(ColorScheme colorScheme) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.person_off,
+              size: 80,
+              color: Colors.grey[400],
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Not Logged In',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: colorScheme.onSurface,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Please sign in to view your profile',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey[600],
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => const AuthScreen()),
+                );
+              },
+              child: const Text('Sign In'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProfileHeader(ColorScheme colorScheme) {
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            colorScheme.primary,
+            colorScheme.primary.withOpacity(0.8),
+          ],
+        ),
+      ),
+      child: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(height: 20),
+            CircleAvatar(
+              radius: 50,
+              backgroundColor: Colors.white.withOpacity(0.2),
+              child: Text(
+                (userData?['name'] ?? 'S').toString().substring(0, 1).toUpperCase(),
+                style: const TextStyle(
+                  fontSize: 36,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              userData?['name']?.toString() ?? 'Smart Ticket User',
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              userData?['email']?.toString() ?? 'user@smartticket.com',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.white.withOpacity(0.9),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProfileCompletion(ColorScheme colorScheme) {
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Profile Completion',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: colorScheme.onSurface,
+              ),
+            ),
+            const SizedBox(height: 12),
+            LinearProgressIndicator(
+              value: 0.75,
+              backgroundColor: Colors.grey[300],
+              valueColor: AlwaysStoppedAnimation<Color>(colorScheme.primary),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              '75% Complete',
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey[600],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPersonalInfo(ColorScheme colorScheme) {
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Personal Information',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: colorScheme.onSurface,
                   ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.edit, size: 20),
+                  onPressed: _editUserName,
                 ),
               ],
             ),
+            const SizedBox(height: 16),
+            _buildInfoRow(Icons.person, 'Full Name', userData?['name']?.toString() ?? 'Smart Ticket User'),
+            _buildInfoRow(Icons.phone, 'Phone', userData?['phone']?.toString() ?? '+91 98765 43210'),
+            _buildInfoRow(Icons.email, 'Email', userData?['email']?.toString() ?? 'user@smartticket.com'),
+            _buildInfoRow(Icons.cake, 'Age', '${userData?['age'] ?? 28} years'),
+          ],
+        ),
+      ),
     );
   }
 
-  // Stats Section with Travel Statistics
-  Widget _buildStatsSection() {
-    return Container(
+  Widget _buildAccountInfo(ColorScheme colorScheme) {
+    return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            blurRadius: 10,
-            spreadRadius: 2,
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Travel Statistics',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: colorScheme.onSurface,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildStatItem('Tickets Booked', '${userData?['ticketsBooked'] ?? 42}', Colors.blue),
+                _buildStatItem('Total Trips', '${userData?['totalTrips'] ?? 128}', Colors.green),
+                _buildStatItem('CO₂ Saved', '${(userData?['totalTrips'] ?? 128) * 0.5} kg', Colors.orange),
+              ],
+            ),
+            const SizedBox(height: 16),
+            _buildInfoRow(Icons.location_city, 'City', userData?['city']?.toString() ?? 'Chennai'),
+            _buildInfoRow(Icons.schedule, 'Member Since', userData?['memberSince']?.toString() ?? '2024'),
+          ],
+        ),
       ),
+    );
+  }
+
+  Widget _buildQuickActions(ColorScheme colorScheme) {
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Travel Statistics',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF2D3748),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Text(
+              'Quick Actions',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: colorScheme.onSurface,
+              ),
             ),
           ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Expanded(
-                child: _buildStatCard(
-                  icon: Icons.confirmation_number,
-                  value: '${userData?['ticketsBooked'] ?? 42}',
-                  label: 'Tickets\nBooked',
-                  color: const Color(0xFF1DB584),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _buildStatCard(
-                  icon: Icons.directions_bus,
-                  value: '${userData?['totalTrips'] ?? 128}',
-                  label: 'Total\nTrips',
-                  color: Colors.blue,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _buildStatCard(
-                  icon: Icons.eco,
-                  value: '2.4kg',
-                  label: 'CO₂\nSaved',
-                  color: Colors.green,
-                ),
-              ),
-            ],
+          _buildActionItem(
+            icon: Icons.settings,
+            title: 'Settings',
+            color: Colors.blue,
+            onTap: () {
+              Navigator.pushNamed(context, '/settings');
+            },
+          ),
+          _buildActionItem(
+            icon: Icons.history,
+            title: 'Trip History',
+            color: Colors.green,
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Trip History coming soon!')),
+              );
+            },
+          ),
+          _buildActionItem(
+            icon: Icons.support,
+            title: 'Support',
+            color: Colors.orange,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SupportScreen()),
+              );
+            },
           ),
         ],
       ),
     );
   }
 
-  Widget _buildStatCard({
-    required IconData icon,
-    required String value,
-    required String label,
-    required Color color,
-  }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.2)),
-      ),
-      child: Column(
-        children: [
-          Icon(icon, size: 32, color: color),
-          const SizedBox(height: 8),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: color,
+  Widget _buildLogoutButton(ColorScheme colorScheme) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: SizedBox(
+        width: double.infinity,
+        child: ElevatedButton.icon(
+          onPressed: _logout,
+          icon: const Icon(Icons.logout),
+          label: const Text('Logout'),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.red,
+            foregroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
             ),
           ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey[600],
-              height: 1.2,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Personal Information Section
-  Widget _buildPersonalInfoSection() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            blurRadius: 10,
-            spreadRadius: 2,
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Personal Information',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF2D3748),
-            ),
-          ),
-          const SizedBox(height: 16),
-          _buildInfoRow(Icons.person, 'Full Name', userData?['name']?.toString() ?? 'Smart Ticket User'),
-          _buildInfoRow(Icons.phone, 'Phone', userData?['phone']?.toString() ?? '+91 98765 43210'),
-          _buildInfoRow(Icons.email, 'Email', userData?['email']?.toString() ?? 'user@smartticket.com'),
-          _buildInfoRow(Icons.cake, 'Age', '${userData?['age'] ?? 28} years'),
-          _buildInfoRow(Icons.work, 'Occupation', userData?['occupation']?.toString() ?? 'Professional'),
-          _buildInfoRow(Icons.language, 'Language', userData?['preferredLanguage']?.toString() ?? 'English'),
-        ],
-      ),
-    );
-  }
-
-  // Travel Information Section
-  Widget _buildTravelInfoSection() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            blurRadius: 10,
-            spreadRadius: 2,
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Travel Preferences',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF2D3748),
-            ),
-          ),
-          const SizedBox(height: 16),
-          _buildInfoRow(Icons.location_city, 'City', userData?['city']?.toString() ?? 'Chennai'),
-          _buildInfoRow(Icons.route, 'Favorite Route', userData?['favoriteBusRoute']?.toString() ?? 'Route 27 - T.Nagar to Airport'),
-          _buildInfoRow(Icons.schedule, 'Member Since', userData?['memberSince']?.toString() ?? '2024'),
-        ],
+        ),
       ),
     );
   }
@@ -594,12 +450,8 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         children: [
-          Icon(
-            icon,
-            size: 20,
-            color: const Color(0xFF1DB584),
-          ),
-          const SizedBox(width: 16),
+          Icon(icon, size: 20, color: Colors.grey[600]),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -612,13 +464,11 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                const SizedBox(height: 2),
                 Text(
                   value,
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFF2D3748),
                   ),
                 ),
               ],
@@ -629,95 +479,46 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
     );
   }
 
-  // Menu Section
-  Widget _buildMenuSection() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            blurRadius: 10,
-            spreadRadius: 2,
+  Widget _buildStatItem(String label, String value, Color color) {
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: color.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(8),
           ),
-        ],
-      ),
-      child: Column(
-        children: [
-          _buildMenuItem(
-            icon: Icons.confirmation_number,
-            title: 'My Tickets',
-            subtitle: 'View booking history',
-            color: const Color(0xFF1DB584),
-            onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('My Tickets - Coming Soon')),
-              );
-            },
+          child: Text(
+            value,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
           ),
-          _buildMenuItem(
-            icon: Icons.card_membership,
-            title: 'My Passes',
-            subtitle: 'Monthly & weekly passes',
-            color: Colors.orange,
-            onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('My Passes - Coming Soon')),
-              );
-            },
+        ),
+        const SizedBox(height: 8),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.grey[600],
           ),
-          _buildMenuItem(
-            icon: Icons.share,
-            title: 'Share App',
-            subtitle: 'Invite friends to join',
-            color: Colors.blue,
-            onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Share App - Coming Soon')),
-              );
-            },
-          ),
-          _buildMenuItem(
-            icon: Icons.star_rate,
-            title: 'Rate Us',
-            subtitle: 'Help us improve',
-            color: Colors.amber,
-            onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Rate Us - Coming Soon')),
-              );
-            },
-          ),
-          _buildMenuItem(
-            icon: Icons.support_agent,
-            title: 'Contact Support',
-            subtitle: 'Get help & assistance',
-            color: const Color(0xFF1DB584),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const SupportScreen(),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
+          textAlign: TextAlign.center,
+        ),
+      ],
     );
   }
 
-  Widget _buildMenuItem({
+  Widget _buildActionItem({
     required IconData icon,
     required String title,
-    String? subtitle,
     required Color color,
+    String? subtitle,
     required VoidCallback onTap,
   }) {
     return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       leading: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
@@ -735,7 +536,6 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
         style: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w600,
-          color: Color(0xFF2D3748),
         ),
       ),
       subtitle: subtitle != null
@@ -754,5 +554,47 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
       ),
       onTap: onTap,
     );
+  }
+
+  Future<void> _editUserName() async {
+    _nameController.text = userData?['name']?.toString() ?? '';
+    
+    final newName = await showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Edit Name'),
+        content: TextField(
+          controller: _nameController,
+          decoration: const InputDecoration(
+            hintText: 'Enter your name',
+            border: OutlineInputBorder(),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(_nameController.text),
+            child: const Text('Save'),
+          ),
+        ],
+      ),
+    );
+
+    if (newName != null && newName.isNotEmpty) {
+      // Update in Firestore
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .update({'name': newName});
+        
+        // Refresh data
+        _loadUserData();
+      }
+    }
   }
 }

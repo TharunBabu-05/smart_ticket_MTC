@@ -14,6 +14,7 @@ class PermissionManager {
         Permission.locationWhenInUse,
         Permission.locationAlways,
         Permission.sensors,
+        Permission.notification,
       ].request();
       
       print('$tag Permission results:');
@@ -30,8 +31,12 @@ class PermissionManager {
       bool sensorsGranted = statuses[Permission.sensors]?.isGranted == true ||
                            statuses[Permission.sensors]?.isPermanentlyDenied == false;
       
+      // Check notification permission
+      bool notificationGranted = statuses[Permission.notification]?.isGranted == true;
+      
       print('$tag Location granted: $locationGranted');
       print('$tag Sensors accessible: $sensorsGranted');
+      print('$tag Notifications granted: $notificationGranted');
       
       return locationGranted; // We mainly need location
       
@@ -77,6 +82,30 @@ class PermissionManager {
       return false;
     }
   }
+
+  /// Request notification permission specifically
+  static Future<bool> requestNotificationPermission() async {
+    try {
+      print('$tag Requesting notification permission...');
+      
+      PermissionStatus status = await Permission.notification.request();
+      
+      if (status.isGranted) {
+        print('$tag ✅ Notification permission granted');
+        return true;
+      } else if (status.isPermanentlyDenied) {
+        print('$tag ❌ Notification permission permanently denied');
+        await openAppSettings();
+        return false;
+      } else {
+        print('$tag ❌ Notification permission denied');
+        return false;
+      }
+    } catch (e) {
+      print('$tag Error requesting notification permission: $e');
+      return false;
+    }
+  }
   
   /// Check if sensors are available (doesn't require permissions on most devices)
   static Future<bool> areSensorsAvailable() async {
@@ -95,5 +124,6 @@ class PermissionManager {
     print('$tag Please grant the following permissions:');
     print('$tag 1. Location - Required to verify your position');
     print('$tag 2. Motion sensors - Required for fraud detection');
+    print('$tag 3. Notifications - Required for trip monitoring alerts');
   }
 }

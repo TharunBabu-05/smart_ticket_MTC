@@ -33,51 +33,46 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    
     return Scaffold(
       appBar: AppBar(
         title: Text('Your Ticket'),
-        backgroundColor: Colors.green,
-        foregroundColor: Colors.white,
+        backgroundColor: colorScheme.primary,
+        foregroundColor: colorScheme.onPrimary,
         elevation: 0,
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.green, Colors.green.shade100],
-          ),
-        ),
-        child: SafeArea(
-          child: SingleChildScrollView(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              children: [
-                _buildTicketCard(),
-                SizedBox(height: 20),
-                _buildSessionInfo(),
-                SizedBox(height: 20),
-                _buildInstructions(),
-                SizedBox(height: 20),
-                _buildValidationInfo(),
-                SizedBox(height: 20), // Extra bottom padding
-              ],
-            ),
+      backgroundColor: colorScheme.background,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            children: [
+              _buildTicketCard(theme, colorScheme),
+              SizedBox(height: 20),
+              _buildSessionInfo(theme, colorScheme),
+              SizedBox(height: 20),
+              _buildInstructions(theme, colorScheme),
+              SizedBox(height: 20),
+              _buildValidationInfo(theme, colorScheme),
+              SizedBox(height: 20), // Extra bottom padding
+            ],
           ),
         ),
       ),
     );
   }
 
-  Widget _buildTicketCard() {
+  Widget _buildTicketCard(ThemeData theme, ColorScheme colorScheme) {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: colorScheme.shadow.withOpacity(0.1),
             blurRadius: 10,
             offset: Offset(0, 5),
           ),
@@ -90,14 +85,14 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
             // Header
             Row(
               children: [
-                Icon(Icons.confirmation_number, color: Colors.green, size: 32),
+                Icon(Icons.confirmation_number, color: colorScheme.primary, size: 32),
                 SizedBox(width: 12),
                 Text(
                   'Bus Ticket',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Colors.green,
+                    color: colorScheme.primary,
                   ),
                 ),
               ],
@@ -108,20 +103,9 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
             Container(
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Colors.blue.shade50, Colors.green.shade50],
-                ),
+                color: colorScheme.surfaceVariant.withOpacity(0.5),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.green.shade200, width: 2),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.green.withOpacity(0.1),
-                    blurRadius: 8,
-                    offset: Offset(0, 2),
-                  ),
-                ],
+                border: Border.all(color: colorScheme.outline.withOpacity(0.3), width: 1),
               ),
               child: Column(
                 children: [
@@ -130,17 +114,8 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
                       Container(
                         padding: EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [Colors.blue.shade500, Colors.blue.shade700],
-                          ),
+                          color: Colors.blue,
                           borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.blue.withOpacity(0.3),
-                              blurRadius: 6,
-                              offset: Offset(0, 2),
-                            ),
-                          ],
                         ),
                         child: Icon(Icons.my_location, color: Colors.white, size: 24),
                       ),
@@ -153,7 +128,7 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
                               'FROM',
                               style: TextStyle(
                                 fontSize: 12, 
-                                color: Colors.blue.shade700,
+                                color: Colors.blue,
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 1.2,
                               ),
@@ -166,7 +141,7 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
                               style: TextStyle(
                                 fontSize: 18, 
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black87,
+                                color: colorScheme.onSurface,
                               ),
                             ),
                           ],
@@ -184,25 +159,17 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
                         Container(
                           width: 60,
                           height: 2,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Colors.green.shade400, Colors.blue.shade400],
-                            ),
-                          ),
+                          color: colorScheme.primary,
                         ),
                         Icon(
                           Icons.arrow_forward,
-                          color: Colors.green.shade600,
+                          color: colorScheme.primary,
                           size: 24,
                         ),
                         Container(
                           width: 60,
                           height: 2,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Colors.blue.shade400, Colors.green.shade400],
-                            ),
-                          ),
+                          color: colorScheme.primary,
                         ),
                       ],
                     ),
@@ -213,17 +180,8 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
                       Container(
                         padding: EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [Colors.red.shade500, Colors.red.shade700],
-                          ),
+                          color: Colors.red,
                           borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.red.withOpacity(0.3),
-                              blurRadius: 6,
-                              offset: Offset(0, 2),
-                            ),
-                          ],
                         ),
                         child: Icon(Icons.location_on, color: Colors.white, size: 24),
                       ),
@@ -236,7 +194,7 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
                               'TO',
                               style: TextStyle(
                                 fontSize: 12, 
-                                color: Colors.red.shade700,
+                                color: Colors.red,
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 1.2,
                               ),
@@ -249,7 +207,7 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
                               style: TextStyle(
                                 fontSize: 18, 
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black87,
+                                color: colorScheme.onSurface,
                               ),
                             ),
                           ],
@@ -267,21 +225,17 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
             Container(
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Colors.green.shade50, Colors.blue.shade50],
-                ),
+                color: colorScheme.surfaceVariant.withOpacity(0.5),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.green.shade200),
+                border: Border.all(color: colorScheme.outline.withOpacity(0.3)),
               ),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _buildEnhancedDetailItem('Ticket ID', widget.ticket.ticketId.substring(0, 8).toUpperCase(), Colors.green),
-                      _buildEnhancedDetailItem('Fare', '₹${widget.ticket.fare.toStringAsFixed(2)}', Colors.blue),
+                      _buildEnhancedDetailItem('Ticket ID', widget.ticket.ticketId.substring(0, 8).toUpperCase(), Colors.green, colorScheme),
+                      _buildEnhancedDetailItem('Fare', '₹${widget.ticket.fare.toStringAsFixed(2)}', Colors.blue, colorScheme),
                     ],
                   ),
                   
@@ -290,21 +244,12 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _buildEnhancedDetailItem('Date', _formatDate(widget.ticket.issueTime), Colors.orange),
+                      _buildEnhancedDetailItem('Date', _formatDate(widget.ticket.issueTime), Colors.orange, colorScheme),
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [Colors.blue.shade500, Colors.blue.shade700],
-                          ),
+                          color: colorScheme.primary,
                           borderRadius: BorderRadius.circular(25),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.blue.withOpacity(0.4),
-                              blurRadius: 8,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
                         ),
                         child: Column(
                           children: [
@@ -312,7 +257,7 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
                               'Time',
                               style: TextStyle(
                                 fontSize: 12,
-                                color: Colors.white.withOpacity(0.9),
+                                color: colorScheme.onPrimary.withOpacity(0.9),
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 1.0,
                               ),
@@ -323,7 +268,7 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                                color: colorScheme.onPrimary,
                                 letterSpacing: 0.5,
                               ),
                             ),
@@ -366,13 +311,13 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
     );
   }
 
-  Widget _buildEnhancedDetailItem(String label, String value, Color color) {
+  Widget _buildEnhancedDetailItem(String label, String value, Color accentColor, ColorScheme colorScheme) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: accentColor.withOpacity(0.2),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.3)),
+        border: Border.all(color: accentColor.withOpacity(0.5)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -381,7 +326,7 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
             label,
             style: TextStyle(
               fontSize: 12,
-              color: color.withOpacity(0.8),
+              color: accentColor,
               fontWeight: FontWeight.w600,
               letterSpacing: 0.5,
             ),
@@ -392,7 +337,7 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: color,
+              color: colorScheme.onSurface,
             ),
           ),
         ],
@@ -400,16 +345,16 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
     );
   }
 
-  Widget _buildSessionInfo() {
+  Widget _buildSessionInfo(ThemeData theme, ColorScheme colorScheme) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: colorScheme.shadow.withOpacity(0.1),
             blurRadius: 5,
             offset: Offset(0, 2),
           ),
@@ -420,13 +365,14 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
         children: [
           Row(
             children: [
-              Icon(Icons.sync, color: Colors.blue),
+              Icon(Icons.sync, color: colorScheme.primary),
               SizedBox(width: 8),
               Text(
                 'Cross-Platform Session',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
+                  color: colorScheme.onSurface,
                 ),
               ),
             ],
@@ -454,7 +400,7 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
-                          color: Colors.green[700],
+                          color: Colors.green,
                         ),
                       ),
                     ],
@@ -464,7 +410,7 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: colorScheme.surfaceVariant,
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(color: Colors.green.withOpacity(0.5), width: 2),
                     ),
@@ -475,7 +421,7 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
                         fontWeight: FontWeight.bold,
                         letterSpacing: 4,
                         fontFamily: 'monospace',
-                        color: Colors.green[700],
+                        color: Colors.green,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -485,7 +431,7 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
                     '🔗 Use this code in the Gyro-Comparator app to start sensor comparison',
                     style: TextStyle(
                       fontSize: 12,
-                      color: Colors.green[600],
+                      color: Colors.green,
                       fontStyle: FontStyle.italic,
                     ),
                   ),
@@ -499,7 +445,7 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
           Container(
             padding: EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.blue.withOpacity(0.1),
+              color: colorScheme.primary.withOpacity(0.1),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Column(
@@ -507,7 +453,7 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
               children: [
                 Text(
                   'Session ID:',
-                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                  style: TextStyle(fontSize: 12, color: colorScheme.onSurface.withOpacity(0.7)),
                 ),
                 SizedBox(height: 4),
                 Text(
@@ -516,6 +462,7 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                     fontFamily: 'monospace',
+                    color: colorScheme.onSurface,
                   ),
                 ),
                 SizedBox(height: 8),
@@ -523,7 +470,7 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
                   '✅ Sensor data streaming active',
                   style: TextStyle(
                     fontSize: 12,
-                    color: Colors.green[700],
+                    color: Colors.green,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -535,7 +482,7 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
     );
   }
 
-  Widget _buildInstructions() {
+  Widget _buildInstructions(ThemeData theme, ColorScheme colorScheme) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(16),
@@ -556,31 +503,31 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Colors.orange[800],
+                  color: Colors.orange,
                 ),
               ),
             ],
           ),
           SizedBox(height: 12),
-          Text('• Show this ticket to the conductor when boarding'),
-          Text('• Keep your location services enabled during the journey'),
+          Text('• Show this ticket to the conductor when boarding', style: TextStyle(color: colorScheme.onSurface)),
+          Text('• Keep your location services enabled during the journey', style: TextStyle(color: colorScheme.onSurface)),
           if (widget.connectionCode != null)
-            Text('• Share the connection code (${widget.connectionCode}) with the bus conductor'),
-          Text('• Your phone sensors will be monitored for fraud detection'),
-          Text('• Exit only at your designated stop to avoid penalties'),
+            Text('• Share the connection code (${widget.connectionCode}) with the bus conductor', style: TextStyle(color: colorScheme.onSurface)),
+          Text('• Your phone sensors will be monitored for fraud detection', style: TextStyle(color: colorScheme.onSurface)),
+          Text('• Exit only at your designated stop to avoid penalties', style: TextStyle(color: colorScheme.onSurface)),
           if (widget.connectionCode != null) ...[
             SizedBox(height: 8),
             Container(
               padding: EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.blue.withOpacity(0.1),
+                color: colorScheme.primary.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(6),
               ),
               child: Text(
                 '📱 The bus conductor will use the Gyro-Comparator app to monitor your journey using the connection code above.',
                 style: TextStyle(
                   fontSize: 12,
-                  color: Colors.blue[700],
+                  color: colorScheme.primary,
                   fontStyle: FontStyle.italic,
                 ),
               ),
@@ -591,7 +538,7 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
     );
   }
 
-  Widget _buildValidationInfo() {
+  Widget _buildValidationInfo(ThemeData theme, ColorScheme colorScheme) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(16),
@@ -611,7 +558,7 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Colors.red[700],
+                  color: Colors.red,
                 ),
               ),
             ],
@@ -619,7 +566,7 @@ class _TicketDisplayScreenState extends State<TicketDisplayScreen> {
           SizedBox(height: 8),
           Text(
             'This ticket is linked to the Gyro-Comparator system for real-time fraud detection. Penalty: ₹5 per extra stop.',
-            style: TextStyle(fontSize: 12, color: Colors.red[600]),
+            style: TextStyle(fontSize: 12, color: Colors.red),
             textAlign: TextAlign.center,
           ),
         ],

@@ -8,12 +8,14 @@ import 'location_service.dart';
 import 'sensor_service.dart';
 import 'fraud_detection_service_new.dart';
 
+@pragma('vm:entry-point')
 class BackgroundTripService {
   static const String _serviceName = 'smart_ticketing_service';
   static const String _notificationChannelId = 'smart_ticketing';
   static const String _notificationChannelName = 'Smart Ticketing';
 
   /// Initialize the background service
+  @pragma('vm:entry-point')
   static Future<void> initializeService() async {
     final service = FlutterBackgroundService();
     
@@ -24,7 +26,7 @@ class BackgroundTripService {
         isForegroundMode: true,
         notificationChannelId: _notificationChannelId,
         initialNotificationTitle: 'Smart Ticketing Active',
-        initialNotificationContent: 'Monitoring your bus journey',
+        initialNotificationContent: 'Tap to return to app',
         foregroundServiceNotificationId: 888,
       ),
       iosConfiguration: IosConfiguration(
@@ -36,6 +38,7 @@ class BackgroundTripService {
   }
 
   /// Start monitoring for a specific trip
+  @pragma('vm:entry-point')
   static Future<void> startTripMonitoring(TripData tripData) async {
     final service = FlutterBackgroundService();
     
@@ -50,6 +53,7 @@ class BackgroundTripService {
   }
 
   /// Stop trip monitoring
+  @pragma('vm:entry-point')
   static Future<void> stopTripMonitoring() async {
     final service = FlutterBackgroundService();
     
