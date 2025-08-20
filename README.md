@@ -112,7 +112,6 @@ This project demonstrates **real-time ticketing, fraud prevention, and enhanceme
 ---
 
 ## ✨ Implemented Features
-*(previously listed as “Future Work” but now completed)*
 
 - ✅ Integration with **UPI / payment gateways**.  
 - ✅ **AI-powered demand prediction** for bus ticketing & scheduling.  
