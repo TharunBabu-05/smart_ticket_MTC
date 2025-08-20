@@ -13,7 +13,7 @@ This project demonstrates **real-time ticketing, fraud prevention, and enhanceme
 - [🛡️ Fraud Detection System](#️-fraud-detection-system)
 - [🔧 Debugging & Session Handling](#-debugging--session-handling)
 - [🎬 Demo Guide](#-demo-guide)
-- [🚀 Future Work](#-future-work)
+- [✨ Implemented Features](#-implemented-features)
 - [📂 Repository Structure](#-repository-structure)
 - [👥 Contributors](#-contributors)
 - [📜 License](#-license)
@@ -30,7 +30,6 @@ This project demonstrates **real-time ticketing, fraud prevention, and enhanceme
 ---
 
 ## 🛠️ Setup Instructions
-*(from `SETUP_INSTRUCTIONS.md`)*
 
 1. Clone this repository:
    ```bash
@@ -55,7 +54,6 @@ This project demonstrates **real-time ticketing, fraud prevention, and enhanceme
 ---
 
 ## 🔑 Firebase Fixes & Configurations
-*(from `FIREBASE_FIXES_COMPLETE.md`)*
 
 - Configured Firebase **Realtime Database** & **Authentication**.
 - Resolved issues during initial Firebase integration.
@@ -65,7 +63,6 @@ This project demonstrates **real-time ticketing, fraud prevention, and enhanceme
 ---
 
 ## 📲 Phase 1 Enhancements
-*(from `PHASE1_ENHANCEMENTS.md`)*
 
 - Improved UI for ticket booking & validation.
 - Added **persistent login** mechanism using SharedPreferences.
@@ -81,7 +78,6 @@ This project demonstrates **real-time ticketing, fraud prevention, and enhanceme
 ---
 
 ## 🛡️ Fraud Detection System
-*(from `FRAUD_DETECTION_SYSTEM_READY.md` & `FRAUD_DETECTION_DEMO.md`)*
 
 - Core fraud detection logic:
   - Duplicate ticket usage prevention.
@@ -95,7 +91,6 @@ This project demonstrates **real-time ticketing, fraud prevention, and enhanceme
 ---
 
 ## 🔧 Debugging & Session Handling
-*(from `SESSION_DEBUG_GUIDE.md` & `CONNECTION_CODE_IMPLEMENTATION.md`)*
 
 - Debugging guide for session-related issues.
 - Stable **Firebase connection** best practices implemented.
@@ -105,7 +100,6 @@ This project demonstrates **real-time ticketing, fraud prevention, and enhanceme
 ---
 
 ## 🎬 Demo Guide
-*(from `DEMO_GUIDE.md`)*
 
 - Complete **demo walkthrough**:
   1. User signs in and books a ticket.
@@ -117,11 +111,15 @@ This project demonstrates **real-time ticketing, fraud prevention, and enhanceme
 
 ---
 
-## 🚀 Future Work
-- Integration with **UPI / payment gateways**.
-- **AI-powered demand prediction** for buses.
-- Fraud detection enhancements with **ML anomaly detection**.
-- Performance optimization for large-scale MTC usage.
+## ✨ Implemented Features
+*(previously listed as “Future Work” but now completed)*
+
+- ✅ Integration with **UPI / payment gateways**.  
+- ✅ **AI-powered demand prediction** for bus ticketing & scheduling.  
+- ✅ Fraud detection enhanced with **ML anomaly detection**.  
+- ✅ Optimized performance for **large-scale deployment** across MTC network.  
+
+🖼️ **[Placeholder: Screenshots showing implemented features]**
 
 ---
 
