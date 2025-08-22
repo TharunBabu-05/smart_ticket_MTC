@@ -245,6 +245,43 @@ class LiveLocationService {
     });
   }
   
+  /// Get person count from person_count/count
+  static Stream<int> getPersonCount() {
+    return _database
+        .ref('person_count/count')
+        .onValue
+        .map((event) {
+      if (event.snapshot.value != null) {
+        return event.snapshot.value as int;
+      }
+      return 0;
+    });
+  }
+  
+  /// Update bus passenger count in Firebase
+  static Future<void> updateBusPassengerCount(String busId, int passengerCount) async {
+    try {
+      await _database.ref('live_buses/$busId/passengerCount').set(passengerCount);
+      await _database.ref('live_buses/$busId/lastUpdate').set(DateTime.now().millisecondsSinceEpoch);
+      print('📊 Updated bus $busId passenger count to $passengerCount');
+    } catch (e) {
+      print('❌ Error updating bus passenger count: $e');
+    }
+  }
+  
+  /// Update person count in person_count
+  static Future<void> updatePersonCount(int newCount) async {
+    try {
+      await _database.ref('person_count').set({
+        'count': newCount,
+        'timestamp': DateTime.now().millisecondsSinceEpoch,
+      });
+      print('👥 Updated person count to $newCount');
+    } catch (e) {
+      print('❌ Error updating person count: $e');
+    }
+  }
+  
   /// Check if currently sharing location
   static bool get isSharingLocation => _isSharingLocation;
   

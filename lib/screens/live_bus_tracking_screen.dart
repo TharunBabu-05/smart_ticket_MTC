@@ -24,14 +24,19 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen> {
   
   StreamSubscription? _busStreamSubscription;
   StreamSubscription? _passengerStreamSubscription;
+  StreamSubscription? _personCountSubscription; // New subscription for person_count
   
   Map<String, dynamic> _activeBuses = {};
   Map<String, dynamic> _activePassengers = {};
+  int _currentPersonCount = 0; // Track current person count
   
   // Custom marker icons
   BitmapDescriptor? _busIcon;
   BitmapDescriptor? _userIcon;
   BitmapDescriptor? _busStopIcon;
+  
+  // Cache for bus icons with passenger count
+  Map<String, BitmapDescriptor> _busIconCache = {};
   
   @override
   void initState() {
@@ -46,6 +51,8 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen> {
   void dispose() {
     _busStreamSubscription?.cancel();
     _passengerStreamSubscription?.cancel();
+    _personCountSubscription?.cancel(); // Cancel person count subscription
+    _busIconCache.clear(); // Clear icon cache
     super.dispose();
   }
   
@@ -118,6 +125,136 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen> {
     final data = await img.toByteData(format: ui.ImageByteFormat.png);
     return BitmapDescriptor.fromBytes(data!.buffer.asUint8List());
   }
+
+  /// Create custom bus marker icon with passenger count above it
+  Future<BitmapDescriptor> _createBusMarkerWithPassengerCount(
+    int passengerCount,
+    int maxCapacity,
+  ) async {
+    // Create cache key based on real values
+    String cacheKey = '${passengerCount}_${maxCapacity}';
+    if (_busIconCache.containsKey(cacheKey)) {
+      return _busIconCache[cacheKey]!;
+    }
+
+    final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
+    final Canvas canvas = Canvas(pictureRecorder);
+    
+    double busIconSize = 80.0; // Increased from 60.0
+    double busRadius = busIconSize / 2;
+    double totalHeight = 120.0; // Increased for larger icon
+    double totalWidth = 100.0; // Increased for larger icon
+    
+    // Calculate occupancy rate for color coding (handle zero capacity)
+    double occupancyRate = maxCapacity > 0 ? passengerCount / maxCapacity : 0.0;
+    Color busColor = _getOccupancyColor(occupancyRate);
+    
+    // Draw passenger count background (rounded rectangle above bus)
+    double countBoxHeight = 30.0; // Increased from 25.0
+    double countBoxWidth = 55.0; // Increased from 50.0
+    double countBoxX = (totalWidth - countBoxWidth) / 2;
+    double countBoxY = 5.0;
+    
+    final Paint countBgPaint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.fill;
+    final Paint countBorderPaint = Paint()
+      ..color = busColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.0;
+    
+    // Draw rounded rectangle for count display
+    RRect countBox = RRect.fromRectAndRadius(
+      Rect.fromLTWH(countBoxX, countBoxY, countBoxWidth, countBoxHeight),
+      Radius.circular(12.0),
+    );
+    canvas.drawRRect(countBox, countBgPaint);
+    canvas.drawRRect(countBox, countBorderPaint);
+    
+    // Draw passenger count text - show real values even if zero
+    TextPainter countTextPainter = TextPainter(textDirection: TextDirection.ltr);
+    String countText;
+    if (maxCapacity > 0) {
+      countText = passengerCount > 99 ? '99+' : '$passengerCount';
+    } else {
+      countText = '$passengerCount'; // Just show passenger count if no capacity data
+    }
+    
+    countTextPainter.text = TextSpan(
+      text: countText,
+      style: TextStyle(
+        fontSize: countText.length > 2 ? 14.0 : 16.0, // Increased from 10.0/12.0
+        color: busColor,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+    countTextPainter.layout();
+    countTextPainter.paint(
+      canvas,
+      Offset(
+        countBoxX + (countBoxWidth - countTextPainter.width) / 2,
+        countBoxY + (countBoxHeight - countTextPainter.height) / 2,
+      ),
+    );
+    
+    // Add a small capacity indicator dot only if we have capacity data and bus is crowded
+    if (maxCapacity > 0 && occupancyRate > 0.8) {
+      final Paint dotPaint = Paint()..color = Colors.red;
+      canvas.drawCircle(
+        Offset(countBoxX + countBoxWidth - 8, countBoxY + 8),
+        4.0,
+        dotPaint,
+      );
+    }
+    
+    // Draw bus icon below the count
+    double busY = countBoxY + countBoxHeight + 10.0;
+    double busX = (totalWidth - busIconSize) / 2;
+    
+    final Paint busPaint = Paint()..color = busColor;
+    
+    // Draw bus circle background
+    canvas.drawCircle(Offset(busX + busRadius, busY + busRadius), busRadius, busPaint);
+    
+    // Draw white circle border for bus
+    final Paint busBorderPaint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3.0;
+    canvas.drawCircle(Offset(busX + busRadius, busY + busRadius), busRadius - 1.5, busBorderPaint);
+    
+    // Draw bus icon
+    TextPainter busIconPainter = TextPainter(textDirection: TextDirection.ltr);
+    busIconPainter.text = TextSpan(
+      text: String.fromCharCode(Icons.directions_bus.codePoint),
+      style: TextStyle(
+        fontSize: busIconSize * 0.5,
+        fontFamily: Icons.directions_bus.fontFamily,
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+    busIconPainter.layout();
+    busIconPainter.paint(
+      canvas,
+      Offset(
+        busX + busRadius - busIconPainter.width / 2,
+        busY + busRadius - busIconPainter.height / 2,
+      ),
+    );
+    
+    final img = await pictureRecorder.endRecording().toImage(
+      totalWidth.toInt(),
+      totalHeight.toInt(),
+    );
+    final data = await img.toByteData(format: ui.ImageByteFormat.png);
+    BitmapDescriptor icon = BitmapDescriptor.fromBytes(data!.buffer.asUint8List());
+    
+    // Cache the icon for reuse
+    _busIconCache[cacheKey] = icon;
+    
+    return icon;
+  }
   
   Future<void> _initializeLocation() async {
     try {
@@ -151,6 +288,40 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen> {
         _updateMapMarkers();
       });
     });
+    
+    // Listen to person_count and sync with bus passenger count
+    _startListeningToPersonCount();
+  }
+  
+  void _startListeningToPersonCount() {
+    // Listen to live_locations/person_count/count in Firebase
+    _personCountSubscription = LiveLocationService.getPersonCount().listen((personCount) {
+      setState(() {
+        _currentPersonCount = personCount;
+        // Update all active buses with the new person count
+        _syncPersonCountToBuses(personCount);
+        // Clear cache to refresh icons with new count
+        _busIconCache.clear();
+        _updateMapMarkers();
+      });
+    });
+  }
+  
+  void _syncPersonCountToBuses(int personCount) {
+    // Update passenger count for all active buses
+    _activeBuses.forEach((busId, busData) {
+      if (busData is Map<String, dynamic>) {
+        busData['passengerCount'] = personCount;
+        // Update in Firebase as well
+        LiveLocationService.updateBusPassengerCount(busId, personCount);
+      }
+    });
+  }
+
+  void _updatePersonCount(int newCount) {
+    if (newCount >= 0) {
+      LiveLocationService.updatePersonCount(newCount);
+    }
   }
   
   void _loadBusStops() {
@@ -189,7 +360,7 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen> {
     });
   }
   
-  void _updateMapMarkers() {
+  void _updateMapMarkers() async {
     Set<Marker> newMarkers = {};
     Set<Circle> newCircles = {};
     
@@ -201,40 +372,54 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen> {
       infoWindow: InfoWindow(title: 'Your Location'),
     ));
     
-    // Add bus markers with custom bus icons
-    _activeBuses.forEach((busId, busData) {
+    // Add bus markers with custom bus icons showing passenger count
+    for (var entry in _activeBuses.entries) {
+      String busId = entry.key;
+      var busData = entry.value;
+      
       if (busData['location'] != null) {
         double lat = busData['location']['latitude']?.toDouble() ?? 0.0;
         double lng = busData['location']['longitude']?.toDouble() ?? 0.0;
         
         if (lat != 0.0 && lng != 0.0) {
-          int passengerCount = busData['passengerCount'] ?? 0;
-          int maxCapacity = busData['maxCapacity'] ?? 50;
-          double occupancyRate = passengerCount / maxCapacity;
+          // Get real-time passenger count from Firebase (no default values)
+          int passengerCount = busData['passengerCount'] ?? 0; // Show 0 if null
+          int maxCapacity = busData['maxCapacity'] ?? 0; // Show 0 if null
+          double occupancyRate = maxCapacity > 0 ? passengerCount / maxCapacity : 0.0;
+          
+          // Create custom bus icon with real passenger count
+          BitmapDescriptor customBusIcon = await _createBusMarkerWithPassengerCount(
+            passengerCount,
+            maxCapacity,
+          );
           
           newMarkers.add(Marker(
             markerId: MarkerId('bus_$busId'),
             position: LatLng(lat, lng),
-            icon: _busIcon ?? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+            icon: customBusIcon,
             infoWindow: InfoWindow(
               title: '🚌 Bus ${busData['busNumber'] ?? 'Unknown'}',
-              snippet: '👥 $passengerCount/$maxCapacity passengers\n📍 Route: ${busData['route'] ?? 'Unknown'}',
+              snippet: maxCapacity > 0 
+                ? '👥 $passengerCount/$maxCapacity passengers (${(occupancyRate * 100).toStringAsFixed(0)}%)\n📍 Route: ${busData['route'] ?? 'Unknown'}'
+                : '👥 $passengerCount passengers\n📍 Route: ${busData['route'] ?? 'Unknown'}',
             ),
+            anchor: Offset(0.5, 1.0), // Anchor at bottom center for better positioning
           ));
           
-          // Add circle to show bus coverage area
-          newCircles.add(Circle(
-            circleId: CircleId('bus_area_$busId'),
-            center: LatLng(lat, lng),
-            radius: 200, // 200 meter radius
-            fillColor: _getOccupancyColor(occupancyRate).withOpacity(0.2),
-            strokeColor: _getOccupancyColor(occupancyRate),
-            strokeWidth: 2,
-          ));
+          // Add circle to show bus coverage area (only if occupancy rate is meaningful)
+          if (maxCapacity > 0) {
+            newCircles.add(Circle(
+              circleId: CircleId('bus_area_$busId'),
+              center: LatLng(lat, lng),
+              radius: 200, // 200 meter radius
+              fillColor: _getOccupancyColor(occupancyRate).withOpacity(0.2),
+              strokeColor: _getOccupancyColor(occupancyRate),
+              strokeWidth: 2,
+            ));
+          }
         }
       }
-    });
-    
+    }
     // Add passenger markers with custom user icons
     _activePassengers.forEach((passengerId, passengerData) {
       if (passengerData['location'] != null) {
@@ -287,8 +472,14 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen> {
         foregroundColor: Colors.white,
         actions: [
           IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: _refreshPassengerCountDisplay,
+            tooltip: 'Refresh Passenger Count',
+          ),
+          IconButton(
             icon: Icon(Icons.my_location),
             onPressed: _moveToCurrentLocation,
+            tooltip: 'My Location',
           ),
         ],
       ),
@@ -319,12 +510,60 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen> {
             child: Card(
               child: Padding(
                 padding: EdgeInsets.all(12),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                child: Column(
                   children: [
-                    _buildInfoItem('🚌 Active Buses', _activeBuses.length.toString()),
-                    _buildInfoItem('👤 Demo Users', _activePassengers.length.toString()),
-                    _buildInfoItem('🚏 Bus Stops', _markers.where((m) => m.markerId.value.startsWith('stop_')).length.toString()),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        _buildInfoItem('🚌 Active Buses', _activeBuses.length.toString()),
+                        _buildInfoItem('� Live Count', _currentPersonCount.toString()),
+                        _buildInfoItem('🚏 Bus Stops', _markers.where((m) => m.markerId.value.startsWith('stop_')).length.toString()),
+                      ],
+                    ),
+                    if (_activeBuses.isNotEmpty) ...[
+                      Divider(height: 16),
+                      Text(
+                        'Live Passenger Counts',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                      SizedBox(height: 4),
+                      Wrap(
+                        spacing: 8,
+                        children: _activeBuses.entries.map((entry) {
+                          var busData = entry.value;
+                          // Get real values from Firebase, show 0 if null
+                          int passengers = busData['passengerCount'] ?? 0;
+                          int capacity = busData['maxCapacity'] ?? 0;
+                          double occupancyRate = capacity > 0 ? passengers / capacity : 0.0;
+                          
+                          return Container(
+                            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: _getOccupancyColor(occupancyRate).withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: _getOccupancyColor(occupancyRate),
+                                width: 1,
+                              ),
+                            ),
+                            child: Text(
+                              capacity > 0 
+                                ? '${busData['busNumber'] ?? 'Bus'}: $passengers/$capacity'
+                                : '${busData['busNumber'] ?? 'Bus'}: $passengers',
+                              style: TextStyle(
+                                fontSize: 10,
+                                color: _getOccupancyColor(occupancyRate),
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ],
                   ],
                 ),
               ),
@@ -349,26 +588,53 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen> {
       bottomNavigationBar: Container(
         padding: EdgeInsets.all(16),
         color: Colors.grey[100],
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            ElevatedButton.icon(
-              onPressed: _startBusDemo,
-              icon: Icon(Icons.directions_bus),
-              label: Text('Be Bus'),
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+            // Person count controls
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Person Count: $_currentPersonCount', 
+                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                SizedBox(width: 16),
+                IconButton(
+                  onPressed: () => _updatePersonCount(_currentPersonCount - 1),
+                  icon: Icon(Icons.remove),
+                  style: IconButton.styleFrom(backgroundColor: Colors.red[100]),
+                ),
+                SizedBox(width: 8),
+                IconButton(
+                  onPressed: () => _updatePersonCount(_currentPersonCount + 1),
+                  icon: Icon(Icons.add),
+                  style: IconButton.styleFrom(backgroundColor: Colors.green[100]),
+                ),
+              ],
             ),
-            ElevatedButton.icon(
-              onPressed: _startPassengerDemo,
-              icon: Icon(Icons.person),
-              label: Text('Be User'),
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-            ),
-            ElevatedButton.icon(
-              onPressed: _stopSharing,
-              icon: Icon(Icons.stop),
-              label: Text('Stop'),
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            SizedBox(height: 12),
+            // Bus controls
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton.icon(
+                  onPressed: _startBusDemo,
+                  icon: Icon(Icons.directions_bus),
+                  label: Text('Be Bus'),
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+                ),
+                ElevatedButton.icon(
+                  onPressed: _startPassengerDemo,
+                  icon: Icon(Icons.person),
+                  label: Text('Be User'),
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                ),
+                ElevatedButton.icon(
+                  onPressed: _stopSharing,
+                  icon: Icon(Icons.stop),
+                  label: Text('Stop'),
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                ),
+              ],
             ),
           ],
         ),
@@ -403,9 +669,10 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen> {
             else
               ..._activeBuses.entries.map((entry) {
                 var busData = entry.value;
+                // Get real values from Firebase, show 0 if null
                 int passengers = busData['passengerCount'] ?? 0;
-                int capacity = busData['maxCapacity'] ?? 50;
-                double occupancyRate = passengers / capacity;
+                int capacity = busData['maxCapacity'] ?? 0;
+                double occupancyRate = capacity > 0 ? passengers / capacity : 0.0;
                 
                 return ListTile(
                   leading: CircleAvatar(
@@ -413,14 +680,26 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen> {
                     child: Icon(Icons.directions_bus, color: Colors.white),
                   ),
                   title: Text('Bus ${busData['busNumber'] ?? 'Unknown'}'),
-                  subtitle: Text('Route: ${busData['route'] ?? 'Unknown'}\n$passengers/$capacity passengers'),
-                  trailing: Text(
-                    '${(occupancyRate * 100).toStringAsFixed(0)}%',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: _getOccupancyColor(occupancyRate),
-                    ),
+                  subtitle: Text(
+                    capacity > 0 
+                      ? 'Route: ${busData['route'] ?? 'Unknown'}\n$passengers/$capacity passengers'
+                      : 'Route: ${busData['route'] ?? 'Unknown'}\n$passengers passengers'
                   ),
+                  trailing: capacity > 0 
+                    ? Text(
+                        '${(occupancyRate * 100).toStringAsFixed(0)}%',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: _getOccupancyColor(occupancyRate),
+                        ),
+                      )
+                    : Text(
+                        '$passengers',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue,
+                        ),
+                      ),
                 );
               }).toList(),
           ],
@@ -473,16 +752,27 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen> {
   }
   
   void _simulatePassengerCount() {
-    // Simulate realistic passenger count changes
-    Timer.periodic(Duration(seconds: 10), (timer) {
+    // Note: This method now just clears cache periodically to refresh real Firebase data
+    // The actual passenger count comes from Firebase realtime database
+    Timer.periodic(Duration(seconds: 30), (timer) {
       if (!LiveLocationService.isSharingLocation) {
         timer.cancel();
         return;
       }
       
-      // Random passenger count between 5-45
-      int count = 5 + (DateTime.now().millisecondsSinceEpoch % 40).toInt();
-      LiveLocationService.updatePassengerCount(count);
+      // Clear cache periodically to refresh icons with new real counts from Firebase
+      if (_busIconCache.length > 20) {
+        _busIconCache.clear();
+      }
+      
+      // Force refresh to get latest Firebase data
+      _refreshPassengerCountDisplay();
     });
+  }
+
+  /// Clear bus icon cache to force refresh of passenger count displays
+  void _refreshPassengerCountDisplay() {
+    _busIconCache.clear();
+    _updateMapMarkers();
   }
 }
