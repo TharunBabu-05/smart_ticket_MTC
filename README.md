@@ -800,7 +800,7 @@ graph TD
 
 ---
 
-### **Person Count Detection**
+## **Person Count Detection**
 
 #### **Overview**
 The system integrates **Raspberry Pi**, **Sony IMX Camera**, and a **YOLO model** to perform **real-time person count detection**.  
