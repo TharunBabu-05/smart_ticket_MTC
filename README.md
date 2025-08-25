@@ -1141,14 +1141,12 @@ class FraudDetectionService {
 
 ---
 
-This workflow documentation provides a comprehensive overview of the Smart Ticket MTC project development, from initial concept to production deployment and ongoing maintenance. The system represents a sophisticated integration of mobile technology, cloud services, and IoT devices to create a secure and efficient public transportation solution.
+This workflow documentation provides a comprehensive overview of the FareGuard project development, from initial concept to production deployment and ongoing maintenance. The system represents a sophisticated integration of mobile technology, cloud services, and IoT devices to create a secure and efficient public transportation solution.
 
 
 ---
 
-# 🖼️ Demo & Screenshots
-
-(Add demo images, architecture diagrams, and screenshots of the application here.)
+# 🖼️ Demo
 
 ---
 
