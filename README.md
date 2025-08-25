@@ -752,7 +752,6 @@ graph TD
     end
     
     subgraph "Conductor Device"
-        I[Raspberry Pi] --> J[Bus Sensor Data]
         J --> K[Motion Pattern Analysis]
         K --> L[Cross-verification]
     end
