@@ -800,6 +800,23 @@ graph TD
 
 ---
 
+### **Person Count Detection**
+
+#### **Overview**
+The system integrates **Raspberry Pi**, **Sony IMX Camera**, and a **YOLO model** to perform **real-time person count detection**.  
+The detected count is automatically updated in **Firebase Realtime Database**, and the **FAREGUARD App** displays the live passenger count.
+
+#### **Workflow**
+```mermaid
+graph TD
+    A[Passengers Enter/Exit Bus] --> B[Sony IMX Camera]
+    B --> C[Raspberry Pi]
+    C --> D[YOLO Model - Person Detection]
+    D --> E[Count Processing Logic]
+    E --> F[Firebase Realtime Database]
+    F --> G[FareGuard App - Live Count Display]
+  ```
+
 ## 🚧 Development Phases
 
 ### Phase 1: Foundation (Week 1-2)
