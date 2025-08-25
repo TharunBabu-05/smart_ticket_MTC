@@ -666,7 +666,6 @@ sequenceDiagram
     
     A->>F: Start Fraud Detection Session
     A->>F: Stream Sensor Data
-    R->>F: Compare Sensor Data
     
     F-->>A: Fraud Analysis Results
 ```
@@ -752,12 +751,10 @@ graph TD
     end
     
     subgraph "Conductor Device"
-        J --> K[Motion Pattern Analysis]
         K --> L[Cross-verification]
     end
     
     D --> E
-    J --> E
     H --> M[Fraud Alert/Penalty]
     L --> F
 ```
