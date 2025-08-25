@@ -638,7 +638,6 @@ graph TB
     subgraph "External Integrations"
         L[Razorpay Payment]
         M[Google Maps API]
-        N[Raspberry Pi Conductor]
     end
     
     A --> H
@@ -646,7 +645,6 @@ graph TB
     G --> J
     F --> L
     D --> M
-    G --> N
 ```
 
 ### Data Flow Architecture
@@ -655,7 +653,6 @@ sequenceDiagram
     participant U as User
     participant A as Mobile App
     participant F as Firebase
-    participant R as Raspberry Pi
     participant P as Payment Gateway
     
     U->>A: Launch App
@@ -668,7 +665,6 @@ sequenceDiagram
     P-->>A: Payment Confirmation
     
     A->>F: Start Fraud Detection Session
-    A->>R: Send Connection Code
     A->>F: Stream Sensor Data
     R->>F: Compare Sensor Data
     
