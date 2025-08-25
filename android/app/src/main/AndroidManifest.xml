@@ -50,12 +50,14 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <!-- Background service for trip monitoring -->
+        <!-- Background service for trip monitoring - TEMPORARILY DISABLED -->
+        <!--
         <service
             android:name="id.flutter.flutter_background_service.BackgroundService"
             android:exported="false"
             android:foregroundServiceType="location"
             tools:replace="android:exported" />
+        -->
         
         <!-- Google Maps API Key -->
         <meta-data android:name="com.google.android.geo.API_KEY"

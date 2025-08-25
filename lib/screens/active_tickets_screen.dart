@@ -58,26 +58,28 @@ class _ActiveTicketsScreenState extends State<ActiveTicketsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: colorScheme.surface,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF1DB584),
+        backgroundColor: colorScheme.primary,
         elevation: 0,
-        title: const Text(
+        title: Text(
           'Active Tickets',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
+          style: theme.textTheme.titleLarge?.copyWith(
+            color: colorScheme.onPrimary,
             fontWeight: FontWeight.bold,
           ),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: Icon(Icons.arrow_back, color: colorScheme.onPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh, color: Colors.white),
+            icon: Icon(Icons.refresh, color: colorScheme.onPrimary),
             onPressed: _refreshTickets,
           ),
         ],
@@ -87,20 +89,22 @@ class _ActiveTicketsScreenState extends State<ActiveTicketsScreen> {
   }
 
   Widget _buildBody() {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     if (_isLoading) {
-      return const Center(
+      return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1DB584)),
+              valueColor: AlwaysStoppedAnimation<Color>(colorScheme.primary),
             ),
             SizedBox(height: 16),
             Text(
               'Loading your tickets...',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
+              style: theme.textTheme.bodyLarge?.copyWith(
+                color: colorScheme.onSurface,
               ),
             ),
           ],
@@ -116,14 +120,13 @@ class _ActiveTicketsScreenState extends State<ActiveTicketsScreen> {
             Icon(
               Icons.error_outline,
               size: 64,
-              color: Colors.red[300],
+              color: colorScheme.error,
             ),
             const SizedBox(height: 16),
             Text(
               _error!,
-              style: const TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
+              style: theme.textTheme.bodyLarge?.copyWith(
+                color: colorScheme.onSurfaceVariant,
               ),
               textAlign: TextAlign.center,
             ),
@@ -131,8 +134,8 @@ class _ActiveTicketsScreenState extends State<ActiveTicketsScreen> {
             ElevatedButton(
               onPressed: _refreshTickets,
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF1DB584),
-                foregroundColor: Colors.white,
+                backgroundColor: colorScheme.primary,
+                foregroundColor: colorScheme.onPrimary,
               ),
               child: const Text('Retry'),
             ),
@@ -149,23 +152,21 @@ class _ActiveTicketsScreenState extends State<ActiveTicketsScreen> {
             Icon(
               Icons.confirmation_number_outlined,
               size: 64,
-              color: Colors.grey[400],
+              color: colorScheme.onSurfaceVariant,
             ),
             const SizedBox(height: 16),
             Text(
               'No Active Tickets',
-              style: TextStyle(
-                fontSize: 20,
+              style: theme.textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: Colors.grey[600],
+                color: colorScheme.onSurface,
               ),
             ),
             const SizedBox(height: 8),
             Text(
               'Book a ticket to see it here',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey[500],
+              style: theme.textTheme.bodyLarge?.copyWith(
+                color: colorScheme.onSurfaceVariant,
               ),
             ),
             const SizedBox(height: 24),
@@ -174,8 +175,8 @@ class _ActiveTicketsScreenState extends State<ActiveTicketsScreen> {
                 Navigator.of(context).pop(); // Go back to book a ticket
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF1DB584),
-                foregroundColor: Colors.white,
+                backgroundColor: colorScheme.primary,
+                foregroundColor: colorScheme.onPrimary,
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               ),
               icon: const Icon(Icons.add),
@@ -188,7 +189,7 @@ class _ActiveTicketsScreenState extends State<ActiveTicketsScreen> {
 
     return RefreshIndicator(
       onRefresh: _refreshTickets,
-      color: const Color(0xFF1DB584),
+      color: colorScheme.primary,
       child: ListView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: _activeTickets.length,
@@ -201,12 +202,15 @@ class _ActiveTicketsScreenState extends State<ActiveTicketsScreen> {
   }
 
   Widget _buildTicketCard(EnhancedTicket ticket) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final timeRemaining = ticket.validUntil.difference(DateTime.now());
     final isExpiringSoon = timeRemaining.inMinutes < 30;
     
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
       elevation: 2,
+      color: Colors.white, // Explicitly set to white
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
@@ -231,9 +235,10 @@ class _ActiveTicketsScreenState extends State<ActiveTicketsScreen> {
                 children: [
                   Text(
                     'Ticket #${ticket.ticketId.split('_').last}',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
+                      color: Colors.black87, // Dark text on white background
                     ),
                   ),
                   Container(
@@ -266,19 +271,20 @@ class _ActiveTicketsScreenState extends State<ActiveTicketsScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'FROM',
                           style: TextStyle(
                             fontSize: 12,
-                            color: Colors.grey,
+                            color: Colors.grey[600],
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                         Text(
                           ticket.sourceName,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
+                            color: Colors.black87,
                           ),
                         ),
                       ],
@@ -296,19 +302,20 @@ class _ActiveTicketsScreenState extends State<ActiveTicketsScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        const Text(
+                        Text(
                           'TO',
                           style: TextStyle(
                             fontSize: 12,
-                            color: Colors.grey,
+                            color: Colors.grey[600],
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                         Text(
                           ticket.destinationName,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
+                            color: Colors.black87,
                           ),
                           textAlign: TextAlign.end,
                         ),
@@ -326,11 +333,11 @@ class _ActiveTicketsScreenState extends State<ActiveTicketsScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         'Fare',
                         style: TextStyle(
                           fontSize: 12,
-                          color: Colors.grey,
+                          color: Colors.grey[600],
                         ),
                       ),
                       Text(
@@ -348,9 +355,9 @@ class _ActiveTicketsScreenState extends State<ActiveTicketsScreen> {
                     children: [
                       Text(
                         ticket.isValid ? 'Valid for' : 'Expired',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 12,
-                          color: Colors.grey,
+                          color: Colors.grey[600],
                         ),
                       ),
                       Text(

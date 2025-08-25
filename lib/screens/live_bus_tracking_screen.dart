@@ -140,18 +140,18 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen> {
     final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
     final Canvas canvas = Canvas(pictureRecorder);
     
-    double busIconSize = 80.0; // Increased from 60.0
+    double busIconSize = 100.0; // Increased from 80.0 to 100.0
     double busRadius = busIconSize / 2;
-    double totalHeight = 120.0; // Increased for larger icon
-    double totalWidth = 100.0; // Increased for larger icon
+    double totalHeight = 150.0; // Increased for much larger icon
+    double totalWidth = 120.0; // Increased for much larger icon
     
     // Calculate occupancy rate for color coding (handle zero capacity)
     double occupancyRate = maxCapacity > 0 ? passengerCount / maxCapacity : 0.0;
     Color busColor = _getOccupancyColor(occupancyRate);
     
     // Draw passenger count background (rounded rectangle above bus)
-    double countBoxHeight = 30.0; // Increased from 25.0
-    double countBoxWidth = 55.0; // Increased from 50.0
+    double countBoxHeight = 35.0; // Increased from 30.0
+    double countBoxWidth = 65.0; // Increased from 55.0
     double countBoxX = (totalWidth - countBoxWidth) / 2;
     double countBoxY = 5.0;
     
@@ -161,12 +161,12 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen> {
     final Paint countBorderPaint = Paint()
       ..color = busColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 2.0;
+      ..strokeWidth = 3.0; // Increased from 2.0 for better visibility
     
     // Draw rounded rectangle for count display
     RRect countBox = RRect.fromRectAndRadius(
       Rect.fromLTWH(countBoxX, countBoxY, countBoxWidth, countBoxHeight),
-      Radius.circular(12.0),
+      Radius.circular(15.0), // Increased from 12.0 for more modern look
     );
     canvas.drawRRect(countBox, countBgPaint);
     canvas.drawRRect(countBox, countBorderPaint);
@@ -183,7 +183,7 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen> {
     countTextPainter.text = TextSpan(
       text: countText,
       style: TextStyle(
-        fontSize: countText.length > 2 ? 14.0 : 16.0, // Increased from 10.0/12.0
+        fontSize: countText.length > 2 ? 18.0 : 20.0, // Increased from 14.0/16.0 for better visibility
         color: busColor,
         fontWeight: FontWeight.bold,
       ),
@@ -208,7 +208,7 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen> {
     }
     
     // Draw bus icon below the count
-    double busY = countBoxY + countBoxHeight + 10.0;
+    double busY = countBoxY + countBoxHeight + 15.0; // Increased spacing from 10.0
     double busX = (totalWidth - busIconSize) / 2;
     
     final Paint busPaint = Paint()..color = busColor;
@@ -220,15 +220,15 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen> {
     final Paint busBorderPaint = Paint()
       ..color = Colors.white
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 3.0;
-    canvas.drawCircle(Offset(busX + busRadius, busY + busRadius), busRadius - 1.5, busBorderPaint);
+      ..strokeWidth = 4.0; // Increased from 3.0 for better visibility
+    canvas.drawCircle(Offset(busX + busRadius, busY + busRadius), busRadius - 2.0, busBorderPaint); // Adjusted for thicker border
     
     // Draw bus icon
     TextPainter busIconPainter = TextPainter(textDirection: TextDirection.ltr);
     busIconPainter.text = TextSpan(
       text: String.fromCharCode(Icons.directions_bus.codePoint),
       style: TextStyle(
-        fontSize: busIconSize * 0.5,
+        fontSize: busIconSize * 0.6, // Increased from 0.5 to 0.6 for larger icon
         fontFamily: Icons.directions_bus.fontFamily,
         color: Colors.white,
         fontWeight: FontWeight.bold,
@@ -316,12 +316,7 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen> {
         LiveLocationService.updateBusPassengerCount(busId, personCount);
       }
     });
-  }
-
-  void _updatePersonCount(int newCount) {
-    if (newCount >= 0) {
-      LiveLocationService.updatePersonCount(newCount);
-    }
+    // Note: _updateMapMarkers() is called by the listener that calls this function
   }
   
   void _loadBusStops() {
@@ -364,13 +359,7 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen> {
     Set<Marker> newMarkers = {};
     Set<Circle> newCircles = {};
     
-    // Add current location marker
-    newMarkers.add(Marker(
-      markerId: MarkerId('current_location'),
-      position: _currentLocation,
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-      infoWindow: InfoWindow(title: 'Your Location'),
-    ));
+    // Note: Using default Google Maps location indicator instead of custom marker
     
     // Add bus markers with custom bus icons showing passenger count
     for (var entry in _activeBuses.entries) {
@@ -387,9 +376,12 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen> {
           int maxCapacity = busData['maxCapacity'] ?? 0; // Show 0 if null
           double occupancyRate = maxCapacity > 0 ? passengerCount / maxCapacity : 0.0;
           
-          // Create custom bus icon with real passenger count
+          // Debug: Print passenger count for troubleshooting
+          print('🚌 Bus $busId: busData passengerCount = $passengerCount, using live person_count = $_currentPersonCount');
+          
+          // Create custom bus icon with LIVE person count instead of stored bus passenger count
           BitmapDescriptor customBusIcon = await _createBusMarkerWithPassengerCount(
-            passengerCount,
+            _currentPersonCount, // Use live person count instead of bus data
             maxCapacity,
           );
           
@@ -400,8 +392,8 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen> {
             infoWindow: InfoWindow(
               title: '🚌 Bus ${busData['busNumber'] ?? 'Unknown'}',
               snippet: maxCapacity > 0 
-                ? '👥 $passengerCount/$maxCapacity passengers (${(occupancyRate * 100).toStringAsFixed(0)}%)\n📍 Route: ${busData['route'] ?? 'Unknown'}'
-                : '👥 $passengerCount passengers\n📍 Route: ${busData['route'] ?? 'Unknown'}',
+                ? '👥 $_currentPersonCount/$maxCapacity passengers (${(_currentPersonCount / maxCapacity * 100).toStringAsFixed(0)}%)\n📍 Route: ${busData['route'] ?? 'Unknown'}'
+                : '👥 $_currentPersonCount passengers\n📍 Route: ${busData['route'] ?? 'Unknown'}',
             ),
             anchor: Offset(0.5, 1.0), // Anchor at bottom center for better positioning
           ));
@@ -516,7 +508,7 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         _buildInfoItem('🚌 Active Buses', _activeBuses.length.toString()),
-                        _buildInfoItem('� Live Count', _currentPersonCount.toString()),
+                        _buildInfoItem('👥 Live Count', _currentPersonCount.toString()),
                         _buildInfoItem('🚏 Bus Stops', _markers.where((m) => m.markerId.value.startsWith('stop_')).length.toString()),
                       ],
                     ),
@@ -591,27 +583,6 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Person count controls
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Person Count: $_currentPersonCount', 
-                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                SizedBox(width: 16),
-                IconButton(
-                  onPressed: () => _updatePersonCount(_currentPersonCount - 1),
-                  icon: Icon(Icons.remove),
-                  style: IconButton.styleFrom(backgroundColor: Colors.red[100]),
-                ),
-                SizedBox(width: 8),
-                IconButton(
-                  onPressed: () => _updatePersonCount(_currentPersonCount + 1),
-                  icon: Icon(Icons.add),
-                  style: IconButton.styleFrom(backgroundColor: Colors.green[100]),
-                ),
-              ],
-            ),
-            SizedBox(height: 12),
             // Bus controls
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

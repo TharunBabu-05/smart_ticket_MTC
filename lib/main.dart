@@ -8,7 +8,9 @@ import 'screens/ticket_booking_screen.dart';
 import 'screens/conductor_verification_screen.dart';
 import 'screens/map_screen.dart';
 import 'screens/auth_screen.dart';
-import 'screens/profile_screen.dart';
+
+import 'screens/profile_screen_enhanced.dart';
+
 import 'screens/support_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/demo_test_screen.dart';
@@ -67,9 +69,9 @@ void main() async {
   }
   
   try {
-    // Initialize background service with error handling
-    await BackgroundTripService.initializeService();
-    print('Background service initialized successfully');
+    // Initialize background service with error handling - TEMPORARILY DISABLED
+    // await BackgroundTripService.initializeService();
+    print('Background service initialization skipped');
   } catch (e) {
     print('Background service initialization error: $e');
     performanceService.recordError('background_service_init_error', errorMessage: e.toString());
@@ -166,7 +168,7 @@ class SmartTicketingApp extends StatelessWidget {
             routes: {
               '/home': (context) => const HomeScreen(),
               '/auth': (context) => const AuthScreen(),
-              '/profile': (context) => const ProfileScreen(),
+              '/profile': (context) => const ProfileScreenEnhanced(),
               '/support': (context) => const SupportScreen(),
               '/booking': (context) => TicketBookingScreen(),
               '/conductor': (context) => ConductorVerificationScreen(),
@@ -176,6 +178,7 @@ class SmartTicketingApp extends StatelessWidget {
               '/demo': (context) => DemoTestScreen(),
               '/debug': (context) => const DebugScreen(),
               '/payment_test': (context) => PaymentTestScreen(),
+              
             },
             builder: (context, child) {
               // Global error boundary and performance monitoring with offline indicator

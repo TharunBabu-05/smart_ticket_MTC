@@ -14,6 +14,7 @@ import '../models/trip_data_model.dart';
 import '../models/enhanced_ticket_model.dart';
 import '../services/fraud_detection_service_new.dart';
 import '../services/enhanced_ticket_service.dart';
+import '../widgets/user_avatar_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -247,8 +248,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     GestureDetector(
                       onTap: () => Navigator.pushNamed(context, '/profile'),
                       child: Container(
-                        width: 44,
-                        height: 44,
+                        padding: EdgeInsets.all(2),
                         decoration: BoxDecoration(
                           color: colorScheme.onPrimary.withOpacity(0.2),
                           borderRadius: BorderRadius.circular(22),
@@ -257,10 +257,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             width: 1,
                           ),
                         ),
-                        child: Icon(
-                          Icons.person_outline,
-                          color: colorScheme.onPrimary,
-                          size: 22,
+                        child: UserAvatarWidget(
+                          size: 40,
+                          showName: false,
                         ),
                       ),
                     ),

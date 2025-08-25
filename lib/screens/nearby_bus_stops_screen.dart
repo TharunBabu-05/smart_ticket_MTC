@@ -105,11 +105,20 @@ class _NearbyBusStopsScreenState extends State<NearbyBusStopsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Nearby Bus Stops'),
-        backgroundColor: const Color(0xFF1DB584),
-        foregroundColor: Colors.white,
+        title: Text(
+          'Nearby Bus Stops',
+          style: theme.textTheme.titleLarge?.copyWith(
+            color: colorScheme.onPrimary,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: colorScheme.primary,
+        foregroundColor: colorScheme.onPrimary,
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
@@ -119,13 +128,13 @@ class _NearbyBusStopsScreenState extends State<NearbyBusStopsScreen> {
         ],
       ),
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFF1DB584),
-              Color(0xFFF8F9FA),
+              colorScheme.primary,
+              colorScheme.surface,
             ],
             stops: [0.0, 0.3],
           ),
@@ -141,31 +150,30 @@ class _NearbyBusStopsScreenState extends State<NearbyBusStopsScreen> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
+                color: colorScheme.surfaceContainerHighest,
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.location_on,
-                        color: Color(0xFF1DB584),
+                        color: colorScheme.primary,
                         size: 32,
                       ),
                       const SizedBox(height: 8),
                       Text(
                         'Bus Stops Within 5 KM',
-                        style: TextStyle(
-                          fontSize: 18,
+                        style: theme.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: Colors.grey[800],
+                          color: colorScheme.onSurface,
                         ),
                       ),
                       if (currentLocation != null) ...[
                         const SizedBox(height: 4),
                         Text(
                           'Your Location: ${currentLocation!.position.latitude.toStringAsFixed(4)}, ${currentLocation!.position.longitude.toStringAsFixed(4)}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey[600],
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
                           ),
                         ),
                       ],
@@ -185,20 +193,22 @@ class _NearbyBusStopsScreenState extends State<NearbyBusStopsScreen> {
   }
 
   Widget _buildContent() {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     if (isLoading) {
-      return const Center(
+      return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1DB584)),
+              valueColor: AlwaysStoppedAnimation<Color>(colorScheme.primary),
             ),
             SizedBox(height: 16),
             Text(
               'Finding nearby bus stops...',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
+              style: theme.textTheme.bodyLarge?.copyWith(
+                color: colorScheme.onSurfaceVariant,
               ),
             ),
           ],
@@ -213,34 +223,33 @@ class _NearbyBusStopsScreenState extends State<NearbyBusStopsScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(
+              Icon(
                 Icons.error_outline,
                 size: 64,
-                color: Colors.red,
+                color: colorScheme.error,
               ),
               const SizedBox(height: 16),
               Text(
                 'Error',
-                style: TextStyle(
-                  fontSize: 20,
+                style: theme.textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: Colors.grey[800],
+                  color: colorScheme.onSurface,
                 ),
               ),
               const SizedBox(height: 8),
               Text(
                 errorMessage,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[600],
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
                 ),
               ),
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: _loadNearbyStops,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF1DB584),
+                  backgroundColor: colorScheme.primary,
+                  foregroundColor: colorScheme.onPrimary,
                 ),
                 child: const Text('Try Again'),
               ),
@@ -257,27 +266,25 @@ class _NearbyBusStopsScreenState extends State<NearbyBusStopsScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(
+              Icon(
                 Icons.directions_bus_filled_outlined,
                 size: 64,
-                color: Colors.grey,
+                color: colorScheme.onSurfaceVariant,
               ),
               const SizedBox(height: 16),
               Text(
                 'No Bus Stops Found',
-                style: TextStyle(
-                  fontSize: 20,
+                style: theme.textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: Colors.grey[800],
+                  color: colorScheme.onSurface,
                 ),
               ),
               const SizedBox(height: 8),
               Text(
                 'There are no bus stops within 5 km of your current location.',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[600],
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
                 ),
               ),
               if (currentLocation != null) ...[
@@ -285,17 +292,15 @@ class _NearbyBusStopsScreenState extends State<NearbyBusStopsScreen> {
                 Text(
                   'Location: ${currentLocation!.position.latitude.toStringAsFixed(4)}, ${currentLocation!.position.longitude.toStringAsFixed(4)}',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[500],
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
                   ),
                 ),
                 Text(
                   'City: ${_getCityFromLocation(currentLocation!.position)}',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[500],
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
                   ),
                 ),
               ],
@@ -303,7 +308,8 @@ class _NearbyBusStopsScreenState extends State<NearbyBusStopsScreen> {
               ElevatedButton.icon(
                 onPressed: _loadNearbyStops,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF1DB584),
+                  backgroundColor: colorScheme.primary,
+                  foregroundColor: colorScheme.onPrimary,
                 ),
                 icon: const Icon(Icons.refresh),
                 label: const Text('Refresh'),
