@@ -751,6 +751,8 @@ graph TD
     end
     
     subgraph "Conductor Device"
+        
+        J[Bus Sensor Data] --> K[Motion Pattern Analysis]
         K --> L[Cross-verification]
     end
     
