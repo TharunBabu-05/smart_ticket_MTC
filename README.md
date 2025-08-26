@@ -571,6 +571,15 @@ graph TD
     C --> D[Profile Management]
     D --> E[Settings & Support]
 ```
+### OUTCOME RESULT:
+<p align="center">
+  <img src="OUTCOMES/SETTINGS PAGE.png" width="800"/>
+</p>
+
+<p align="center">
+  <img src="OUTCOMES/SUPPORT PAGE.png" width="800"/>
+</p>
+
 
 **Key Components:**
 - Enhanced ticket booking with validation
@@ -603,6 +612,12 @@ graph TD
     C --> D[Testing & Validation]
     D --> E[Documentation]
 ```
+### OUTCOME RESULTS:
+
+<p align="center">
+  <img src="OUTCOMES/STOPS PAGE.png" width="800"/>
+</p>
+
 
 **Key Components:**
 - Material 3 theme integration across all screens
@@ -684,6 +699,11 @@ graph TD
     F --> D
     D --> G[Main Features Access]
 ```
+### OUTCOMES RESULT:
+
+<p align="center">
+  <img src="OUTCOMES/SIGNIN PAGE.png" width="800"/>
+</p>
 
 **Process:**
 1. **App Initialization** - Performance monitoring starts, Firebase initialization
@@ -705,6 +725,11 @@ graph TD
     H --> I[Start Fraud Monitoring]
     I --> J[Display Connection Code]
 ```
+###OUTCOME RESULTS:
+
+<p align="center">
+  <img src="OUTCOMES/TICKET PAGE.png" width="800"/>
+</p>
 
 **Detailed Steps:**
 1. **Route Selection** - Source and destination bus stops
@@ -759,6 +784,11 @@ graph TD
     H --> M[Fraud Alert/Penalty]
     L --> F
 ```
+### OUTCOME RESULTS:
+
+<p align="center">
+  <img src="OUTCOMES/FRAUD DETECTION.png" width="800"/>
+</p>
 
 ### Fraud Detection Process
 1. **Session Initialization**
@@ -815,6 +845,11 @@ graph TD
     E --> F[Firebase Realtime Database]
     F --> G[FareGuard App - Live Count Display]
   ```
+### OUTCOME RESULTS:
+
+<p align="center">
+  <img src="OUTCOMES/COUNT DETECTION.png" width="800"/>
+</p>
 
 ## 🚧 Development Phases
 
@@ -1144,8 +1179,3 @@ This workflow documentation provides a comprehensive overview of the FareGuard p
 
 
 ---
-
-# 🖼️ Demo
-
----
-
