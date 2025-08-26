@@ -2,7 +2,6 @@
 
 This document gives the complete workflow and details of FareGuard project.
 
----
 
 # 📱 Application Documentation
 
