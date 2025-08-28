@@ -33,27 +33,53 @@ class _NearbyBusStopsScreenState extends State<NearbyBusStopsScreen> {
       // Initialize services if needed
       await BusStopService.initialize();
       
-      // Get current location
-      LocationService locationService = LocationService();
-      LocationPoint? location = await locationService.getCurrentLocation();
+      List<BusStop> stops = [];
       
-      if (location == null) {
-        setState(() {
-          errorMessage = 'Could not get your location. Please enable GPS and location permissions.';
-          isLoading = false;
-        });
-        return;
+      // ALWAYS load Delhi bus stops first (regardless of location)
+      List<BusStop> delhiStops = BusStopService.getDelhiBusStops();
+      stops.addAll(delhiStops);
+      print('🏛️ Added ${delhiStops.length} Delhi bus stops (always included)');
+      
+      // Try to get current location for nearby stops
+      LocationService locationService = LocationService();
+      LocationPoint? location;
+      
+      try {
+        location = await locationService.getCurrentLocation();
+        
+        if (location != null) {
+          // Find nearby stops within 5km from current location
+          List<BusStop> nearbyStops = BusStopService.findNearbyStops(
+            location.position.latitude,
+            location.position.longitude,
+            radiusKm: 5.0,
+          );
+          
+          // Add nearby stops that aren't already in the list (avoid duplicates)
+          for (BusStop nearbyStop in nearbyStops) {
+            bool alreadyExists = stops.any((existingStop) => 
+              existingStop.id == nearbyStop.id ||
+              (existingStop.name == nearbyStop.name && 
+               (existingStop.latitude - nearbyStop.latitude).abs() < 0.001 &&
+               (existingStop.longitude - nearbyStop.longitude).abs() < 0.001)
+            );
+            
+            if (!alreadyExists) {
+              stops.add(nearbyStop);
+            }
+          }
+          
+          print('📍 Current location: ${location.position.latitude}, ${location.position.longitude}');
+          print('🚌 Added ${nearbyStops.length} additional nearby stops');
+        } else {
+          print('⚠️ Could not get location, but Delhi stops are still available');
+        }
+      } catch (locationError) {
+        print('⚠️ Location error: $locationError, but Delhi stops are still available');
+        // Continue without location - Delhi stops are already added
       }
-
-      // Find nearby stops within 5km
-      List<BusStop> stops = BusStopService.findNearbyStops(
-        location.position.latitude,
-        location.position.longitude,
-        radiusKm: 5.0, // 5km radius as requested
-      );
-
-      print('📍 Current location: ${location.position.latitude}, ${location.position.longitude}');
-      print('🚌 Found ${stops.length} nearby bus stops within 5km');
+      
+      print('📊 Total stops available: ${stops.length}');
 
       setState(() {
         currentLocation = location;
@@ -64,20 +90,35 @@ class _NearbyBusStopsScreenState extends State<NearbyBusStopsScreen> {
       // Debug: Log first few stops
       for (int i = 0; i < stops.length && i < 5; i++) {
         BusStop stop = stops[i];
-        double distance = stop.distanceTo(location.position.latitude, location.position.longitude);
-        print('🚏 Stop $i: ${stop.name} (${(distance/1000).toStringAsFixed(2)}km away)');
+        String city = _getCityFromStop(stop);
+        if (location != null) {
+          double distance = stop.distanceTo(location.position.latitude, location.position.longitude);
+          print('🚏 Stop $i: ${stop.name} (${(distance/1000).toStringAsFixed(2)}km away) - $city');
+        } else {
+          print('🚏 Stop $i: ${stop.name} - $city');
+        }
       }
 
     } catch (e) {
+      print('❌ Error loading bus stops: $e');
       setState(() {
-        errorMessage = 'Error loading nearby stops: $e';
+        errorMessage = 'Error loading bus stops: $e';
         isLoading = false;
       });
     }
   }
 
   String _getDistanceText(BusStop stop) {
-    if (currentLocation == null) return '';
+    if (currentLocation == null) {
+      // If no location, show city instead of distance for Delhi stops
+      String city = _getCityFromStop(stop);
+      if (city == 'Delhi') {
+        return 'Delhi';
+      } else if (city == 'Chennai') {
+        return 'Chennai';
+      }
+      return 'Location Unknown';
+    }
     
     double distance = stop.distanceTo(
       currentLocation!.position.latitude, 
@@ -111,7 +152,7 @@ class _NearbyBusStopsScreenState extends State<NearbyBusStopsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Nearby Bus Stops',
+          'Bus Stops Near You',
           style: theme.textTheme.titleLarge?.copyWith(
             color: colorScheme.onPrimary,
             fontWeight: FontWeight.bold,
@@ -123,7 +164,7 @@ class _NearbyBusStopsScreenState extends State<NearbyBusStopsScreen> {
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: _loadNearbyStops,
-            tooltip: 'Refresh Location',
+            tooltip: 'Refresh Stops',
           ),
         ],
       ),
@@ -162,7 +203,7 @@ class _NearbyBusStopsScreenState extends State<NearbyBusStopsScreen> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Bus Stops Within 5 KM',
+                        'Bus Stops Available',
                         style: theme.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: colorScheme.onSurface,
@@ -171,7 +212,21 @@ class _NearbyBusStopsScreenState extends State<NearbyBusStopsScreen> {
                       if (currentLocation != null) ...[
                         const SizedBox(height: 4),
                         Text(
+                          'All Delhi stops + stops near your location',
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                        Text(
                           'Your Location: ${currentLocation!.position.latitude.toStringAsFixed(4)}, ${currentLocation!.position.longitude.toStringAsFixed(4)}',
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                      ] else ...[
+                        const SizedBox(height: 4),
+                        Text(
+                          'All Delhi bus stops (location not available)',
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: colorScheme.onSurfaceVariant,
                           ),
@@ -273,7 +328,7 @@ class _NearbyBusStopsScreenState extends State<NearbyBusStopsScreen> {
               ),
               const SizedBox(height: 16),
               Text(
-                'No Bus Stops Found',
+                'No Bus Stops Available',
                 style: theme.textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: colorScheme.onSurface,
@@ -281,7 +336,7 @@ class _NearbyBusStopsScreenState extends State<NearbyBusStopsScreen> {
               ),
               const SizedBox(height: 8),
               Text(
-                'There are no bus stops within 5 km of your current location.',
+                'Unable to load bus stops data. Please check your connection and try again.',
                 textAlign: TextAlign.center,
                 style: theme.textTheme.bodyLarge?.copyWith(
                   color: colorScheme.onSurfaceVariant,
@@ -368,6 +423,30 @@ class _NearbyBusStopsScreenState extends State<NearbyBusStopsScreen> {
               Column(
                 children: [
                   Text(
+                    '${_getDelhiStopsCount()}',
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue,
+                    ),
+                  ),
+                  Text(
+                    'Delhi Stops',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                height: 30,
+                width: 1,
+                color: Colors.grey[300],
+              ),
+              Column(
+                children: [
+                  Text(
                     _getNearestDistance(),
                     style: const TextStyle(
                       fontSize: 20,
@@ -415,6 +494,10 @@ class _NearbyBusStopsScreenState extends State<NearbyBusStopsScreen> {
     } else {
       return '${(distance / 1000).toStringAsFixed(1)}km';
     }
+  }
+
+  int _getDelhiStopsCount() {
+    return nearbyStops.where((stop) => _getCityFromStop(stop) == 'Delhi').length;
   }
 
   Widget _buildStopCard(BusStop stop, int index) {

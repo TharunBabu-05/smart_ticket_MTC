@@ -45,7 +45,7 @@ class BusStopService {
     
     return await openDatabase(
       path,
-      version: 2, // Increment version to recreate table
+      version: 3, // Increment version to recreate table with unique IDs
       onCreate: (Database db, int version) async {
         await db.execute('''
           CREATE TABLE bus_stops(
@@ -107,19 +107,31 @@ class BusStopService {
       List<BusStop> busStops = [];
       
       // Process Delhi stops (existing format)
+      int sequenceCounter = 0;
       for (var stopJson in delhiStopsData) {
-        busStops.add(BusStop.fromJson(stopJson));
+        BusStop stop = BusStop.fromJson(stopJson);
+        // Ensure unique ID by using sequence counter for database
+        BusStop uniqueStop = BusStop(
+          id: sequenceCounter, // Use sequence counter as unique ID
+          name: stop.name,
+          latitude: stop.latitude,
+          longitude: stop.longitude,
+          sequence: sequenceCounter,
+        );
+        busStops.add(uniqueStop);
+        sequenceCounter++;
       }
       
       // Process Chennai stops (different format)
       for (var stopJson in chennaiStopsData) {
         busStops.add(BusStop(
-          id: stopJson['Stop_id'] ?? busStops.length,
+          id: sequenceCounter, // Continue with unique sequence
           name: stopJson['Stop Name'] ?? 'Unknown Stop',
           latitude: (stopJson['Lat'] ?? 0.0).toDouble(),
           longitude: (stopJson['Lng'] ?? 0.0).toDouble(),
-          sequence: busStops.length,
+          sequence: sequenceCounter,
         ));
+        sequenceCounter++;
       }
 
       print('✅ Loaded ${delhiStopsData.length} Delhi stops and ${chennaiStopsData.length} Chennai stops');
@@ -191,6 +203,49 @@ class BusStopService {
     });
     
     return nearbyStops;
+  }
+
+  // Get all Delhi bus stops
+  static List<BusStop> getDelhiBusStops() {
+    if (!_isInitialized || _cachedBusStops.isEmpty) {
+      print('⚠️ BusStopService not initialized or no data available (initialized: $_isInitialized, cached: ${_cachedBusStops.length})');
+      return [];
+    }
+    
+    // Filter Delhi stops based on coordinates
+    // Delhi is around 28.7041° N, 77.1025° E
+    List<BusStop> delhiStops = _cachedBusStops.where((stop) {
+      return stop.latitude > 25 && stop.latitude < 32 && 
+             stop.longitude > 75 && stop.longitude < 80;
+    }).toList();
+    
+    print('🏛️ Found ${delhiStops.length} Delhi bus stops out of ${_cachedBusStops.length} total stops');
+    
+    // Debug: Log first few Delhi stops
+    for (int i = 0; i < delhiStops.length && i < 3; i++) {
+      BusStop stop = delhiStops[i];
+      print('   Delhi Stop $i: ${stop.name} (${stop.latitude}, ${stop.longitude})');
+    }
+    
+    return delhiStops;
+  }
+
+  // Get all Chennai bus stops
+  static List<BusStop> getChennaiBusStops() {
+    if (!_isInitialized || _cachedBusStops.isEmpty) {
+      print('⚠️ BusStopService not initialized or no data available');
+      return [];
+    }
+    
+    // Filter Chennai stops based on coordinates
+    // Chennai is around 13.0827° N, 80.2707° E
+    List<BusStop> chennaiStops = _cachedBusStops.where((stop) {
+      return stop.latitude > 10 && stop.latitude < 15 && 
+             stop.longitude > 78 && stop.longitude < 82;
+    }).toList();
+    
+    print('🏙️ Found ${chennaiStops.length} Chennai bus stops');
+    return chennaiStops;
   }
 
   // Get the nearest bus stop within threshold
