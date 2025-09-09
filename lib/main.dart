@@ -25,8 +25,10 @@ import 'services/enhanced_ticket_service.dart';
 import 'services/theme_service.dart';
 import 'services/offline_storage_service.dart';
 import 'services/performance_service.dart';
+import 'services/ios_notification_service.dart';
 import 'widgets/offline_mode_indicator.dart';
 import 'firebase_options.dart';
+import 'dart:io' show Platform;
 
 void main() async {
   // Start app initialization timer
@@ -57,6 +59,18 @@ void main() async {
   } catch (e) {
     print('Offline storage initialization error: $e');
     performanceService.recordError('offline_storage_init_error', errorMessage: e.toString());
+  }
+  
+  // Initialize iOS notifications if running on iOS
+  if (Platform.isIOS) {
+    try {
+      await iOSNotificationService.initialize();
+      await iOSNotificationService.subscribeToTopics();
+      print('iOS notification service initialized successfully');
+    } catch (e) {
+      print('iOS notification initialization error: $e');
+      performanceService.recordError('ios_notification_init_error', errorMessage: e.toString());
+    }
   }
   
   try {

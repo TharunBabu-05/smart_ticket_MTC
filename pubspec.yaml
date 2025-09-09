@@ -53,6 +53,7 @@ dependencies:
   firebase_core: ^2.24.2
   cloud_firestore: ^4.13.6
   firebase_auth: ^4.15.3
+  firebase_messaging: ^14.7.10
   
   # Permissions handled by location package
   uuid: ^3.0.7

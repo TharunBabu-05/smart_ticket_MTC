@@ -70,12 +70,12 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBtVDQhS0UO0csQgzH9131sGgrMpUQdbfk',
-    appId: '1:751952618795:ios:4b01b0e31e3290a10b116e',
+    apiKey: 'AIzaSyAlcLPNW_pBPuAtJ-sWZL1X-bIo9U5Qdmg',
+    appId: '1:751952618795:ios:5bef00982ceb260e0b116e',
     messagingSenderId: '751952618795',
     projectId: 'smart-ticket-mtc',
     storageBucket: 'smart-ticket-mtc.firebasestorage.app',
     databaseURL: 'https://smart-ticket-mtc-default-rtdb.firebaseio.com',
-    iosBundleId: 'com.smart.ticket_system',
+    iosBundleId: 'com.smart.ticket.system',
   );
 }
