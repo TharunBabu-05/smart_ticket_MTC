@@ -1,0 +1,48 @@
+name: iOS Minimal Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  minimal-ios:
+    runs-on: macos-12
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.16.0'
+        channel: 'stable'
+        cache: true
+        
+    - name: Basic setup
+      run: |
+        flutter config --no-analytics
+        flutter precache --ios
+        
+    - name: Dependencies
+      run: |
+        flutter clean
+        flutter pub get --offline || flutter pub get
+        
+    - name: iOS build attempt
+      run: |
+        cd ios
+        pod install --repo-update || pod install
+        cd ..
+        flutter build ios --release --no-codesign --verbose
+        
+    - name: Package IPA
+      if: success()
+      run: |
+        mkdir ipa
+        cd build/ios/iphoneos
+        zip -r ../../../ipa/app.ipa Runner.app
+        
+    - name: Upload
+      uses: actions/upload-artifact@v3
+      if: success()
+      with:
+        name: iOS-App
+        path: ipa/app.ipa
