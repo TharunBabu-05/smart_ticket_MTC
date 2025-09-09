@@ -1,0 +1,94 @@
+name: iOS Build (Simplified)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'lib/**'
+      - 'ios/**'
+      - 'pubspec.yaml'
+
+jobs:
+  build-ios:
+    name: Build iOS App
+    runs-on: macos-14
+    timeout-minutes: 30
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.24.3'
+        channel: 'stable'
+        cache: true
+        
+    - name: Verify Flutter installation
+      run: |
+        which flutter
+        flutter --version
+        flutter doctor --android-licenses || true
+        flutter doctor -v
+        
+    - name: Clean and get dependencies
+      run: |
+        flutter clean
+        flutter pub get
+        
+    - name: Setup iOS
+      run: |
+        cd ios
+        # Update CocoaPods repo
+        pod repo update
+        # Install pods
+        pod install --repo-update --verbose
+        cd ..
+        
+    - name: Analyze code
+      run: flutter analyze --fatal-infos
+      continue-on-error: true
+        
+    - name: Build iOS app (Debug first)
+      run: |
+        flutter build ios --debug --no-codesign --simulator
+        
+    - name: Build iOS app (Release)
+      run: |
+        flutter build ios --release --no-codesign
+        
+    - name: Create IPA manually
+      run: |
+        # Create IPA directory
+        mkdir -p build/ios/ipa
+        
+        # Navigate to build output
+        cd build/ios/iphoneos
+        
+        # Create Payload directory
+        mkdir -p Payload
+        
+        # Copy app to Payload
+        cp -R Runner.app Payload/
+        
+        # Create IPA
+        zip -r ../ipa/SmartTicketMTC.ipa Payload/
+        
+        # Verify IPA was created
+        ls -la ../ipa/
+        
+    - name: Upload IPA as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: SmartTicketMTC-iOS
+        path: build/ios/ipa/SmartTicketMTC.ipa
+        retention-days: 30
+        if-no-files-found: error
+        
+    - name: Show build summary
+      run: |
+        echo "✅ iOS build completed successfully!"
+        echo "📦 IPA file location: build/ios/ipa/SmartTicketMTC.ipa"
+        ls -la build/ios/ipa/ || echo "❌ IPA directory not found"

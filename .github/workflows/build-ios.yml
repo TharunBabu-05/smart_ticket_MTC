@@ -18,8 +18,11 @@ jobs:
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.32.6'
+        flutter-version: '3.24.3'
         channel: 'stable'
+        
+    - name: Flutter Doctor
+      run: flutter doctor -v
         
     - name: Install dependencies
       run: flutter pub get
@@ -27,11 +30,17 @@ jobs:
     - name: Install CocoaPods
       run: |
         cd ios
-        pod install
+        pod install --verbose
+        
+    - name: Clean Flutter
+      run: flutter clean
+      
+    - name: Get dependencies again
+      run: flutter pub get
         
     - name: Build iOS (without signing)
       run: |
-        flutter build ios --release --no-codesign
+        flutter build ios --release --no-codesign --verbose
         
     - name: Create IPA
       run: |
