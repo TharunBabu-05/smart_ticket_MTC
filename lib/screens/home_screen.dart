@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'map_screen.dart';
 import 'simple_map_test.dart';
 import 'ticket_booking_screen.dart';
+import 'voice_ticket_booking_screen.dart';
 import 'conductor_verification_screen.dart';
 import 'active_trips_screen.dart';
 import 'active_tickets_screen.dart';
@@ -766,6 +767,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                 ),
                 const SizedBox(width: 16),
+                Expanded(
+                  child: _buildActionCard(
+                    icon: Icons.record_voice_over,
+                    title: 'Voice Booking',
+                    subtitle: 'Speak to book',
+                    color: Colors.red.shade600,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => VoiceTicketBookingScreen()),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
                 Expanded(
                   child: _buildActionCard(
                     icon: Icons.support_agent_outlined,
