@@ -2,22 +2,26 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:translator/translator.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 /// Voice and Multilingual Support Service for FareGuard
-/// Supports Tamil, Hindi, and English for accessibility
-/// Note: Speech-to-text temporarily disabled due to compatibility issues
+/// Complete TTS + STT implementation with smart voice guidance
 class VoiceMultilingualService {
   static final VoiceMultilingualService _instance = VoiceMultilingualService._internal();
   factory VoiceMultilingualService() => _instance;
   VoiceMultilingualService._internal();
 
-  // Speech to Text - temporarily disabled
-  bool _speechEnabled = false;
-  
   // Text to Speech
   late FlutterTts _flutterTts;
   bool _ttsEnabled = false;
+  
+  // Speech to Text
+  late stt.SpeechToText _speechToText;
+  bool _sttEnabled = false;
+  bool _isListening = false;
+  String _lastWords = '';
   
   // Translator
   final GoogleTranslator _translator = GoogleTranslator();
@@ -25,6 +29,9 @@ class VoiceMultilingualService {
   // Current language settings
   String _currentLanguage = 'en'; // Default to English
   String _currentLocale = 'en-US';
+  
+  // Voice guidance state
+  bool _isGuiding = false;
   
   // Language configurations
   static const Map<String, Map<String, String>> _languages = {
@@ -92,35 +99,50 @@ class VoiceMultilingualService {
     },
   };
 
-  // Bus stop name mappings for voice recognition
+  // Bus stop name mappings for voice recognition - Enhanced for Chennai
   static const Map<String, List<String>> _busStopMappings = {
-    'Chennai Central': ['chennai central', 'central station', 'மத்திய நிலையம்', 'चेन्नई सेंट्रल'],
+    'Chennai Central': ['chennai central', 'central station', 'central', 'மத்திய நிலையம்', 'चेन्नई सेंट्रल', 'sentral'],
     'Egmore': ['egmore', 'egmore station', 'எக்மோர்', 'एगमोर'],
-    'T Nagar': ['t nagar', 'tee nagar', 'pondy bazaar', 'டி நகர்', 'टी नगर'],
-    'Marina Beach': ['marina beach', 'marina', 'மெரினா கடற்கரை', 'मरीना बीच'],
-    'Airport': ['airport', 'chennai airport', 'விமான நிலையம்', 'हवाई अड्डा'],
+    'T Nagar': ['t nagar', 'tee nagar', 'pondy bazaar', 'டி நகர்', 'टी नगर', 'tnagar', 'nagar'],
+    'Marina Beach': ['marina beach', 'marina', 'மெரினா கடற்கரை', 'मरीना बीच', 'beach'],
+    'Airport': ['airport', 'chennai airport', 'விமான நிலையம்', 'हवाई अड्डा', 'international airport'],
     'Guindy': ['guindy', 'guindy station', 'கிண்டி', 'गिंडी'],
     'Adyar': ['adyar', 'adyar depot', 'அடையாறு', 'अड्यार'],
     'Velachery': ['velachery', 'velachery bus stand', 'வேளச்சேரி', 'वेलाचेरी'],
+    'Tambaram': ['tambaram', 'tambaram station', 'தாம்பரம்', 'तांबरम'],
+    'Anna Nagar': ['anna nagar', 'அண்ணா நகர்', 'अन्ना नगर', 'annanagar'],
+    'Vadapalani': ['vadapalani', 'வடபழனி', 'वडापलानी'],
+    'Koyambedu': ['koyambedu', 'koyambedu bus terminus', 'கோயம்பேடு', 'कोयंबेडु'],
+    'Mylapore': ['mylapore', 'மயிலாப்பூர்', 'मैलापुर'],
+    'Thiruvanmiyur': ['thiruvanmiyur', 'திருவான்மியூர்', 'तिरुवनमियूर'],
+    'Sholinganallur': ['sholinganallur', 'OMR', 'शोलिंगनल्लूर', 'சோழிங்கநல்லூர்'],
+    'Perambur': ['perambur', 'பெரம்பூர்', 'परंबुर'],
+    'Avadi': ['avadi', 'அவடி', 'अवडी'],
+    'Chromepet': ['chromepet', 'குரோம்பேட்', 'क्रोमपेट'],
+    'Pallavaram': ['pallavaram', 'பல்லாவரம்', 'पल्लावरम'],
   };
 
   /// Initialize the voice and multilingual service
   Future<bool> initialize() async {
     try {
-      // Speech to Text temporarily disabled due to compatibility issues
-      _speechEnabled = false;
-      debugPrint('Speech recognition temporarily disabled');
-
       // Initialize Text to Speech
       _flutterTts = FlutterTts();
       _ttsEnabled = true;
       
       await _configureTts();
       
-      debugPrint('Voice and Multilingual Service initialized successfully');
-      debugPrint('Speech enabled: $_speechEnabled, TTS enabled: $_ttsEnabled');
+      // Initialize Speech to Text
+      _speechToText = stt.SpeechToText();
+      _sttEnabled = await _speechToText.initialize(
+        onError: (error) => debugPrint('STT Error: $error'),
+        onStatus: (status) => debugPrint('STT Status: $status'),
+      );
       
-      return _ttsEnabled; // Return true if TTS is working
+      debugPrint('Voice and Multilingual Service initialized successfully');
+      debugPrint('TTS enabled: $_ttsEnabled');
+      debugPrint('STT enabled: $_sttEnabled');
+      
+      return _ttsEnabled && _sttEnabled;
     } catch (e) {
       debugPrint('Error initializing Voice service: $e');
       return false;
@@ -186,21 +208,168 @@ class VoiceMultilingualService {
     }
   }
 
+  // Speech-to-Text methods
+  
   /// Start listening for voice input
-  /// Note: Currently disabled due to compatibility issues
-  Future<String?> startListening({
-    Duration timeout = const Duration(seconds: 10),
-    Function(String)? onPartialResult,
+  Future<void> startListening({
+    required Function(String) onResult,
+    Function(String)? onError,
+    Duration timeout = const Duration(seconds: 30),
   }) async {
-    debugPrint('Voice input temporarily disabled');
-    await speak('Voice input is currently not available. Please use the text input instead.');
-    return null;
+    if (!_sttEnabled || _isListening) {
+      onError?.call('Speech recognition not available or already listening');
+      return;
+    }
+
+    try {
+      await speakPhrase('listening');
+      await Future.delayed(const Duration(milliseconds: 1500));
+
+      _isListening = true;
+      bool started = await _speechToText.listen(
+        onResult: (result) {
+          _lastWords = result.recognizedWords;
+          if (result.finalResult) {
+            _isListening = false;
+            onResult(_lastWords);
+            debugPrint('Voice input recognized: $_lastWords');
+          }
+        },
+        listenFor: timeout,
+        pauseFor: const Duration(seconds: 3),
+        partialResults: false,
+        onSoundLevelChange: (level) => debugPrint('Sound level: $level'),
+        cancelOnError: true,
+        listenMode: stt.ListenMode.confirmation,
+        localeId: _languages[_currentLanguage]!['locale']!,
+      );
+
+      if (!started) {
+        _isListening = false;
+        onError?.call('Failed to start speech recognition');
+      }
+    } catch (e) {
+      _isListening = false;
+      onError?.call('Speech recognition error: $e');
+      debugPrint('STT Error: $e');
+    }
   }
 
   /// Stop listening
   Future<void> stopListening() async {
-    // No-op since speech recognition is disabled
-    debugPrint('Stop listening called (no-op)');
+    if (_sttEnabled && _isListening) {
+      await _speechToText.stop();
+      _isListening = false;
+    }
+  }
+
+  /// Check if currently listening
+  bool get isListening => _isListening;
+
+  /// Check if speech-to-text is available
+  bool get isSttEnabled => _sttEnabled;
+
+  /// Get available locales for speech recognition
+  Future<List<stt.LocaleName>> getAvailableLocales() async {
+    if (_sttEnabled) {
+      return await _speechToText.locales();
+    }
+    return [];
+  }
+
+  /// Smart voice guidance for station selection
+  Future<void> guideStationSelection({
+    required String fieldType, // 'source' or 'destination'
+    required Function(String) onStationSelected,
+  }) async {
+    if (!_ttsEnabled) return;
+    
+    _isGuiding = true;
+    
+    try {
+      // Ask for station
+      if (fieldType == 'source') {
+        await speakPhrase('ask_source');
+      } else {
+        await speakPhrase('ask_destination');
+      }
+      
+      await Future.delayed(const Duration(seconds: 2));
+      
+      // Offer popular suggestions
+      await speak(_getPopularStationsPrompt());
+      
+    } catch (e) {
+      debugPrint('Voice guidance error: $e');
+    } finally {
+      _isGuiding = false;
+    }
+  }
+
+  /// Announce popular stations for selection
+  Future<void> announcePopularStations(List<String> stations) async {
+    if (!_ttsEnabled || stations.isEmpty) return;
+    
+    final stationsText = stations.join(', ');
+    await speak('${_getAvailableStationsText()}: $stationsText');
+  }
+
+  /// Smart text input with voice feedback
+  Future<void> processTextInput(String input, String fieldType) async {
+    if (!_ttsEnabled) return;
+    
+    final station = processBusStopVoiceInput(input);
+    if (station != null) {
+      if (fieldType == 'source') {
+        await speak('${_getFromConfirmation()}: $station');
+      } else {
+        await speak('${_getToConfirmation()}: $station');
+      }
+    }
+  }
+
+  String _getPopularStationsPrompt() {
+    switch (_currentLanguage) {
+      case 'ta':
+        return 'பிரபலமான இடங்கள்: சென்னை எம்.ஜி.ஆர். சென்ட்ரல், எக்மோர், டி.நகர், பார்க் டவுன், கிண்டி';
+      case 'hi':
+        return 'लोकप्रिय स्थान: चेन्नई एमजीआर सेंट्रल, एग्मोर, टी-नगर, पार्क टाउन, गिंडी';
+      default:
+        return 'Popular stations: Chennai Egmore, T-Nagar, Park Town, Guindy, Vadapalani';
+    }
+  }
+
+  String _getAvailableStationsText() {
+    switch (_currentLanguage) {
+      case 'ta':
+        return 'கிடைக்கும் நிலையங்கள்';
+      case 'hi':
+        return 'उपलब्ध स्टेशन';
+      default:
+        return 'Available stations';
+    }
+  }
+
+  String _getFromConfirmation() {
+    switch (_currentLanguage) {
+      case 'ta':
+        return 'புறப்படும் இடம்';
+      case 'hi':
+        return 'चलने का स्थान';
+      default:
+        return 'Departure from';
+    }
+  }
+
+  String _getToConfirmation() {
+    switch (_currentLanguage) {
+      case 'ta':
+        return 'செல்லும் இடம்';
+      case 'hi':
+        return 'जाने का स्थान';
+      default:
+        return 'Going to';
+    }
   }
 
   /// Translate text to current language
@@ -217,23 +386,53 @@ class VoiceMultilingualService {
     }
   }
 
-  /// Process voice input for bus stop recognition
+  /// Process voice input for bus stop recognition with improved fuzzy matching
   String? processBusStopVoiceInput(String voiceInput) {
     final input = voiceInput.toLowerCase().trim();
+    debugPrint('Processing voice input: "$input"');
     
+    // Direct matches first
     for (final stop in _busStopMappings.entries) {
       for (final variant in stop.value) {
         if (input.contains(variant.toLowerCase())) {
+          debugPrint('Found direct match: ${stop.key}');
           return stop.key;
         }
       }
     }
     
+    // Fuzzy matching for common speech recognition variations
+    final cleanInput = input.replaceAll(RegExp(r'[^\w\s]'), '').toLowerCase();
+    
+    // Common variations and corrections
+    final corrections = {
+      'central': 'Chennai Central',
+      'airport': 'Airport',
+      'marina': 'Marina Beach',
+      'nagar': 'T Nagar',
+      'tnagar': 'T Nagar',
+      'egmore': 'Egmore',
+      'guindy': 'Guindy',
+      'adyar': 'Adyar',
+      'velachery': 'Velachery',
+      'tambaram': 'Tambaram',
+      'anna nagar': 'Anna Nagar',
+      'vadapalani': 'Vadapalani',
+      'koyambedu': 'Koyambedu',
+    };
+    
+    for (final correction in corrections.entries) {
+      if (cleanInput.contains(correction.key)) {
+        debugPrint('Found fuzzy match: ${correction.value}');
+        return correction.value;
+      }
+    }
+    
+    debugPrint('No match found for: "$input"');
     return null;
   }
 
-  /// Voice-guided ticket booking flow
-  /// Note: Currently uses TTS only due to speech recognition compatibility issues
+  /// Voice-guided ticket booking flow (legacy method for TTS guidance)
   Future<Map<String, String?>> voiceGuidedBooking() async {
     final Map<String, String?> bookingData = {
       'source': null,
@@ -245,8 +444,8 @@ class VoiceMultilingualService {
       await speakPhrase('welcome');
       await Future.delayed(const Duration(seconds: 2));
       
-      // Inform user to use text input
-      await speak('Please use the text input fields or tap the bus stop suggestions to select your journey.');
+      // Provide guidance for manual selection
+      await speak('Please use the voice guidance buttons to get help selecting your stations');
       
       return bookingData;
     } catch (e) {
@@ -256,18 +455,31 @@ class VoiceMultilingualService {
     }
   }
 
+  /// Process voice input and return cleaned/processed text
+  String processVoiceInput(String voiceInput) {
+    // Clean and normalize the voice input
+    String processed = voiceInput.toLowerCase().trim();
+    
+    // Remove common filler words and phrases
+    final fillerWords = ['uh', 'um', 'like', 'you know', 'well', 'so'];
+    for (final filler in fillerWords) {
+      processed = processed.replaceAll(RegExp('\\b$filler\\b'), '');
+    }
+    
+    // Clean up multiple spaces
+    processed = processed.replaceAll(RegExp(r'\s+'), ' ').trim();
+    
+    debugPrint('Processed voice input: "$processed"');
+    return processed;
+  }
+
   /// Check if services are available
-  bool get isVoiceEnabled => false; // Temporarily disabled
   bool get isTtsEnabled => _ttsEnabled;
-  bool get isAvailable => _ttsEnabled; // Only TTS is available
+  bool get isGuiding => _isGuiding;
+  bool get isAvailable => _ttsEnabled;
 
   /// Dispose resources
   void dispose() {
     _flutterTts.stop();
   }
-}
-
-/// Extension for easy phrase access
-extension VoicePhrases on VoiceMultilingualService {
-  static const Map<String, Map<String, String>> phrases = VoiceMultilingualService._phrases;
 }
