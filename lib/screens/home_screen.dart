@@ -12,6 +12,8 @@ import 'active_tickets_screen.dart';
 import 'live_bus_tracking_screen.dart';
 import 'enhanced_ticket_screen.dart';
 import 'nearby_bus_stops_screen.dart';
+import 'chatbot_screen.dart';
+import 'user_manual_screen.dart';
 import '../models/trip_data_model.dart';
 import '../models/enhanced_ticket_model.dart';
 import '../services/fraud_detection_service_new.dart';
@@ -787,6 +789,36 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               children: [
                 Expanded(
                   child: _buildActionCard(
+                    icon: Icons.smart_toy,
+                    title: 'AI Assistant',
+                    subtitle: 'Chat for help',
+                    color: Colors.purple.shade600,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ChatbotScreen()),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: _buildActionCard(
+                    icon: Icons.menu_book,
+                    title: 'User Manual',
+                    subtitle: 'Complete guide',
+                    color: Colors.teal.shade600,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const UserManualScreen()),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: _buildActionCard(
                     icon: Icons.support_agent_outlined,
                     title: 'Support',
                     subtitle: 'Help & feedback',
@@ -1176,20 +1208,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
             const SizedBox(width: 40), // Space for FAB
             _buildNavItem(
-              icon: Icons.history,
-              label: 'History',
+              icon: Icons.smart_toy,
+              label: 'Assistant',
               isSelected: false,
               onTap: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ActiveTicketsScreen()),
+                MaterialPageRoute(builder: (context) => const ChatbotScreen()),
               ),
               colorScheme: colorScheme,
             ),
             _buildNavItem(
-              icon: Icons.person_outline,
-              label: 'Profile',
+              icon: Icons.help_outline,
+              label: 'Manual',
               isSelected: false,
-              onTap: () => Navigator.pushNamed(context, '/profile'),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const UserManualScreen()),
+              ),
               colorScheme: colorScheme,
             ),
           ],
