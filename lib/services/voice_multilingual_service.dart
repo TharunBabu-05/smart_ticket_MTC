@@ -131,21 +131,36 @@ class VoiceMultilingualService {
       
       await _configureTts();
       
-      // Initialize Speech to Text
+      // Initialize Speech to Text with better error handling
       _speechToText = stt.SpeechToText();
       _sttEnabled = await _speechToText.initialize(
-        onError: (error) => debugPrint('STT Error: $error'),
-        onStatus: (status) => debugPrint('STT Status: $status'),
+        onError: (error) {
+          debugPrint('STT Error: $error');
+          _isListening = false; // Reset listening state on error
+        },
+        onStatus: (status) {
+          debugPrint('STT Status: $status');
+          if (status == 'done' || status == 'notListening') {
+            _isListening = false; // Reset listening state when done
+          }
+        },
       );
+      
+      // Additional safety check for STT
+      if (_sttEnabled == null) {
+        _sttEnabled = false;
+        debugPrint('STT initialization returned null, setting to false');
+      }
       
       debugPrint('Voice and Multilingual Service initialized successfully');
       debugPrint('TTS enabled: $_ttsEnabled');
       debugPrint('STT enabled: $_sttEnabled');
       
-      return _ttsEnabled && _sttEnabled;
+      return _ttsEnabled; // Return true if at least TTS is working
     } catch (e) {
       debugPrint('Error initializing Voice service: $e');
-      return false;
+      _sttEnabled = false; // Ensure STT is disabled on error
+      return _ttsEnabled; // Still return true if TTS works
     }
   }
 
@@ -214,10 +229,11 @@ class VoiceMultilingualService {
   Future<void> startListening({
     required Function(String) onResult,
     Function(String)? onError,
-    Duration timeout = const Duration(seconds: 30),
+    Duration timeout = const Duration(seconds: 10),
   }) async {
     if (!_sttEnabled || _isListening) {
-      onError?.call('Speech recognition not available or already listening');
+      // Don't show error for normal state checks
+      debugPrint('Speech recognition not available or already listening');
       return;
     }
 
@@ -226,48 +242,93 @@ class VoiceMultilingualService {
       await Future.delayed(const Duration(milliseconds: 1500));
 
       _isListening = true;
-      bool started = await _speechToText.listen(
+      
+      // Get current locale safely
+      final currentLocale = _languages[_currentLanguage]?['locale'] ?? 'en-US';
+      
+      bool? started = await _speechToText.listen(
         onResult: (result) {
-          _lastWords = result.recognizedWords;
-          if (result.finalResult) {
+          try {
+            _lastWords = result.recognizedWords ?? '';
+            debugPrint('Speech result: "$_lastWords", confidence: ${result.confidence}, final: ${result.finalResult}');
+            
+            if (result.finalResult == true) {
+              _isListening = false;
+              
+              // Check if we have meaningful input with good confidence
+              if (_lastWords.trim().isNotEmpty && (result.confidence ?? 0) > 0.3) {
+                onResult(_lastWords);
+                debugPrint('Voice input accepted: $_lastWords (confidence: ${result.confidence})');
+              } else {
+                debugPrint('Voice input rejected: low confidence (${result.confidence}) or empty');
+                onError?.call('Could not understand clearly. Please try again.');
+              }
+            }
+          } catch (e) {
+            debugPrint('Error processing speech result: $e');
             _isListening = false;
-            onResult(_lastWords);
-            debugPrint('Voice input recognized: $_lastWords');
+            onError?.call('Error processing speech. Please try again.');
           }
         },
         listenFor: timeout,
-        pauseFor: const Duration(seconds: 3),
+        pauseFor: const Duration(seconds: 2),
         partialResults: false,
         onSoundLevelChange: (level) => debugPrint('Sound level: $level'),
         cancelOnError: true,
         listenMode: stt.ListenMode.confirmation,
-        localeId: _languages[_currentLanguage]!['locale']!,
+        localeId: currentLocale,
       );
 
-      if (!started) {
+      if (started != true) {
         _isListening = false;
-        onError?.call('Failed to start speech recognition');
+        debugPrint('Failed to start speech recognition');
+        onError?.call('Could not start listening. Please try again.');
       }
+      
+      // Safety timeout to ensure listening stops
+      Future.delayed(timeout + const Duration(seconds: 1), () {
+        if (_isListening) {
+          debugPrint('Speech recognition safety timeout triggered');
+          stopListening();
+          onError?.call('Listening timeout. Please try again.');
+        }
+      });
+      
     } catch (e) {
       _isListening = false;
-      onError?.call('Speech recognition error: $e');
       debugPrint('STT Error: $e');
+      // Only show user-facing errors for critical issues
+      if (e.toString().contains('permission') || 
+          e.toString().contains('microphone') ||
+          e.toString().contains('not supported')) {
+        onError?.call('Microphone access required. Please enable permissions.');
+      } else {
+        onError?.call('Please try speaking again.');
+      }
     }
   }
 
   /// Stop listening
   Future<void> stopListening() async {
-    if (_sttEnabled && _isListening) {
-      await _speechToText.stop();
-      _isListening = false;
+    if (_isListening) {
+      try {
+        if (_sttEnabled) {
+          await _speechToText.stop();
+        }
+        _isListening = false;
+        debugPrint('Speech recognition stopped');
+      } catch (e) {
+        _isListening = false;
+        debugPrint('Error stopping speech recognition: $e');
+      }
     }
   }
 
-  /// Check if currently listening
-  bool get isListening => _isListening;
+  /// Check if currently listening (safer check)
+  bool get isListening => _isListening == true && _sttEnabled == true;
 
-  /// Check if speech-to-text is available
-  bool get isSttEnabled => _sttEnabled;
+  /// Check if speech-to-text is available (safer check)
+  bool get isSttEnabled => _sttEnabled == true;
 
   /// Get available locales for speech recognition
   Future<List<stt.LocaleName>> getAvailableLocales() async {

@@ -105,11 +105,14 @@ class _ChatbotScreenState extends State<ChatbotScreen> with TickerProviderStateM
   }
 
   void _startVoiceInput() async {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    
     if (!_voiceService.isSttEnabled) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Voice input not available'),
-          backgroundColor: Colors.red,
+        SnackBar(
+          content: const Text('Voice input not available'),
+          backgroundColor: colorScheme.error,
         ),
       );
       return;
@@ -129,7 +132,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> with TickerProviderStateM
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Voice input error: $error'),
-            backgroundColor: Colors.red,
+            backgroundColor: colorScheme.error,
           ),
         );
       },
@@ -154,6 +157,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> with TickerProviderStateM
     final colorScheme = theme.colorScheme;
     
     return Scaffold(
+      backgroundColor: colorScheme.background,
       appBar: AppBar(
         title: Row(
           children: [
@@ -246,6 +250,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> with TickerProviderStateM
                 Expanded(
                   child: TextField(
                     controller: _messageController,
+                    style: TextStyle(color: colorScheme.onSurfaceVariant),
                     decoration: InputDecoration(
                       hintText: 'Ask me anything about FareGuard...',
                       hintStyle: TextStyle(color: colorScheme.onSurface.withOpacity(0.6)),
@@ -268,13 +273,13 @@ class _ChatbotScreenState extends State<ChatbotScreen> with TickerProviderStateM
                 // Voice input button
                 Container(
                   decoration: BoxDecoration(
-                    color: _isListening ? Colors.red : Colors.blue,
+                    color: _isListening ? colorScheme.error : colorScheme.primary,
                     borderRadius: BorderRadius.circular(25),
                   ),
                   child: IconButton(
                     icon: Icon(
                       _isListening ? Icons.mic : Icons.mic_none,
-                      color: Colors.white,
+                      color: _isListening ? colorScheme.onError : colorScheme.onPrimary,
                     ),
                     onPressed: _isListening ? null : _startVoiceInput,
                   ),
@@ -284,11 +289,11 @@ class _ChatbotScreenState extends State<ChatbotScreen> with TickerProviderStateM
                 // Send button
                 Container(
                   decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
+                    color: colorScheme.primary,
                     borderRadius: BorderRadius.circular(25),
                   ),
                   child: IconButton(
-                    icon: const Icon(Icons.send, color: Colors.white),
+                    icon: Icon(Icons.send, color: colorScheme.onPrimary),
                     onPressed: () => _sendMessage(_messageController.text),
                   ),
                 ),
@@ -329,6 +334,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> with TickerProviderStateM
               style: TextStyle(
                 color: message.isUser ? colorScheme.onPrimary : colorScheme.onSurfaceVariant,
                 fontSize: 16,
+                fontWeight: FontWeight.w400,
               ),
             ),
             const SizedBox(height: 4),
@@ -339,6 +345,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> with TickerProviderStateM
                   ? colorScheme.onPrimary.withOpacity(0.7) 
                   : colorScheme.onSurfaceVariant.withOpacity(0.6),
                 fontSize: 12,
+                fontWeight: FontWeight.w300,
               ),
             ),
           ],
@@ -418,8 +425,8 @@ class _ChatbotScreenState extends State<ChatbotScreen> with TickerProviderStateM
                     _sendMessage(questions.first);
                   }
                 },
-                backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
-                labelStyle: TextStyle(color: Theme.of(context).primaryColor),
+                backgroundColor: colorScheme.primaryContainer,
+                labelStyle: TextStyle(color: colorScheme.onPrimaryContainer),
               );
             }).toList(),
           ),

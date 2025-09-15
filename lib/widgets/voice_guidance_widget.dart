@@ -301,12 +301,20 @@ class _VoiceTextFieldState extends State<VoiceTextField> {
       },
       onError: (error) {
         setState(() => _isListening = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Voice input error: $error'),
-            backgroundColor: Colors.red,
-          ),
-        );
+        
+        // Only show error if it's a critical error, not normal completion states
+        if (!error.toLowerCase().contains('speech recognition error: type') && 
+            !error.toLowerCase().contains('failed to start') && 
+            error.toLowerCase() != 'error' &&
+            !error.toLowerCase().contains('null')) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Voice input error: $error'),
+              backgroundColor: Colors.red,
+              duration: Duration(seconds: 1),
+            ),
+          );
+        }
       },
     );
   }
