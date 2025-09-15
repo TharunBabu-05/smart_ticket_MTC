@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../services/theme_service.dart';
+import '../services/accessibility_service.dart';
 import '../services/enhanced_auth_service.dart';
 import '../services/performance_service.dart';
 import '../services/offline_storage_service.dart';
+import 'accessibility_settings_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -69,6 +71,10 @@ class _SettingsScreenState extends State<SettingsScreen>
                 children: [
                   _buildSectionHeader('Appearance', Icons.palette),
                   _buildAppearanceSection(),
+                  const SizedBox(height: 24),
+                  
+                  _buildSectionHeader('Accessibility', Icons.accessibility),
+                  _buildAccessibilitySection(),
                   const SizedBox(height: 24),
                   
                   _buildSectionHeader('Security', Icons.security),
@@ -152,6 +158,70 @@ class _SettingsScreenState extends State<SettingsScreen>
                   ),
                 ),
                 onTap: () => _showColorDialog(themeService),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildAccessibilitySection() {
+    return Consumer<AccessibilityService>(
+      builder: (context, accessibilityService, child) {
+        return Card(
+          child: Column(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.accessibility),
+                title: const Text('Accessibility Settings'),
+                subtitle: Text(accessibilityService.screenReaderEnabled 
+                  ? 'Screen reader active' 
+                  : 'Configure accessibility options'),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AccessibilitySettingsScreen(),
+                    ),
+                  );
+                },
+              ),
+              const Divider(height: 1),
+              SwitchListTile(
+                secondary: const Icon(Icons.contrast),
+                title: const Text('High Contrast'),
+                subtitle: const Text('Improve visibility with high contrast'),
+                value: accessibilityService.highContrastEnabled,
+                onChanged: (_) => accessibilityService.toggleHighContrast(),
+              ),
+              const Divider(height: 1),
+              ListTile(
+                leading: const Icon(Icons.format_size),
+                title: const Text('Font Size'),
+                subtitle: Text('${(accessibilityService.fontScaleFactor * 100).round()}% of normal size'),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.remove),
+                      onPressed: accessibilityService.fontScaleFactor > 0.8
+                        ? () => accessibilityService.setFontScaleFactor(
+                            (accessibilityService.fontScaleFactor - 0.1).clamp(0.8, 2.0))
+                        : null,
+                      tooltip: 'Decrease font size',
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.add),
+                      onPressed: accessibilityService.fontScaleFactor < 2.0
+                        ? () => accessibilityService.setFontScaleFactor(
+                            (accessibilityService.fontScaleFactor + 0.1).clamp(0.8, 2.0))
+                        : null,
+                      tooltip: 'Increase font size',
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

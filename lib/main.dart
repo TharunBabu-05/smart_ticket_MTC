@@ -23,6 +23,7 @@ import 'services/bus_stop_service.dart';
 import 'services/enhanced_auth_service.dart';
 import 'services/enhanced_ticket_service.dart';
 import 'services/theme_service.dart';
+import 'services/accessibility_service.dart';
 import 'services/offline_storage_service.dart';
 import 'services/performance_service.dart';
 import 'services/ios_notification_service.dart';
@@ -115,6 +116,9 @@ void main() async {
   // Initialize theme service
   final ThemeService themeService = await ThemeService.initialize();
   
+  // Initialize accessibility service
+  final AccessibilityService accessibilityService = await AccessibilityService.initialize();
+  
   // Record app start time
   appStartTimer.stop();
   performanceService.recordAppStartTime(
@@ -131,7 +135,10 @@ void main() async {
     FlutterError.presentError(details);
   };
   
-  runApp(SmartTicketingApp(themeService: themeService));
+  runApp(SmartTicketingApp(
+    themeService: themeService, 
+    accessibilityService: accessibilityService,
+  ));
 }
 
 class AuthWrapper extends StatelessWidget {
@@ -164,19 +171,31 @@ class AuthWrapper extends StatelessWidget {
 
 class SmartTicketingApp extends StatelessWidget {
   final ThemeService themeService;
+  final AccessibilityService accessibilityService;
   
-  const SmartTicketingApp({super.key, required this.themeService});
+  const SmartTicketingApp({
+    super.key, 
+    required this.themeService,
+    required this.accessibilityService,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<ThemeService>.value(
-      value: themeService,
-      child: Consumer<ThemeService>(
-        builder: (context, themeService, child) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ThemeService>.value(value: themeService),
+        ChangeNotifierProvider<AccessibilityService>.value(value: accessibilityService),
+      ],
+      child: Consumer2<ThemeService, AccessibilityService>(
+        builder: (context, themeService, accessibilityService, child) {
           return MaterialApp(
             title: 'Smart Ticketing MTC',
-            theme: themeService.getThemeData(Brightness.light),
-            darkTheme: themeService.getThemeData(Brightness.dark),
+            theme: accessibilityService.getAccessibleThemeData(
+              themeService.getThemeData(Brightness.light)
+            ),
+            darkTheme: accessibilityService.getAccessibleThemeData(
+              themeService.getThemeData(Brightness.dark)
+            ),
             themeMode: _getThemeMode(themeService.themeMode),
             home: const AuthWrapper(),
             routes: {
