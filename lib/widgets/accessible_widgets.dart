@@ -47,6 +47,43 @@ class AccessibleElevatedButton extends StatelessWidget {
   }
 }
 
+/// Accessible Text Button with proper semantics
+class AccessibleTextButton extends StatelessWidget {
+  final String text;
+  final VoidCallback? onPressed;
+  final String? semanticLabel;
+  final String? semanticHint;
+  final IconData? icon;
+
+  const AccessibleTextButton({
+    Key? key,
+    required this.text,
+    required this.onPressed,
+    this.semanticLabel,
+    this.semanticHint,
+    this.icon,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      label: semanticLabel ?? text,
+      hint: semanticHint ?? (onPressed != null ? 'Double tap to activate' : 'Button disabled'),
+      button: true,
+      enabled: onPressed != null,
+      child: TextButton.icon(
+        onPressed: onPressed,
+        icon: icon != null ? Icon(icon) : const SizedBox.shrink(),
+        label: Text(text),
+        style: TextButton.styleFrom(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          minimumSize: const Size(88, 48),
+        ),
+      ),
+    );
+  }
+}
+
 /// Accessible Text Field with proper semantics
 class AccessibleTextField extends StatelessWidget {
   final TextEditingController controller;

@@ -203,16 +203,171 @@ class AccessibilityService extends ChangeNotifier {
   ThemeData _applyHighContrast(ThemeData theme) {
     final isDark = theme.brightness == Brightness.dark;
     
-    return theme.copyWith(
-      colorScheme: theme.colorScheme.copyWith(
-        background: isDark ? Colors.black : Colors.white,
-        surface: isDark ? Colors.grey[900] : Colors.grey[50],
-        primary: isDark ? Colors.white : Colors.black,
-        onPrimary: isDark ? Colors.black : Colors.white,
-        onBackground: isDark ? Colors.white : Colors.black,
-        onSurface: isDark ? Colors.white : Colors.black,
-      ),
-    );
+    if (isDark) {
+      // Dark high contrast theme
+      return theme.copyWith(
+        colorScheme: theme.colorScheme.copyWith(
+          background: Colors.black,
+          surface: const Color(0xFF111111),
+          surfaceVariant: const Color(0xFF222222),
+          primary: Colors.white,
+          primaryContainer: const Color(0xFF333333),
+          secondary: const Color(0xFFFFFFFF),
+          secondaryContainer: const Color(0xFF444444),
+          onBackground: Colors.white,
+          onSurface: Colors.white,
+          onSurfaceVariant: Colors.white,
+          onPrimary: Colors.black,
+          onPrimaryContainer: Colors.white,
+          onSecondary: Colors.black,
+          onSecondaryContainer: Colors.white,
+          outline: Colors.white,
+          outlineVariant: const Color(0xFF666666),
+          error: const Color(0xFFFF6B6B),
+          onError: Colors.black,
+          tertiary: const Color(0xFFFFD700),
+          onTertiary: Colors.black,
+        ),
+        // Enhanced contrast for cards
+        cardTheme: CardThemeData(
+          color: const Color(0xFF111111),
+          shadowColor: Colors.white.withOpacity(0.3),
+          elevation: 4,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+            side: const BorderSide(color: Colors.white, width: 1),
+          ),
+        ),
+        // Enhanced contrast for app bar
+        appBarTheme: theme.appBarTheme.copyWith(
+          backgroundColor: Colors.black,
+          foregroundColor: Colors.white,
+          shadowColor: Colors.white.withOpacity(0.3),
+          iconTheme: const IconThemeData(color: Colors.white),
+        ),
+        // Enhanced contrast for buttons
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
+            side: const BorderSide(color: Colors.white, width: 2),
+            elevation: 4,
+          ),
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
+            foregroundColor: Colors.white,
+            side: const BorderSide(color: Colors.white, width: 2),
+          ),
+        ),
+        // Enhanced contrast for input fields
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: const Color(0xFF222222),
+          border: OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.white, width: 2),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.white, width: 1),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.white, width: 2),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          labelStyle: const TextStyle(color: Colors.white),
+          hintStyle: TextStyle(color: Colors.white.withOpacity(0.7)),
+        ),
+        // Enhanced dividers
+        dividerTheme: const DividerThemeData(
+          color: Colors.white,
+          thickness: 1,
+        ),
+      );
+    } else {
+      // Light high contrast theme
+      return theme.copyWith(
+        colorScheme: theme.colorScheme.copyWith(
+          background: Colors.white,
+          surface: const Color(0xFFFAFAFA),
+          surfaceVariant: const Color(0xFFF0F0F0),
+          primary: Colors.black,
+          primaryContainer: const Color(0xFFE0E0E0),
+          secondary: const Color(0xFF000000),
+          secondaryContainer: const Color(0xFFDDDDDD),
+          onBackground: Colors.black,
+          onSurface: Colors.black,
+          onSurfaceVariant: Colors.black,
+          onPrimary: Colors.white,
+          onPrimaryContainer: Colors.black,
+          onSecondary: Colors.white,
+          onSecondaryContainer: Colors.black,
+          outline: Colors.black,
+          outlineVariant: const Color(0xFF666666),
+          error: const Color(0xFFB71C1C),
+          onError: Colors.white,
+          tertiary: const Color(0xFF1565C0),
+          onTertiary: Colors.white,
+        ),
+        // Enhanced contrast for cards
+        cardTheme: CardThemeData(
+          color: Colors.white,
+          shadowColor: Colors.black.withOpacity(0.3),
+          elevation: 4,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+            side: const BorderSide(color: Colors.black, width: 1),
+          ),
+        ),
+        // Enhanced contrast for app bar
+        appBarTheme: theme.appBarTheme.copyWith(
+          backgroundColor: Colors.black,
+          foregroundColor: Colors.white,
+          shadowColor: Colors.black.withOpacity(0.3),
+          iconTheme: const IconThemeData(color: Colors.white),
+        ),
+        // Enhanced contrast for buttons
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.black,
+            foregroundColor: Colors.white,
+            side: const BorderSide(color: Colors.black, width: 2),
+            elevation: 4,
+          ),
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
+            foregroundColor: Colors.black,
+            side: const BorderSide(color: Colors.black, width: 2),
+          ),
+        ),
+        // Enhanced contrast for input fields
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: const Color(0xFFF0F0F0),
+          border: OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.black, width: 2),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.black, width: 1),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.black, width: 2),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          labelStyle: const TextStyle(color: Colors.black),
+          hintStyle: TextStyle(color: Colors.black.withOpacity(0.7)),
+        ),
+        // Enhanced dividers
+        dividerTheme: const DividerThemeData(
+          color: Colors.black,
+          thickness: 1,
+        ),
+      );
+    }
   }
 
   ThemeData _applyColorBlindAdjustments(ThemeData theme) {

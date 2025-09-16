@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../services/accessibility_service.dart';
 import '../widgets/accessible_widgets.dart';
+import '../widgets/high_contrast_widgets.dart';
+import '../widgets/font_size_widgets.dart';
+import '../widgets/color_blind_widgets.dart';
+import '../widgets/gesture_navigation_widgets.dart';
+import 'high_contrast_demo_screen.dart';
 
 class AccessibilitySettingsScreen extends StatefulWidget {
   const AccessibilitySettingsScreen({Key? key}) : super(key: key);
@@ -144,49 +149,25 @@ class _AccessibilitySettingsScreenState extends State<AccessibilitySettingsScree
             semanticLabel: 'High contrast mode toggle',
           ),
           
-          const Divider(),
+          const SizedBox(height: 16),
           
           // Preview of current contrast
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: service.highContrastEnabled 
-                ? (Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white)
-                : Theme.of(context).colorScheme.surface,
-              border: Border.all(
-                color: service.highContrastEnabled 
-                  ? (Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black)
-                  : Theme.of(context).colorScheme.outline.withOpacity(0.3),
-              ),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Semantics(
-              label: 'Contrast preview',
-              hint: 'Shows current contrast level',
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.visibility,
-                    color: service.highContrastEnabled 
-                      ? (Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black)
-                      : Theme.of(context).colorScheme.onSurface,
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      service.highContrastEnabled 
-                        ? 'High contrast active - better visibility'
-                        : 'Normal contrast - standard visibility',
-                      style: TextStyle(
-                        color: service.highContrastEnabled 
-                          ? (Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black)
-                          : Theme.of(context).colorScheme.onSurface,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          const HighContrastPreview(),
+          
+          const SizedBox(height: 16),
+          
+          // Demo navigation button
+          AccessibleTextButton(
+            text: 'View High Contrast Demo',
+            semanticLabel: 'Open high contrast demonstration screen',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const HighContrastDemoScreen(),
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -194,223 +175,98 @@ class _AccessibilitySettingsScreenState extends State<AccessibilitySettingsScree
   }
 
   Widget _buildTextSettingsSection(AccessibilityService service) {
-    return AccessibleCard(
-      semanticLabel: 'Text and font settings',
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Text & Font Settings',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          const SizedBox(height: 16),
-          
-          // Font Scale Slider
-          AccessibleSlider(
-            value: service.fontScaleFactor,
-            onChanged: service.setFontScaleFactor,
-            min: 0.8,
-            max: 2.0,
-            divisions: 12,
-            label: 'Font Size',
-            semanticLabel: 'Font size adjustment',
-          ),
-          
-          const SizedBox(height: 16),
-          
-          // Font Scale Quick Actions
-          Semantics(
-            label: 'Font size quick adjustment buttons',
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildFontScaleButton(service, 0.8, 'Small', context),
-                _buildFontScaleButton(service, 1.0, 'Normal', context),
-                _buildFontScaleButton(service, 1.3, 'Large', context),
-                _buildFontScaleButton(service, 1.6, 'Extra Large', context),
-              ],
-            ),
-          ),
-          
-          const SizedBox(height: 16),
-          
-          // Preview Text
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surfaceVariant,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Semantics(
-              label: 'Font size preview text',
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Preview Text',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'This is how text will appear with current font size settings.',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ],
+    return Column(
+      children: [
+        // Font Size Adjustment Widget
+        const FontSizeAdjustmentWidget(),
+        
+        const SizedBox(height: 16),
+        
+        // Demo Navigation
+        AccessibleCard(
+          semanticLabel: 'Font size demonstration',
+          child: Column(
+            children: [
+              AccessibleTextButton(
+                text: 'View Font Size Demo',
+                semanticLabel: 'Open font size demonstration screen',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const FontSizeDemoScreen(),
+                    ),
+                  );
+                },
               ),
-            ),
+            ],
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFontScaleButton(AccessibilityService service, double scale, String label, BuildContext context) {
-    final isSelected = (service.fontScaleFactor - scale).abs() < 0.05;
-    
-    return AccessibleElevatedButton(
-      text: label,
-      semanticLabel: '$label font size',
-      semanticHint: isSelected ? 'Currently selected' : 'Tap to select $label font size',
-      onPressed: () => service.setFontScaleFactor(scale),
+        ),
+      ],
     );
   }
 
   Widget _buildColorSettingsSection(AccessibilityService service) {
-    return AccessibleCard(
-      semanticLabel: 'Color and vision settings',
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Color & Vision Settings',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          const SizedBox(height: 16),
-          
-          Text(
-            'Color Blind Support',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          const SizedBox(height: 8),
-          
-          // Color Blind Mode Options
-          ...ColorBlindMode.values.map((mode) {
-            return AccessibleListTile(
-              leading: Radio<ColorBlindMode>(
-                value: mode,
-                groupValue: service.colorBlindMode,
-                onChanged: (value) => service.setColorBlindMode(value!),
-              ),
-              title: Text(mode.displayName),
-              onTap: () => service.setColorBlindMode(mode),
-              semanticLabel: '${mode.displayName} color mode',
-              semanticHint: service.colorBlindMode == mode 
-                ? 'Currently selected' 
-                : 'Tap to select ${mode.displayName}',
-            );
-          }).toList(),
-          
-          const SizedBox(height: 16),
-          
-          // Color Preview
-          if (service.colorBlindMode != ColorBlindMode.none)
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceVariant,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Semantics(
-                label: 'Color adjustment preview',
-                child: Column(
-                  children: [
-                    Text('Color Adjustment Preview'),
-                    const SizedBox(height: 12),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        _buildColorCircle(Theme.of(context).colorScheme.primary, 'Primary'),
-                        _buildColorCircle(Theme.of(context).colorScheme.secondary, 'Secondary'),
-                        _buildColorCircle(Theme.of(context).colorScheme.error, 'Error'),
-                      ],
+    return Column(
+      children: [
+        // Color Blind Settings Widget
+        const ColorBlindSettingsWidget(),
+        
+        const SizedBox(height: 16),
+        
+        // Demo Navigation
+        AccessibleCard(
+          semanticLabel: 'Color vision test and demonstration',
+          child: Column(
+            children: [
+              AccessibleTextButton(
+                text: 'Take Color Vision Test',
+                semanticLabel: 'Open color vision test and demonstration screen',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ColorBlindTestScreen(),
                     ),
-                  ],
-                ),
+                  );
+                },
               ),
-            ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildColorCircle(Color color, String label) {
-    return Semantics(
-      label: '$label color',
-      child: Column(
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: color,
-              shape: BoxShape.circle,
-              border: Border.all(color: Colors.grey),
-            ),
+            ],
           ),
-          const SizedBox(height: 4),
-          Text(label, style: const TextStyle(fontSize: 12)),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   Widget _buildNavigationSettingsSection(AccessibilityService service) {
-    return AccessibleCard(
-      semanticLabel: 'Navigation settings',
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Navigation Settings',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          const SizedBox(height: 16),
-          
-          AccessibleSwitch(
-            value: service.gestureNavigationEnabled,
-            onChanged: (_) => service.toggleGestureNavigation(),
-            label: 'Enhanced Gesture Navigation',
-            semanticLabel: 'Enhanced gesture navigation toggle',
-          ),
-          
-          if (service.gestureNavigationEnabled) ...[
-            const SizedBox(height: 16),
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Semantics(
-                label: 'Gesture navigation help',
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Gesture Shortcuts:',
-                      style: Theme.of(context).textTheme.titleSmall,
+    return Column(
+      children: [
+        // Gesture Navigation Widget
+        const GestureNavigationWidget(),
+        
+        const SizedBox(height: 16),
+        
+        // Demo Navigation
+        AccessibleCard(
+          semanticLabel: 'Gesture navigation demonstration',
+          child: Column(
+            children: [
+              AccessibleTextButton(
+                text: 'Try Gesture Navigation Demo',
+                semanticLabel: 'Open gesture navigation demonstration screen',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const GestureNavigationDemoScreen(),
                     ),
-                    const SizedBox(height: 8),
-                    const Text('• Swipe right: Go back'),
-                    const Text('• Double tap with two fingers: Home'),
-                    const Text('• Long press: Context menu'),
-                  ],
-                ),
+                  );
+                },
               ),
-            ),
-          ],
-        ],
-      ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
