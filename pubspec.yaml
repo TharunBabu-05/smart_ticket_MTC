@@ -66,6 +66,7 @@ dependencies:
   
   # Date formatting
   intl: ^0.18.1
+  timeago: ^3.4.0
   
   # Google Maps
   google_maps_flutter: ^2.5.0

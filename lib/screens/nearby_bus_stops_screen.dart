@@ -3,6 +3,9 @@ import '../services/location_service.dart';
 import '../services/bus_stop_service.dart';
 import '../models/bus_stop_model.dart';
 import '../models/trip_data_model.dart';
+import '../models/rating_model.dart';
+import 'rating/review_list_screen.dart';
+import 'rating/review_submission_screen.dart';
 
 class NearbyBusStopsScreen extends StatefulWidget {
   const NearbyBusStopsScreen({super.key});
@@ -510,91 +513,161 @@ class _NearbyBusStopsScreenState extends State<NearbyBusStopsScreen> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
-      child: ListTile(
-        contentPadding: const EdgeInsets.all(16),
-        leading: Container(
-          width: 50,
-          height: 50,
-          decoration: BoxDecoration(
-            color: city == 'Chennai' 
-              ? const Color(0xFF1DB584).withOpacity(0.1)
-              : Colors.blue.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          child: Icon(
-            Icons.directions_bus,
-            color: city == 'Chennai' 
-              ? const Color(0xFF1DB584)
-              : Colors.blue,
-            size: 28,
-          ),
-        ),
-        title: Text(
-          stop.name,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 4),
-            Row(
-              children: [
-                Icon(
-                  Icons.location_city,
-                  size: 14,
-                  color: Colors.grey[600],
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  city,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[600],
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Icon(
-                  Icons.my_location,
-                  size: 14,
-                  color: Colors.grey[600],
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  distance,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[600],
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-        trailing: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          decoration: BoxDecoration(
-            color: index == 0 
-              ? Colors.green.withOpacity(0.1)
-              : Colors.grey.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Text(
-            index == 0 ? 'NEAREST' : '#${index + 1}',
-            style: TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.bold,
-              color: index == 0 ? Colors.green : Colors.grey[600],
-            ),
-          ),
-        ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
         onTap: () {
-          // You can add navigation to booking screen or show more details
           _showStopDetails(stop);
         },
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: city == 'Chennai' 
+                        ? const Color(0xFF1DB584).withOpacity(0.1)
+                        : Colors.blue.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: Icon(
+                      Icons.directions_bus,
+                      color: city == 'Chennai' 
+                        ? const Color(0xFF1DB584)
+                        : Colors.blue,
+                      size: 28,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          stop.name,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.location_city,
+                              size: 14,
+                              color: Colors.grey[600],
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              city,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey[600],
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Icon(
+                              Icons.my_location,
+                              size: 14,
+                              color: Colors.grey[600],
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              distance,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey[600],
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: index == 0 
+                        ? Colors.green.withOpacity(0.1)
+                        : Colors.grey.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      index == 0 ? 'NEAREST' : '#${index + 1}',
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: index == 0 ? Colors.green : Colors.grey[600],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              
+              const SizedBox(height: 12),
+              
+              // Action buttons row
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: () => _viewStationReviews(stop),
+                      icon: const Icon(Icons.star_border, size: 16),
+                      label: const Text('Reviews'),
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: () => _rateStation(stop),
+                      icon: const Icon(Icons.rate_review, size: 16),
+                      label: const Text('Rate'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _viewStationReviews(BusStop stop) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ReviewListScreen(
+          serviceId: stop.id.toString(),
+          reviewType: ReviewType.station,
+          serviceName: stop.name,
+        ),
+      ),
+    );
+  }
+
+  void _rateStation(BusStop stop) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ReviewSubmissionScreen(
+          serviceId: stop.id.toString(),
+          reviewType: ReviewType.station,
+          serviceName: stop.name,
+        ),
       ),
     );
   }

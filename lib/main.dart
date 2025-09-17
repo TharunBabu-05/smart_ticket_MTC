@@ -24,6 +24,7 @@ import 'services/enhanced_auth_service.dart';
 import 'services/enhanced_ticket_service.dart';
 import 'services/theme_service.dart';
 import 'services/accessibility_service.dart';
+import 'services/review_service.dart';
 import 'services/offline_storage_service.dart';
 import 'services/performance_service.dart';
 import 'services/ios_notification_service.dart';
@@ -138,6 +139,7 @@ void main() async {
   runApp(SmartTicketingApp(
     themeService: themeService, 
     accessibilityService: accessibilityService,
+    reviewService: ReviewService(),
   ));
 }
 
@@ -172,11 +174,13 @@ class AuthWrapper extends StatelessWidget {
 class SmartTicketingApp extends StatelessWidget {
   final ThemeService themeService;
   final AccessibilityService accessibilityService;
+  final ReviewService reviewService;
   
   const SmartTicketingApp({
     super.key, 
     required this.themeService,
     required this.accessibilityService,
+    required this.reviewService,
   });
 
   @override
@@ -185,6 +189,7 @@ class SmartTicketingApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<ThemeService>.value(value: themeService),
         ChangeNotifierProvider<AccessibilityService>.value(value: accessibilityService),
+        ChangeNotifierProvider<ReviewService>.value(value: reviewService),
       ],
       child: Consumer2<ThemeService, AccessibilityService>(
         builder: (context, themeService, accessibilityService, child) {

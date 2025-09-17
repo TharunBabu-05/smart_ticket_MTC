@@ -14,8 +14,11 @@ import 'enhanced_ticket_screen.dart';
 import 'nearby_bus_stops_screen.dart';
 import 'chatbot_screen.dart';
 import 'user_manual_screen.dart';
+import 'rating/review_list_screen.dart';
+import 'rating/review_submission_screen.dart';
 import '../models/trip_data_model.dart';
 import '../models/enhanced_ticket_model.dart';
+import '../models/rating_model.dart';
 import '../services/fraud_detection_service_new.dart';
 import '../services/enhanced_ticket_service.dart';
 import '../widgets/user_avatar_widget.dart';
@@ -728,6 +731,31 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
             ),
             
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: _buildActionCard(
+                    icon: Icons.star,
+                    title: 'Rate Services',
+                    subtitle: 'Share your experience',
+                    color: Colors.amber.shade600,
+                    onTap: () => _showRatingOptions(),
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: _buildActionCard(
+                    icon: Icons.reviews,
+                    title: 'View Reviews',
+                    subtitle: 'Community feedback',
+                    color: Colors.indigo.shade600,
+                    onTap: () => _showReviewsOptions(),
+                  ),
+                ),
+              ],
+            ),
+            
             Row(
               children: [
                 Expanded(
@@ -1263,6 +1291,274 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  void _showRatingOptions() {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Rate Bus Services',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Help improve public transport by sharing your experience',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+            ),
+            const SizedBox(height: 20),
+            
+            _buildRatingOption(
+              icon: Icons.directions_bus,
+              title: 'Rate Bus Service',
+              subtitle: 'Overall bus experience',
+              onTap: () {
+                Navigator.pop(context);
+                _rateBusService();
+              },
+            ),
+            
+            _buildRatingOption(
+              icon: Icons.route,
+              title: 'Rate Route',
+              subtitle: 'Route efficiency & coverage',
+              onTap: () {
+                Navigator.pop(context);
+                _rateRoute();
+              },
+            ),
+            
+            _buildRatingOption(
+              icon: Icons.person,
+              title: 'Rate Driver',
+              subtitle: 'Driver behavior & service',
+              onTap: () {
+                Navigator.pop(context);
+                _rateDriver();
+              },
+            ),
+            
+            _buildRatingOption(
+              icon: Icons.location_on,
+              title: 'Rate Bus Stop',
+              subtitle: 'Station facilities & cleanliness',
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const NearbyBusStopsScreen()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showReviewsOptions() {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Browse Reviews',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'See what others are saying about bus services',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+            ),
+            const SizedBox(height: 20),
+            
+            _buildRatingOption(
+              icon: Icons.directions_bus,
+              title: 'Bus Service Reviews',
+              subtitle: 'Read bus service feedback',
+              onTap: () {
+                Navigator.pop(context);
+                _viewBusServiceReviews();
+              },
+            ),
+            
+            _buildRatingOption(
+              icon: Icons.route,
+              title: 'Route Reviews',
+              subtitle: 'Route efficiency feedback',
+              onTap: () {
+                Navigator.pop(context);
+                _viewRouteReviews();
+              },
+            ),
+            
+            _buildRatingOption(
+              icon: Icons.person,
+              title: 'Driver Reviews',
+              subtitle: 'Driver service feedback',
+              onTap: () {
+                Navigator.pop(context);
+                _viewDriverReviews();
+              },
+            ),
+            
+            _buildRatingOption(
+              icon: Icons.location_on,
+              title: 'Station Reviews',
+              subtitle: 'Bus stop reviews & ratings',
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const NearbyBusStopsScreen()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRatingOption({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required VoidCallback onTap,
+  }) {
+    return ListTile(
+      leading: CircleAvatar(
+        backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+        child: Icon(
+          icon,
+          color: Theme.of(context).colorScheme.primary,
+        ),
+      ),
+      title: Text(
+        title,
+        style: const TextStyle(fontWeight: FontWeight.w600),
+      ),
+      subtitle: Text(subtitle),
+      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+      onTap: onTap,
+    );
+  }
+
+  void _rateBusService() {
+    _showServiceInputDialog('Rate Bus Service', 'Enter bus number', ReviewType.busService);
+  }
+
+  void _rateRoute() {
+    _showServiceInputDialog('Rate Route', 'Enter route number', ReviewType.route);
+  }
+
+  void _rateDriver() {
+    _showServiceInputDialog('Rate Driver', 'Enter driver ID or bus number', ReviewType.driver);
+  }
+
+  void _viewBusServiceReviews() {
+    _showServiceInputDialog('View Bus Service Reviews', 'Enter bus number', ReviewType.busService, isReview: true);
+  }
+
+  void _viewRouteReviews() {
+    _showServiceInputDialog('View Route Reviews', 'Enter route number', ReviewType.route, isReview: true);
+  }
+
+  void _viewDriverReviews() {
+    _showServiceInputDialog('View Driver Reviews', 'Enter driver ID or bus number', ReviewType.driver, isReview: true);
+  }
+
+  void _showServiceInputDialog(String title, String hint, ReviewType reviewType, {bool isReview = false}) {
+    final TextEditingController controller = TextEditingController();
+    
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(hint),
+            const SizedBox(height: 16),
+            TextField(
+              controller: controller,
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                hintText: 'e.g., DL1PC5234, Route 52A',
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              if (controller.text.trim().isNotEmpty) {
+                Navigator.pop(context);
+                if (isReview) {
+                  _navigateToReviewList(controller.text.trim(), reviewType);
+                } else {
+                  _navigateToRatingSubmission(controller.text.trim(), reviewType);
+                }
+              }
+            },
+            child: Text(isReview ? 'View Reviews' : 'Rate Service'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _navigateToRatingSubmission(String serviceId, ReviewType reviewType) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ReviewSubmissionScreen(
+          serviceId: serviceId,
+          reviewType: reviewType,
+          serviceName: serviceId,
+        ),
+      ),
+    );
+  }
+
+  void _navigateToReviewList(String serviceId, ReviewType reviewType) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ReviewListScreen(
+          serviceId: serviceId,
+          reviewType: reviewType,
+          serviceName: serviceId,
         ),
       ),
     );
