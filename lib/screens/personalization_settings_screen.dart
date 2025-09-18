@@ -6,6 +6,7 @@ import '../screens/custom_theme_creation_screen.dart';
 import '../screens/favorite_routes_screen.dart';
 import '../screens/usage_analytics_dashboard_screen.dart';
 import '../screens/personalized_recommendations_screen.dart';
+import '../screens/weather_based_recommendations_screen.dart';
 
 /// Comprehensive Personalization Settings Screen
 class PersonalizationSettingsScreen extends StatefulWidget {
@@ -415,6 +416,12 @@ class _PersonalizationSettingsScreenState extends State<PersonalizationSettingsS
               mainAxisSpacing: 12,
               children: [
                 _buildQuickActionCard(
+                  'Weather Routes',
+                  Icons.wb_sunny,
+                  Colors.orange,
+                  () => _navigateToWeatherRecommendations(),
+                ),
+                _buildQuickActionCard(
                   'Analytics',
                   Icons.analytics,
                   Colors.blue,
@@ -429,14 +436,8 @@ class _PersonalizationSettingsScreenState extends State<PersonalizationSettingsS
                 _buildQuickActionCard(
                   'Reset Settings',
                   Icons.restore,
-                  Colors.orange,
+                  Colors.red,
                   () => _resetToDefaults(),
-                ),
-                _buildQuickActionCard(
-                  'Export Data',
-                  Icons.file_download,
-                  Colors.purple,
-                  () => _exportUserData(),
                 ),
               ],
             ),
@@ -584,6 +585,12 @@ class _PersonalizationSettingsScreenState extends State<PersonalizationSettingsS
   void _navigateToRecommendations() {
     Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => PersonalizedRecommendationsScreen()),
+    );
+  }
+
+  void _navigateToWeatherRecommendations() {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => WeatherBasedRecommendationsScreen()),
     );
   }
 

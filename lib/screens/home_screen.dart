@@ -16,11 +16,13 @@ import 'chatbot_screen.dart';
 import 'user_manual_screen.dart';
 import 'rating/review_list_screen.dart';
 import 'rating/review_submission_screen.dart';
+import 'weather_based_recommendations_screen.dart';
 import '../models/trip_data_model.dart';
 import '../models/enhanced_ticket_model.dart';
 import '../models/rating_model.dart';
 import '../services/fraud_detection_service_new.dart';
 import '../services/enhanced_ticket_service.dart';
+import '../services/weather_service.dart';
 import '../widgets/user_avatar_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -166,6 +168,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 children: [
                   _buildHeader(colorScheme),
                   _buildActiveTicketCard(colorScheme),
+                  _buildWeatherWidget(colorScheme),
                   _buildQuickActions(colorScheme),
                   _buildNearbyStops(colorScheme),
                   _buildRecentActivity(colorScheme),
@@ -618,6 +621,255 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ),
       ),
     );
+  }
+
+  Widget _buildWeatherWidget(ColorScheme colorScheme) {
+    return FadeTransition(
+      opacity: _fadeController,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Colors.orange.shade400,
+              Colors.orange.shade600,
+            ],
+          ),
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.orange.withOpacity(0.3),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: GestureDetector(
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => WeatherBasedRecommendationsScreen()),
+          ),
+          child: FutureBuilder(
+            future: WeatherService.instance.getCurrentWeather(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Row(
+                  children: [
+                    Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: const Icon(
+                        Icons.wb_sunny,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    const Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Weather Routes',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            'Loading weather data...',
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Container(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      ),
+                    ),
+                  ],
+                );
+              }
+              
+              if (snapshot.hasError || snapshot.data == null) {
+                return Row(
+                  children: [
+                    Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: const Icon(
+                        Icons.wb_sunny,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    const Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Weather Routes',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            'Smart route suggestions based on weather',
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                  ],
+                );
+              }
+              
+              final weather = snapshot.data!;
+              String weatherEmoji = _getWeatherEmoji(weather.icon);
+              String tempText = '${weather.temperature.round()}°C';
+              
+              return Row(
+                children: [
+                  Container(
+                    width: 60,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Center(
+                      child: Text(
+                        weatherEmoji,
+                        style: TextStyle(fontSize: 24),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            const Text(
+                              'Weather Routes',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              tempText,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          '${weather.description} • Smart suggestions',
+                          style: const TextStyle(
+                            color: Colors.white70,
+                            fontSize: 14,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            _getWeatherRecommendation(weather),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  String _getWeatherEmoji(String iconCode) {
+    if (iconCode.contains('01')) return '☀️'; // clear sky
+    if (iconCode.contains('02')) return '⛅'; // few clouds
+    if (iconCode.contains('03') || iconCode.contains('04')) return '☁️'; // clouds
+    if (iconCode.contains('09') || iconCode.contains('10')) return '🌧️'; // rain
+    if (iconCode.contains('11')) return '⛈️'; // thunderstorm
+    if (iconCode.contains('13')) return '❄️'; // snow
+    if (iconCode.contains('50')) return '🌫️'; // mist
+    return '🌤️'; // default
+  }
+
+  String _getWeatherRecommendation(WeatherData weather) {
+    if (weather.condition == 'Rain' || weather.condition == 'Drizzle' || weather.condition == 'Thunderstorm') {
+      return 'AC BUSES RECOMMENDED';
+    }
+    if (weather.temperature > 35) {
+      return 'STAY COOL - USE AC';
+    }
+    if (weather.temperature < 15) {
+      return 'WRAP UP WARM';
+    }
+    if (weather.condition == 'Clear' && weather.temperature >= 20 && weather.temperature <= 30) {
+      return 'PERFECT WEATHER';
+    }
+    return 'WEATHER-SMART ROUTES';
   }
 
   Widget _buildQuickActions(ColorScheme colorScheme) {

@@ -44,7 +44,7 @@ class _UsageAnalyticsDashboardScreenState extends State<UsageAnalyticsDashboardS
     
     try {
       // Load user tickets for analytics
-      _tickets = await EnhancedTicketService.getUserTickets();
+            final tickets = await _ticketService.getTickets(); // Changed from getUserTickets to getTickets
       
       // Calculate analytics
       _calculateAnalytics();
