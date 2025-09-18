@@ -98,9 +98,83 @@ class NotificationService {
         _notifications.map((n) => n.toJson()).toList(),
       );
       await prefs.setString(_notificationsKey, notificationsJson);
+      print('Notifications saved successfully');
     } catch (e) {
       print('Error saving notifications: $e');
     }
+  }
+
+  // Emergency notification methods for safety service
+  Future<void> showEmergencyNotification() async {
+    final notification = NotificationModel(
+      id: 'emergency_${DateTime.now().millisecondsSinceEpoch}',
+      title: 'Emergency SOS Activated',
+      message: 'Emergency alert has been sent to your contacts',
+      type: NotificationType.emergency,
+      timestamp: DateTime.now(),
+      isRead: false,
+    );
+    await addNotification(notification);
+  }
+
+  Future<void> cancelEmergencyNotification() async {
+    final notification = NotificationModel(
+      id: 'emergency_cancel_${DateTime.now().millisecondsSinceEpoch}',
+      title: 'Emergency SOS Deactivated',
+      message: 'Emergency alert has been cancelled',
+      type: NotificationType.info,
+      timestamp: DateTime.now(),
+      isRead: false,
+    );
+    await addNotification(notification);
+  }
+
+  Future<void> showLocationSharingNotification() async {
+    final notification = NotificationModel(
+      id: 'location_${DateTime.now().millisecondsSinceEpoch}',
+      title: 'Location Sharing Active',
+      message: 'Your location is being shared with emergency contacts',
+      type: NotificationType.info,
+      timestamp: DateTime.now(),
+      isRead: false,
+    );
+    await addNotification(notification);
+  }
+
+  Future<void> cancelLocationSharingNotification() async {
+    final notification = NotificationModel(
+      id: 'location_cancel_${DateTime.now().millisecondsSinceEpoch}',
+      title: 'Location Sharing Stopped',
+      message: 'Location sharing has been deactivated',
+      type: NotificationType.info,
+      timestamp: DateTime.now(),
+      isRead: false,
+    );
+    await addNotification(notification);
+  }
+
+  Future<void> showWomenSafetyNotification(String message) async {
+    final notification = NotificationModel(
+      id: 'women_safety_${DateTime.now().millisecondsSinceEpoch}',
+      title: 'Women Safety Alert',
+      message: message,
+      type: NotificationType.warning,
+      timestamp: DateTime.now(),
+      isRead: false,
+    );
+    await addNotification(notification);
+  }
+
+  Future<void> sendEmergencyAlert(String contactName, String message) async {
+    final notification = NotificationModel(
+      id: 'alert_${DateTime.now().millisecondsSinceEpoch}',
+      title: 'Emergency Alert Sent',
+      message: 'Alert sent to $contactName: $message',
+      type: NotificationType.emergency,
+      timestamp: DateTime.now(),
+      isRead: false,
+    );
+    await addNotification(notification);
   }
 
   // Create demo notifications for testing

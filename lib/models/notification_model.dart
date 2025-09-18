@@ -92,6 +92,9 @@ enum NotificationType {
   reminder,
   update,
   general,
+  emergency,
+  info,
+  warning,
 }
 
 extension NotificationTypeExtension on NotificationType {
@@ -107,6 +110,12 @@ extension NotificationTypeExtension on NotificationType {
         return 'Update';
       case NotificationType.general:
         return 'General';
+      case NotificationType.emergency:
+        return 'Emergency';
+      case NotificationType.info:
+        return 'Information';
+      case NotificationType.warning:
+        return 'Warning';
     }
   }
 
@@ -122,6 +131,12 @@ extension NotificationTypeExtension on NotificationType {
         return 'App updates and new features';
       case NotificationType.general:
         return 'General app notifications';
+      case NotificationType.emergency:
+        return 'Emergency and safety alerts';
+      case NotificationType.info:
+        return 'Informational messages';
+      case NotificationType.warning:
+        return 'Warning and safety messages';
     }
   }
 }

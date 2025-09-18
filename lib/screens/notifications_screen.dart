@@ -303,6 +303,12 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         return Icons.system_update;
       case NotificationType.general:
         return Icons.info_outline;
+      case NotificationType.emergency:
+        return Icons.emergency;
+      case NotificationType.info:
+        return Icons.info;
+      case NotificationType.warning:
+        return Icons.warning;
     }
   }
 
@@ -319,6 +325,12 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         return Colors.purple;
       case NotificationType.general:
         return colorScheme.primary;
+      case NotificationType.emergency:
+        return Colors.red;
+      case NotificationType.info:
+        return Colors.blue.shade300;
+      case NotificationType.warning:
+        return Colors.orange.shade600;
     }
   }
 
