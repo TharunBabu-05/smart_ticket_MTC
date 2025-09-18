@@ -6,6 +6,7 @@ import '../services/enhanced_auth_service.dart';
 import '../services/performance_service.dart';
 import '../services/offline_storage_service.dart';
 import 'accessibility_settings_screen.dart';
+import 'personalization_settings_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -362,6 +363,21 @@ class _SettingsScreenState extends State<SettingsScreen>
     return Card(
       child: Column(
         children: [
+          ListTile(
+            leading: const Icon(Icons.palette),
+            title: const Text('Personalization & Analytics'),
+            subtitle: const Text('Custom themes, favorite routes, usage analytics'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PersonalizationSettingsScreen(),
+                ),
+              );
+            },
+          ),
+          const Divider(height: 1),
           ListTile(
             leading: const Icon(Icons.confirmation_number),
             title: const Text('Enhanced Tickets'),

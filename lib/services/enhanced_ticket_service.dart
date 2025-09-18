@@ -698,6 +698,46 @@ class EnhancedTicketService {
     return 'SMART_TICKET_MTC:$ticketId:${DateTime.now().millisecondsSinceEpoch}';
   }
 
+  /// Get all user tickets (including expired ones) for analytics
+  static Future<List<EnhancedTicket>> getAllUserTickets(String userId) async {
+    try {
+      print('🔍 Fetching ALL tickets for user: $userId (including expired ones)');
+      
+      // Try Firebase Realtime Database first
+      DatabaseReference ticketsRef = _realtimeDB.ref(_ticketsPath);
+      DatabaseEvent event = await ticketsRef.orderByChild('userId').equalTo(userId).once();
+      
+      List<EnhancedTicket> allTickets = [];
+      
+      if (event.snapshot.value != null) {
+        Map<dynamic, dynamic> ticketsData = event.snapshot.value as Map<dynamic, dynamic>;
+        print('🔍 Found ${ticketsData.length} total ticket records in Firebase Realtime DB');
+        
+        for (var entry in ticketsData.entries) {
+          try {
+            Map<String, dynamic> ticketData = Map<String, dynamic>.from(entry.value as Map);
+            EnhancedTicket ticket = EnhancedTicket.fromMap(ticketData);
+            allTickets.add(ticket);
+            print('✅ Added ticket to analytics list: ${ticket.ticketId} (${ticket.status})');
+          } catch (e) {
+            print('❌ Error parsing ticket ${entry.key}: $e');
+          }
+        }
+        
+        // Sort by issue time (newest first)
+        allTickets.sort((a, b) => b.issueTime.compareTo(a.issueTime));
+      } else {
+        print('📭 No ticket data found in Firebase Realtime DB for user $userId');
+      }
+      
+      print('✅ Retrieved ${allTickets.length} total tickets for analytics');
+      return allTickets;
+    } catch (e) {
+      print('❌ Error getting all user tickets: $e');
+      return [];
+    }
+  }
+
   /// Show location warning
   static void _showLocationWarning(String title, String message) {
     // This would typically show a notification or in-app alert

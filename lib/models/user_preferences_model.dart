@@ -125,7 +125,7 @@ class CustomTheme {
         onBackground: textColor,
         onSurface: textColor,
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: cardColor,
         elevation: 2,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as gmaps;
 import 'dart:async';
@@ -286,34 +285,6 @@ class _EnhancedTicketScreenState extends State<EnhancedTicketScreen>
             ),
             
             SizedBox(height: 20),
-            
-            // QR Code
-            Container(
-              padding: EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Column(
-                children: [
-                  QrImageView(
-                    data: _currentTicket.qrCode,
-                    version: QrVersions.auto,
-                    size: 150,
-                    backgroundColor: Colors.white,
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    'Show this QR code to the conductor',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey[600],
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
       ),

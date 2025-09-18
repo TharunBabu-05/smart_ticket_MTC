@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../models/enhanced_ticket_model.dart';
 import '../services/enhanced_ticket_service.dart';
 import 'enhanced_ticket_screen.dart';
+import 'usage_analytics_dashboard_screen.dart';
 
 class ActiveTicketsScreen extends StatefulWidget {
   const ActiveTicketsScreen({super.key});
@@ -78,6 +79,17 @@ class _ActiveTicketsScreenState extends State<ActiveTicketsScreen> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         actions: [
+          IconButton(
+            icon: Icon(Icons.analytics, color: colorScheme.onPrimary),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UsageAnalyticsDashboardScreen(),
+                ),
+              );
+            },
+          ),
           IconButton(
             icon: Icon(Icons.refresh, color: colorScheme.onPrimary),
             onPressed: _refreshTickets,
@@ -170,17 +182,38 @@ class _ActiveTicketsScreenState extends State<ActiveTicketsScreen> {
               ),
             ),
             const SizedBox(height: 24),
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.of(context).pop(); // Go back to book a ticket
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: colorScheme.primary,
-                foregroundColor: colorScheme.onPrimary,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-              ),
-              icon: const Icon(Icons.add),
-              label: const Text('Book New Ticket'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Go back to book a ticket
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: colorScheme.primary,
+                    foregroundColor: colorScheme.onPrimary,
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  ),
+                  icon: const Icon(Icons.add),
+                  label: const Text('Book Ticket'),
+                ),
+                const SizedBox(width: 16),
+                OutlinedButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UsageAnalyticsDashboardScreen(),
+                      ),
+                    );
+                  },
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  ),
+                  icon: const Icon(Icons.analytics),
+                  label: const Text('View Analytics'),
+                ),
+              ],
             ),
           ],
         ),

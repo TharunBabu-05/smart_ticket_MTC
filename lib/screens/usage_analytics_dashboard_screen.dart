@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../models/enhanced_ticket_model.dart';
 import '../services/enhanced_ticket_service.dart';
 import '../services/personalization_service.dart';
@@ -43,8 +44,13 @@ class _UsageAnalyticsDashboardScreenState extends State<UsageAnalyticsDashboardS
     setState(() => _isLoading = true);
     
     try {
-      // Load user tickets for analytics
-            final tickets = await _ticketService.getTickets(); // Changed from getUserTickets to getTickets
+      // Get current user
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        // Load ALL user tickets for analytics (including expired ones)
+        _tickets = await EnhancedTicketService.getAllUserTickets(user.uid);
+        print('📊 Analytics loaded ${_tickets.length} tickets');
+      }
       
       // Calculate analytics
       _calculateAnalytics();
