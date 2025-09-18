@@ -12,6 +12,7 @@ class _EnhancedWeatherScreenState extends State<EnhancedWeatherScreen>
   final WeatherService _weatherService = WeatherService.instance;
   late AnimationController _fadeController;
   late AnimationController _slideController;
+  late TabController _tabController;
   
   WeatherData? _currentWeather;
   List<Map<String, dynamic>>? _hourlyForecast;
@@ -31,6 +32,7 @@ class _EnhancedWeatherScreenState extends State<EnhancedWeatherScreen>
       duration: Duration(milliseconds: 600),
       vsync: this,
     );
+    _tabController = TabController(length: 4, vsync: this);
     _loadWeatherData();
   }
 
@@ -38,6 +40,7 @@ class _EnhancedWeatherScreenState extends State<EnhancedWeatherScreen>
   void dispose() {
     _fadeController.dispose();
     _slideController.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
@@ -92,373 +95,296 @@ class _EnhancedWeatherScreenState extends State<EnhancedWeatherScreen>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    
     return Scaffold(
-      backgroundColor: _getBackgroundColor(),
+      backgroundColor: colorScheme.surface,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: colorScheme.onSurface),
+          onPressed: () => Navigator.pop(context),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.more_vert, color: colorScheme.onSurface),
+            onPressed: () {},
+          ),
+        ],
+      ),
       body: _isLoading
-          ? _buildLoadingState()
+          ? _buildLoadingState(colorScheme)
           : _error != null
-              ? _buildErrorState()
-              : _buildWeatherContent(),
+              ? _buildErrorState(colorScheme)
+              : _buildGoogleStyleWeatherContent(colorScheme),
     );
   }
 
-  Color _getBackgroundColor() {
-    if (_currentWeather == null) return Color(0xFF1E3A8A); // Default blue
-    
-    final condition = _currentWeather!.condition.toLowerCase();
-    final hour = DateTime.now().hour;
-    
-    if (hour >= 6 && hour < 18) {
-      // Daytime colors
-      if (condition.contains('rain') || condition.contains('storm')) {
-        return Color(0xFF4B5563); // Dark gray for rain
-      } else if (condition.contains('cloud')) {
-        return Color(0xFF6B7280); // Gray for clouds
-      } else {
-        return Color(0xFF3B82F6); // Blue for clear
-      }
-    } else {
-      // Nighttime colors
-      return Color(0xFF1E293B); // Dark blue for night
-    }
-  }
-
-  Widget _buildLoadingState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-          ),
-          SizedBox(height: 16),
-          Text(
-            'Loading weather data...',
-            style: TextStyle(color: Colors.white, fontSize: 16),
-          ),
-        ],
+  Widget _buildGoogleStyleWeatherContent(ColorScheme colorScheme) {
+    return RefreshIndicator(
+      onRefresh: _loadWeatherData,
+      child: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Current Weather Header
+            _buildCurrentWeatherHeader(colorScheme),
+            
+            // Hourly Forecast Tabs
+            _buildTabSection(colorScheme),
+            
+            // Hourly Forecast
+            _buildHourlyForecast(colorScheme),
+            
+            // Daily Forecast
+            _buildDailyForecast(colorScheme),
+            
+            // Weather Details
+            _buildWeatherDetails(colorScheme),
+            
+            SizedBox(height: 20),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildErrorState() {
-    return Center(
+  Widget _buildCurrentWeatherHeader(ColorScheme colorScheme) {
+    if (_currentWeather == null) return SizedBox.shrink();
+    
+    return Container(
+      padding: EdgeInsets.all(24),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.error_outline, color: Colors.white, size: 64),
-          SizedBox(height: 16),
+          // Location and current time
           Text(
-            'Unable to load weather data',
-            style: TextStyle(color: Colors.white, fontSize: 18),
+            'Chennai', // You can make this dynamic
+            style: TextStyle(
+              color: colorScheme.onSurface,
+              fontSize: 24,
+              fontWeight: FontWeight.w500,
+            ),
           ),
+          
           SizedBox(height: 8),
+          
           Text(
-            _error ?? 'Unknown error',
-            style: TextStyle(color: Colors.white70, fontSize: 14),
-            textAlign: TextAlign.center,
+            'Now',
+            style: TextStyle(
+              color: colorScheme.onSurface.withOpacity(0.7),
+              fontSize: 16,
+            ),
           ),
+          
           SizedBox(height: 24),
-          ElevatedButton.icon(
-            onPressed: _loadWeatherData,
-            icon: Icon(Icons.refresh),
-            label: Text('Retry'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white,
-              foregroundColor: Color(0xFF1E3A8A),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildWeatherContent() {
-    return SafeArea(
-      child: Column(
-        children: [
-          _buildAppBar(),
-          Expanded(
-            child: RefreshIndicator(
-              onRefresh: _loadWeatherData,
-              child: SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
-                child: Column(
-                  children: [
-                    _buildCurrentWeather(),
-                    _buildTabBar(),
-                    _buildTabContent(),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildAppBar() {
-    return Padding(
-      padding: EdgeInsets.all(16),
-      child: Row(
-        children: [
-          IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: Icon(Icons.arrow_back, color: Colors.white),
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Weather',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  'Chennai, Tamil Nadu',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 14,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          IconButton(
-            onPressed: _loadWeatherData,
-            icon: Icon(Icons.refresh, color: Colors.white),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCurrentWeather() {
-    return FadeTransition(
-      opacity: _fadeController,
-      child: SlideTransition(
-        position: Tween<Offset>(
-          begin: Offset(0, -0.3),
-          end: Offset.zero,
-        ).animate(CurvedAnimation(
-          parent: _slideController,
-          curve: Curves.easeOutCubic,
-        )),
-        child: Container(
-          padding: EdgeInsets.all(24),
-          child: Column(
+          
+          // Temperature and condition
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Current temperature and condition
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${_currentWeather?.temperature.round() ?? '--'}°',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 96,
-                      fontWeight: FontWeight.w200,
-                      height: 0.9,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 16),
-                    child: Text(
-                      _getWeatherEmoji(_currentWeather?.condition ?? ''),
-                      style: TextStyle(fontSize: 48),
-                    ),
-                  ),
-                ],
-              ),
-              
-              // Weather description
-              Align(
-                alignment: Alignment.centerLeft,
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${_currentWeather!.temperature.round()}°',
+                          style: TextStyle(
+                            color: colorScheme.onSurface,
+                            fontSize: 72,
+                            fontWeight: FontWeight.w300,
+                            height: 1.0,
+                          ),
+                        ),
+                        SizedBox(width: 12),
+                        Container(
+                          margin: EdgeInsets.only(top: 8),
+                          child: Text(
+                            _getWeatherEmoji(_currentWeather!.condition),
+                            style: TextStyle(fontSize: 48),
+                          ),
+                        ),
+                      ],
+                    ),
+                    
+                    SizedBox(height: 8),
+                    
                     Text(
-                      _currentWeather?.description ?? 'Unknown',
+                      _currentWeather!.description,
                       style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
+                        color: colorScheme.onSurface,
+                        fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
+                    
                     SizedBox(height: 4),
+                    
                     Text(
-                      'Feels like ${_currentWeather?.feelsLike.round() ?? '--'}°',
+                      'Feels like ${_currentWeather!.feelsLike.round()}°',
                       style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 16,
+                        color: colorScheme.onSurface.withOpacity(0.7),
+                        fontSize: 14,
                       ),
                     ),
                   ],
                 ),
               ),
               
-              SizedBox(height: 32),
-              
-              // Weather details row
-              _buildWeatherDetailsRow(),
+              // Weather stats
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  _buildWeatherStat(
+                    'Precip: ${_getPrecipitationChance()}%',
+                    colorScheme,
+                  ),
+                  SizedBox(height: 4),
+                  _buildWeatherStat(
+                    'Humidity: ${_currentWeather!.humidity}%',
+                    colorScheme,
+                  ),
+                  SizedBox(height: 4),
+                  _buildWeatherStat(
+                    'Wind: ${_currentWeather!.windSpeed.round()} km/h',
+                    colorScheme,
+                  ),
+                  SizedBox(height: 4),
+                  _buildWeatherStat(
+                    'Air quality: Satisfactory',
+                    colorScheme,
+                    showDot: true,
+                  ),
+                ],
+              ),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildWeatherDetailsRow() {
-    return Container(
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _buildWeatherDetail(
-            'Humidity',
-            '${_currentWeather?.humidity ?? '--'}%',
-            Icons.water_drop,
-          ),
-          _buildWeatherDetail(
-            'Wind',
-            '${_currentWeather?.windSpeed.round() ?? '--'} km/h',
-            Icons.air,
-          ),
-          _buildWeatherDetail(
-            'Pressure',
-            'N/A', // Pressure not available in WeatherData
-            Icons.speed,
           ),
         ],
       ),
     );
   }
 
-  Widget _buildWeatherDetail(String label, String value, IconData icon) {
-    return Column(
+  Widget _buildWeatherStat(String text, ColorScheme colorScheme, {bool showDot = false}) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, color: Colors.white70, size: 20),
-        SizedBox(height: 8),
-        Text(
-          value,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
+        if (showDot) ...[
+          Container(
+            width: 8,
+            height: 8,
+            decoration: BoxDecoration(
+              color: Colors.green,
+              shape: BoxShape.circle,
+            ),
           ),
-        ),
+          SizedBox(width: 4),
+        ],
         Text(
-          label,
+          text,
           style: TextStyle(
-            color: Colors.white70,
-            fontSize: 12,
+            color: colorScheme.onSurface.withOpacity(0.7),
+            fontSize: 14,
           ),
         ),
       ],
     );
   }
 
-  Widget _buildTabBar() {
+  String _getPrecipitationChance() {
+    // Simulate precipitation chance based on weather condition
+    final condition = _currentWeather?.condition.toLowerCase() ?? '';
+    if (condition.contains('rain') || condition.contains('storm')) {
+      return '70';
+    } else if (condition.contains('cloud')) {
+      return '30';
+    }
+    return '10';
+  }
+
+  Widget _buildTabSection(ColorScheme colorScheme) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(25),
-      ),
-      child: Row(
-        children: [
-          _buildTabButton('Today', 0),
-          _buildTabButton('7 Days', 1),
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      child: TabBar(
+        controller: _tabController,
+        isScrollable: true,
+        labelColor: colorScheme.primary,
+        unselectedLabelColor: colorScheme.onSurface.withOpacity(0.6),
+        labelStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+        unselectedLabelStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+        indicatorColor: colorScheme.primary,
+        indicatorWeight: 2,
+        tabs: [
+          Tab(text: 'Overview'),
+          Tab(text: 'Precipitation'),
+          Tab(text: 'Wind'),
+          Tab(text: 'Humidity'),
         ],
       ),
     );
   }
 
-  Widget _buildTabButton(String title, int index) {
-    bool isSelected = _selectedTabIndex == index;
-    
-    return Expanded(
-      child: GestureDetector(
-        onTap: () => setState(() => _selectedTabIndex = index),
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: 12),
-          decoration: BoxDecoration(
-            color: isSelected ? Colors.white.withOpacity(0.2) : null,
-            borderRadius: BorderRadius.circular(25),
-          ),
-          child: Text(
-            title,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: isSelected ? Colors.white : Colors.white70,
-              fontSize: 16,
-              fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  Widget _buildHourlyForecast(ColorScheme colorScheme) {
+    if (_hourlyForecast == null || _hourlyForecast!.isEmpty) {
+      return SizedBox.shrink();
+    }
 
-  Widget _buildTabContent() {
-    return _selectedTabIndex == 0 ? _buildHourlyForecast() : _buildWeeklyForecast();
-  }
-
-  Widget _buildHourlyForecast() {
-    if (_hourlyForecast == null) return Container();
-    
     return Container(
-      height: 120,
+      height: 160,
       margin: EdgeInsets.symmetric(vertical: 16),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.symmetric(horizontal: 16),
         itemCount: _hourlyForecast!.length,
         itemBuilder: (context, index) {
-          final hour = _hourlyForecast![index];
-          final time = hour['time'] as DateTime;
+          final forecast = _hourlyForecast![index];
+          final time = forecast['time'] as DateTime;
           final isNow = index == 0;
           
           return Container(
-            width: 70,
-            margin: EdgeInsets.only(right: 16),
+            width: 80,
+            margin: EdgeInsets.only(right: 12),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                // Time
                 Text(
-                  isNow ? 'Now' : DateFormat('HH:mm').format(time),
+                  isNow ? 'NOW' : DateFormat('h a').format(time).toLowerCase(),
                   style: TextStyle(
-                    color: Colors.white70,
+                    color: colorScheme.onSurface.withOpacity(0.7),
                     fontSize: 12,
-                    fontWeight: isNow ? FontWeight.bold : FontWeight.normal,
+                    fontWeight: isNow ? FontWeight.w600 : FontWeight.normal,
                   ),
                 ),
+                
+                // Precipitation percentage
                 Text(
-                  _getWeatherEmoji(hour['condition']),
-                  style: TextStyle(fontSize: 24),
-                ),
-                Text(
-                  '${hour['temperature']}°',
+                  '${forecast['precipitation']}%',
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
+                    color: colorScheme.primary,
+                    fontSize: 12,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
+                
+                // Weather icon
                 Text(
-                  '${hour['precipitation']}%',
+                  _getWeatherEmoji(forecast['condition']),
+                  style: TextStyle(fontSize: 24),
+                ),
+                
+                // Temperature
+                Text(
+                  '${forecast['temperature']}°',
                   style: TextStyle(
-                    color: Colors.blue.shade200,
-                    fontSize: 11,
+                    color: colorScheme.onSurface,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ],
@@ -469,71 +395,273 @@ class _EnhancedWeatherScreenState extends State<EnhancedWeatherScreen>
     );
   }
 
-  Widget _buildWeeklyForecast() {
-    if (_weeklyForecast == null) return Container();
-    
+  Widget _buildDailyForecast(ColorScheme colorScheme) {
+    if (_weeklyForecast == null || _weeklyForecast!.isEmpty) {
+      return SizedBox.shrink();
+    }
+
     return Container(
       margin: EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: colorScheme.outline.withOpacity(0.2),
+          width: 1,
+        ),
+      ),
       child: Column(
         children: _weeklyForecast!.map<Widget>((day) {
-          final date = day.dateTime;
-          final isToday = DateFormat('yyyy-MM-dd').format(date) == 
-                         DateFormat('yyyy-MM-dd').format(DateTime.now());
+          final isToday = day.dateTime.day == DateTime.now().day;
           
           return Container(
-            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            margin: EdgeInsets.only(bottom: 8),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(12),
-            ),
+            padding: EdgeInsets.symmetric(vertical: 12),
             child: Row(
               children: [
+                // Day name
                 Expanded(
                   flex: 2,
                   child: Text(
-                    isToday ? 'Today' : DateFormat('EEE').format(date),
+                    isToday ? 'Today' : day.dayName,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: colorScheme.onSurface,
                       fontSize: 16,
-                      fontWeight: isToday ? FontWeight.bold : FontWeight.normal,
+                      fontWeight: isToday ? FontWeight.w600 : FontWeight.normal,
                     ),
                   ),
                 ),
+                
+                // Weather icon
                 Text(
                   _getWeatherEmoji(day.condition),
-                  style: TextStyle(fontSize: 24),
+                  style: TextStyle(fontSize: 20),
                 ),
+                
                 SizedBox(width: 16),
-                Expanded(
+                
+                // Precipitation
+                Container(
+                  width: 40,
+                  alignment: Alignment.centerRight,
                   child: Text(
                     'N/A%', // Precipitation not available in WeatherForecast
                     style: TextStyle(
-                      color: Colors.blue.shade200,
+                      color: colorScheme.primary,
                       fontSize: 14,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
-                Text(
-                  '${day.maxTemp.round()}°',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(width: 8),
-                Text(
-                  '${day.minTemp.round()}°',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 16,
+                
+                SizedBox(width: 24),
+                
+                // Temperature range
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        '${day.maxTemp.round()}°',
+                        style: TextStyle(
+                          color: colorScheme.onSurface,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      SizedBox(width: 8),
+                      Text(
+                        '${day.minTemp.round()}°',
+                        style: TextStyle(
+                          color: colorScheme.onSurface.withOpacity(0.7),
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           );
         }).toList(),
+      ),
+    );
+  }
+
+  Widget _buildWeatherDetails(ColorScheme colorScheme) {
+    if (_currentWeather == null) return SizedBox.shrink();
+
+    return Container(
+      margin: EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: colorScheme.outline.withOpacity(0.2),
+          width: 1,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Details Grid
+          Row(
+            children: [
+              Expanded(
+                child: _buildDetailItem(
+                  'Humidity',
+                  '${_currentWeather!.humidity}%',
+                  colorScheme,
+                ),
+              ),
+              Expanded(
+                child: _buildDetailItem(
+                  'Wind',
+                  '${_currentWeather!.windSpeed.round()} km/h',
+                  colorScheme,
+                ),
+              ),
+            ],
+          ),
+          
+          SizedBox(height: 16),
+          
+          Row(
+            children: [
+              Expanded(
+                child: _buildDetailItem(
+                  'Pressure',
+                  'N/A', // Pressure not available in WeatherData
+                  colorScheme,
+                ),
+              ),
+              Expanded(
+                child: _buildDetailItem(
+                  'UV Index',
+                  'N/A',
+                  colorScheme,
+                ),
+              ),
+            ],
+          ),
+          
+          SizedBox(height: 16),
+          
+          // View all details button (similar to Google Weather)
+          GestureDetector(
+            onTap: () {},
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'View all details',
+                    style: TextStyle(
+                      color: colorScheme.primary,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  SizedBox(width: 4),
+                  Icon(
+                    Icons.chevron_right,
+                    color: colorScheme.primary,
+                    size: 18,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDetailItem(String label, String value, ColorScheme colorScheme) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            color: colorScheme.onSurface.withOpacity(0.7),
+            fontSize: 14,
+          ),
+        ),
+        SizedBox(height: 4),
+        Text(
+          value,
+          style: TextStyle(
+            color: colorScheme.onSurface,
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLoadingState(ColorScheme colorScheme) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(colorScheme.primary),
+          ),
+          SizedBox(height: 16),
+          Text(
+            'Loading weather data...',
+            style: TextStyle(
+              color: colorScheme.onSurface,
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildErrorState(ColorScheme colorScheme) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.error_outline,
+            color: colorScheme.error,
+            size: 48,
+          ),
+          SizedBox(height: 16),
+          Text(
+            'Unable to load weather data',
+            style: TextStyle(
+              color: colorScheme.onSurface,
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          SizedBox(height: 8),
+          Text(
+            _error ?? 'Please check your internet connection',
+            style: TextStyle(
+              color: colorScheme.onSurface.withOpacity(0.7),
+              fontSize: 14,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 24),
+          ElevatedButton(
+            onPressed: _loadWeatherData,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: colorScheme.primary,
+              foregroundColor: colorScheme.onPrimary,
+            ),
+            child: Text('Retry'),
+          ),
+        ],
       ),
     );
   }
