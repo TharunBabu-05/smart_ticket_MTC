@@ -64,6 +64,9 @@ dependencies:
   # HTTP requests
   http: ^1.1.0
   
+  # ICP Blockchain Integration
+  cbor: ^6.0.1
+  
   # Date formatting
   intl: ^0.18.1
   timeago: ^3.4.0
