@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../themes/app_theme.dart';
 import '../data/user_manual_content.dart';
 
 class UserManualScreen extends StatefulWidget {
@@ -93,20 +94,10 @@ class _UserManualScreenState extends State<UserManualScreen> {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'User Manual',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: colorScheme.onPrimary,
-          ),
-        ),
-        backgroundColor: colorScheme.primary,
-        foregroundColor: colorScheme.onPrimary,
-        elevation: 1,
-        actions: [
-          // Bookmarks button
+    return ThemedScaffold(
+      title: 'User Manual',
+      actions: [
+        // Bookmarks button
           IconButton(
             icon: Stack(
               children: [
@@ -142,7 +133,6 @@ class _UserManualScreenState extends State<UserManualScreen> {
             onPressed: _showTableOfContents,
           ),
         ],
-      ),
       body: Column(
         children: [
           // Search bar

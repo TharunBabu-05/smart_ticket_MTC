@@ -59,11 +59,8 @@ class _SettingsScreenState extends State<SettingsScreen>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Settings'),
-        elevation: 0,
-      ),
+    return ThemedScaffold(
+      title: 'Settings',
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
@@ -665,7 +662,10 @@ class _SettingsScreenState extends State<SettingsScreen>
           children: [
             Text(
               'How penalties work:',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: AppTheme.getPrimaryTextColor(context),
+              ),
             ),
             const SizedBox(height: 12),
             Text('• Tickets are valid for 2 hours with location tracking'),
@@ -691,7 +691,10 @@ class _SettingsScreenState extends State<SettingsScreen>
                   Expanded(
                     child: Text(
                       'Keep location services ON during your journey to avoid false penalties',
-                      style: TextStyle(fontSize: 12),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: AppTheme.getSecondaryTextColor(context),
+                      ),
                     ),
                   ),
                 ],

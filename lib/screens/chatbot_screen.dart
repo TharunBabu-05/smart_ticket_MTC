@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/chatbot_service.dart';
 import '../services/voice_multilingual_service.dart';
+import '../themes/app_theme.dart';
 
 class ChatbotScreen extends StatefulWidget {
   const ChatbotScreen({Key? key}) : super(key: key);
@@ -156,58 +157,19 @@ class _ChatbotScreenState extends State<ChatbotScreen> with TickerProviderStateM
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     
-    return Scaffold(
-      backgroundColor: colorScheme.background,
-      appBar: AppBar(
-        title: Row(
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: colorScheme.primary,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Icon(Icons.smart_toy, color: colorScheme.onPrimary),
-            ),
-            const SizedBox(width: 12),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'FareGuard Assistant',
-                  style: TextStyle(
-                    fontSize: 18, 
-                    fontWeight: FontWeight.bold,
-                    color: colorScheme.onPrimary,
-                  ),
-                ),
-                Text(
-                  'Always here to help!',
-                  style: TextStyle(
-                    fontSize: 12, 
-                    fontWeight: FontWeight.normal,
-                    color: colorScheme.onPrimary.withOpacity(0.8),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-        backgroundColor: colorScheme.primary,
-        elevation: 1,
-        actions: [
-          IconButton(
-            icon: Icon(
-              _voiceService.isTtsEnabled ? Icons.volume_up : Icons.volume_off,
-              color: colorScheme.onPrimary,
-            ),
-            onPressed: () {
-              // Toggle TTS - implement if needed
-            },
+    return ThemedScaffold(
+      title: 'FareGuard Assistant',
+      actions: [
+        IconButton(
+          icon: Icon(
+            _voiceService.isTtsEnabled ? Icons.volume_up : Icons.volume_off,
+            color: AppTheme.getPrimaryTextColor(context),
           ),
-        ],
-      ),
+          onPressed: () {
+            // Toggle TTS - implement if needed
+          },
+        ),
+      ],
       body: Column(
         children: [
           // Chat messages

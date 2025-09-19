@@ -6,6 +6,7 @@ import '../models/enhanced_ticket_model.dart';
 import '../models/trip_data_model.dart' as trip;
 import '../services/enhanced_ticket_service.dart';
 import '../services/fraud_detection_service_new.dart';
+import '../themes/app_theme.dart';
 import 'journey_tracking_screen.dart';
 
 class EnhancedTicketScreen extends StatefulWidget {
@@ -126,19 +127,14 @@ class _EnhancedTicketScreenState extends State<EnhancedTicketScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Your Ticket'),
-        backgroundColor: _getTicketStatusColor(),
-        foregroundColor: Colors.white,
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.info_outline),
-            onPressed: _showTicketInfo,
-          ),
-        ],
-      ),
+    return ThemedScaffold(
+      title: 'Your Ticket',
+      actions: [
+        IconButton(
+          icon: Icon(Icons.info_outline),
+          onPressed: _showTicketInfo,
+        ),
+      ],
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(

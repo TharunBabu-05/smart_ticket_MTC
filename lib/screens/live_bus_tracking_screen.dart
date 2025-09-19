@@ -504,13 +504,23 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen>
   void _showBusListBottomSheet() {
     showModalBottomSheet(
       context: context,
+      backgroundColor: Colors.transparent,
       builder: (context) => Container(
+        decoration: AppTheme.createCardDecoration(context),
+        margin: EdgeInsets.all(16),
         padding: EdgeInsets.all(16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Active Buses (Live Firebase Data)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            Divider(),
+            Text(
+              'Active Buses (Live Firebase Data)', 
+              style: TextStyle(
+                fontSize: 18, 
+                fontWeight: FontWeight.bold,
+                color: AppTheme.getPrimaryTextColor(context),
+              ),
+            ),
+            Divider(color: AppTheme.getSecondaryTextColor(context).withOpacity(0.3)),
             ..._activeBuses.entries.map((entry) {
               var busData = entry.value;
               int passengers = busData['passengerCount'];
@@ -520,15 +530,36 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen>
               return ListTile(
                 leading: CircleAvatar(
                   backgroundColor: _getOccupancyColor(occupancyRate),
-                  child: Text('${busData['busNumber']}', style: TextStyle(color: Colors.white, fontSize: 12)),
+                  child: Text(
+                    '${busData['busNumber']}', 
+                    style: TextStyle(color: Colors.white, fontSize: 12),
+                  ),
                 ),
-                title: Text('Bus ${busData['busNumber']}'),
-                subtitle: Text('${busData['route']} • Live Count: $passengers'),
+                title: Text(
+                  'Bus ${busData['busNumber']}',
+                  style: TextStyle(color: AppTheme.getPrimaryTextColor(context)),
+                ),
+                subtitle: Text(
+                  '${busData['route']} • Live Count: $passengers',
+                  style: TextStyle(color: AppTheme.getSecondaryTextColor(context)),
+                ),
                 trailing: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('$passengers/$capacity', style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text('Firebase', style: TextStyle(fontSize: 10, color: Colors.green)),
+                    Text(
+                      '$passengers/$capacity', 
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.getPrimaryTextColor(context),
+                      ),
+                    ),
+                    Text(
+                      'Firebase', 
+                      style: TextStyle(
+                        fontSize: 10, 
+                        color: Colors.green,
+                      ),
+                    ),
                   ],
                 ),
               );
@@ -677,11 +708,7 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen>
       ),
       bottomNavigationBar: Container(
         padding: EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Theme.of(context).brightness == Brightness.light 
-            ? Colors.grey[100] 
-            : Colors.grey[900],
-        ),
+        decoration: AppTheme.getBackgroundDecoration(context),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -692,18 +719,30 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen>
                   onPressed: _addBusAtCurrentLocation,
                   child: Text('Add Bus'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
+                    backgroundColor: Theme.of(context).brightness == Brightness.light
+                        ? Colors.blue[600] 
+                        : Colors.blue[400],
                     foregroundColor: Colors.white,
                     padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                 ),
                 ElevatedButton(
                   onPressed: _showBusListBottomSheet,
                   child: Text('Bus List'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
+                    backgroundColor: Theme.of(context).brightness == Brightness.light
+                        ? Colors.green[600] 
+                        : Colors.green[400],
                     foregroundColor: Colors.white,
                     padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                 ),
               ],

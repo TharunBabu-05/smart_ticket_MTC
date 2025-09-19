@@ -4,6 +4,7 @@ import '../services/bus_stop_service.dart';
 import '../models/bus_stop_model.dart';
 import '../models/trip_data_model.dart';
 import '../models/rating_model.dart';
+import '../themes/app_theme.dart';
 import 'rating/review_list_screen.dart';
 import 'rating/review_submission_screen.dart';
 
@@ -152,25 +153,15 @@ class _NearbyBusStopsScreenState extends State<NearbyBusStopsScreen> {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Bus Stops Near You',
-          style: theme.textTheme.titleLarge?.copyWith(
-            color: colorScheme.onPrimary,
-            fontWeight: FontWeight.bold,
-          ),
+    return ThemedScaffold(
+      title: 'Bus Stops Near You',
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.refresh),
+          onPressed: _loadNearbyStops,
+          tooltip: 'Refresh Stops',
         ),
-        backgroundColor: colorScheme.primary,
-        foregroundColor: colorScheme.onPrimary,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _loadNearbyStops,
-            tooltip: 'Refresh Stops',
-          ),
-        ],
-      ),
+      ],
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(

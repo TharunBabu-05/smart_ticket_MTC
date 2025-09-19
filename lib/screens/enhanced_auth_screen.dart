@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import '../services/enhanced_auth_service.dart';
 import '../services/performance_service.dart';
+import '../themes/app_theme.dart';
 import 'home_screen.dart';
 
 class EnhancedAuthScreen extends StatefulWidget {
@@ -50,7 +51,7 @@ class _EnhancedAuthScreenState extends State<EnhancedAuthScreen>
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    return Scaffold(
+    return ThemedScaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),

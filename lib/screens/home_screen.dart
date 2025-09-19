@@ -153,28 +153,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     final colorScheme = theme.colorScheme;
     final isDark = theme.brightness == Brightness.dark;
     
-    return Scaffold(
+    return ThemedScaffold(
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: isDark ? [
-              // Dark theme: Black to dark blue
-              const Color(0xFF000000), // Black
-              const Color(0xFF0D1421), // Very dark blue
-              const Color(0xFF1A1F2E), // Dark blue
-              const Color(0xFF1E3A8A), // Deep blue
-            ] : [
-              // Light theme: White to light blue
-              const Color(0xFFFFFFFF), // Pure white
-              const Color(0xFFF8FAFF), // Very light blue tint
-              const Color(0xFFE3F2FD), // Light blue
-              const Color(0xFFBBDEFB), // Lighter blue
-            ],
-            stops: const [0.0, 0.3, 0.7, 1.0],
-          ),
-        ),
+        decoration: AppTheme.getBackgroundDecoration(context),
         child: SafeArea(
           child: RefreshIndicator(
             onRefresh: () async {
@@ -248,13 +229,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     children: [
                       Text(
                         _greeting,
-                        style: const TextStyle(
-                          color: Colors.white,
+                        style: TextStyle(
+                          color: AppTheme.getPrimaryTextColor(context),
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                           shadows: [
                             Shadow(
-                              color: Colors.black26,
+                              color: AppTheme.getSecondaryTextColor(context).withOpacity(0.3),
                               offset: Offset(0, 1),
                               blurRadius: 2,
                             ),
@@ -264,13 +245,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       const SizedBox(height: 4),
                       Text(
                         _userName,
-                        style: const TextStyle(
-                          color: Colors.white,
+                        style: TextStyle(
+                          color: AppTheme.getPrimaryTextColor(context),
                           fontSize: 26,
                           fontWeight: FontWeight.bold,
                           shadows: [
                             Shadow(
-                              color: Colors.black26,
+                              color: AppTheme.getSecondaryTextColor(context).withOpacity(0.3),
                               offset: Offset(0, 1),
                               blurRadius: 3,
                             ),
@@ -284,9 +265,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   children: [
                     IconButton(
                       onPressed: () => Navigator.pushNamed(context, '/notifications'),
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.notifications_outlined,
-                        color: Colors.white,
+                        color: AppTheme.getPrimaryTextColor(context),
                         size: 26,
                         shadows: [
                           Shadow(
@@ -299,13 +280,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ),
                     IconButton(
                       onPressed: () => Navigator.pushNamed(context, '/settings'),
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.settings_outlined,
-                        color: Colors.white,
+                        color: AppTheme.getPrimaryTextColor(context),
                         size: 26,
                         shadows: [
                           Shadow(
-                            color: Colors.black26,
+                            color: AppTheme.getSecondaryTextColor(context).withOpacity(0.3),
                             offset: Offset(0, 1),
                             blurRadius: 2,
                           ),
@@ -318,15 +299,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       child: Container(
                         padding: const EdgeInsets.all(3),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.25),
+                          color: AppTheme.getPrimaryTextColor(context).withOpacity(0.25),
                           borderRadius: BorderRadius.circular(24),
                           border: Border.all(
-                            color: Colors.white.withOpacity(0.4),
+                            color: AppTheme.getPrimaryTextColor(context).withOpacity(0.4),
                             width: 2,
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.15),
+                              color: AppTheme.getSecondaryTextColor(context).withOpacity(0.15),
                               blurRadius: 8,
                               offset: const Offset(0, 2),
                             ),
@@ -346,10 +327,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.15),
+                color: AppTheme.getPrimaryTextColor(context).withOpacity(0.15),
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                  color: Colors.white.withOpacity(0.25),
+                  color: AppTheme.getPrimaryTextColor(context).withOpacity(0.25),
                   width: 1.5,
                 ),
                 boxShadow: [
@@ -368,15 +349,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     size: 22,
                   ),
                   const SizedBox(width: 12),
-                  const Text(
+                  Text(
                     'Smart Ticket MTC',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppTheme.getPrimaryTextColor(context),
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                       shadows: [
                         Shadow(
-                          color: Colors.black26,
+                          color: AppTheme.getSecondaryTextColor(context).withOpacity(0.3),
                           offset: Offset(0, 1),
                           blurRadius: 2,
                         ),
@@ -390,14 +371,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       color: Colors.green.withOpacity(0.3),
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
-                        color: Colors.white.withOpacity(0.3),
+                        color: AppTheme.getPrimaryTextColor(context).withOpacity(0.3),
                         width: 1,
                       ),
                     ),
-                    child: const Text(
+                    child: Text(
                       'ACTIVE',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: AppTheme.getPrimaryTextColor(context),
                         fontSize: 10,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 0.6,
