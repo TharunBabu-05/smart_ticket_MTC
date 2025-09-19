@@ -9,7 +9,7 @@ import 'screens/conductor_verification_screen.dart';
 import 'screens/map_screen.dart';
 import 'screens/auth_screen.dart';
 
-import 'screens/profile_screen_enhanced.dart';
+import 'screens/profile_screen.dart';
 
 import 'screens/support_screen.dart';
 import 'screens/settings_screen.dart';
@@ -206,7 +206,7 @@ class SmartTicketingApp extends StatelessWidget {
             routes: {
               '/home': (context) => const HomeScreen(),
               '/auth': (context) => const AuthScreen(),
-              '/profile': (context) => const ProfileScreenEnhanced(),
+              '/profile': (context) => const ProfileScreen(),
               '/support': (context) => const SupportScreen(),
               '/booking': (context) => TicketBookingScreen(),
               '/conductor': (context) => ConductorVerificationScreen(),

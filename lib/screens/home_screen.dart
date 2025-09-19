@@ -169,18 +169,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   minHeight: MediaQuery.of(context).size.height - 
                             MediaQuery.of(context).padding.top - 
                             MediaQuery.of(context).padding.bottom - 
-                            kBottomNavigationBarHeight - 60, // Account for bottom nav + FAB
+                            kBottomNavigationBarHeight - 40, // Reduced account for bottom nav + FAB
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildHeader(colorScheme),
                     _buildActiveTicketCard(colorScheme),
-                    _buildWeatherWidget(colorScheme),
                     _buildQuickActions(colorScheme, isDark),
                     _buildNearbyStops(colorScheme),
                     _buildRecentActivity(colorScheme),
-                    const SizedBox(height: 120), // Increased space for bottom nav + FAB
+                    const SizedBox(height: 80), // Reduced space for bottom nav + FAB
                   ],
                 ),
               ),
@@ -204,7 +203,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         curve: Curves.easeOutCubic,
       )),
       child: Container(
-        padding: const EdgeInsets.fromLTRB(24, 20, 24, 32),
+        padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
         decoration: const BoxDecoration(
           // Remove the background gradient to blend with main background
           gradient: LinearGradient(
@@ -220,110 +219,140 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Greeting at the very top
+            Text(
+              _greeting,
+              style: TextStyle(
+                color: AppTheme.getPrimaryTextColor(context),
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                shadows: [
+                  Shadow(
+                    color: AppTheme.getSecondaryTextColor(context).withOpacity(0.3),
+                    offset: Offset(0, 1),
+                    blurRadius: 2,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 2),
+            // Row with weather widget and user avatar/actions
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        _greeting,
-                        style: TextStyle(
-                          color: AppTheme.getPrimaryTextColor(context),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          shadows: [
-                            Shadow(
-                              color: AppTheme.getSecondaryTextColor(context).withOpacity(0.3),
-                              offset: Offset(0, 1),
-                              blurRadius: 2,
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        _userName,
-                        style: TextStyle(
-                          color: AppTheme.getPrimaryTextColor(context),
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold,
-                          shadows: [
-                            Shadow(
-                              color: AppTheme.getSecondaryTextColor(context).withOpacity(0.3),
-                              offset: Offset(0, 1),
-                              blurRadius: 3,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Row(
+                // Weather widget and user name column
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    IconButton(
-                      onPressed: () => Navigator.pushNamed(context, '/notifications'),
-                      icon: Icon(
-                        Icons.notifications_outlined,
+                    _buildCompactWeatherWidget(),
+                    const SizedBox(height: 4),
+                    Text(
+                      _userName,
+                      style: TextStyle(
                         color: AppTheme.getPrimaryTextColor(context),
-                        size: 26,
-                        shadows: [
-                          Shadow(
-                            color: Colors.black26,
-                            offset: Offset(0, 1),
-                            blurRadius: 2,
-                          ),
-                        ],
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () => Navigator.pushNamed(context, '/settings'),
-                      icon: Icon(
-                        Icons.settings_outlined,
-                        color: AppTheme.getPrimaryTextColor(context),
-                        size: 26,
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
                         shadows: [
                           Shadow(
                             color: AppTheme.getSecondaryTextColor(context).withOpacity(0.3),
                             offset: Offset(0, 1),
-                            blurRadius: 2,
+                            blurRadius: 3,
                           ),
                         ],
                       ),
                     ),
+                  ],
+                ),
+                // Top-right controls aligned between greeting and weather widget
+                Transform.translate(
+                  offset: const Offset(0, -35), // Reduced offset to minimize gap
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                    // Notification icon
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppTheme.getPrimaryTextColor(context).withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: IconButton(
+                        onPressed: () => Navigator.pushNamed(context, '/notifications'),
+                        icon: Icon(
+                          Icons.notifications_outlined,
+                          color: AppTheme.getPrimaryTextColor(context),
+                          size: 24,
+                        ),
+                        splashRadius: 20,
+                        padding: const EdgeInsets.all(8),
+                        constraints: const BoxConstraints(
+                          minWidth: 40,
+                          minHeight: 40,
+                        ),
+                      ),
+                    ),
                     const SizedBox(width: 8),
+                    // Settings icon
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppTheme.getPrimaryTextColor(context).withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: IconButton(
+                        onPressed: () => Navigator.pushNamed(context, '/settings'),
+                        icon: Icon(
+                          Icons.settings_outlined,
+                          color: AppTheme.getPrimaryTextColor(context),
+                          size: 24,
+                        ),
+                        splashRadius: 20,
+                        padding: const EdgeInsets.all(8),
+                        constraints: const BoxConstraints(
+                          minWidth: 40,
+                          minHeight: 40,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    // User avatar with improved styling
                     GestureDetector(
                       onTap: () => Navigator.pushNamed(context, '/profile'),
                       child: Container(
-                        padding: const EdgeInsets.all(3),
+                        padding: const EdgeInsets.all(2),
                         decoration: BoxDecoration(
-                          color: AppTheme.getPrimaryTextColor(context).withOpacity(0.25),
-                          borderRadius: BorderRadius.circular(24),
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              AppTheme.getPrimaryTextColor(context).withOpacity(0.3),
+                              AppTheme.getPrimaryTextColor(context).withOpacity(0.1),
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(25),
                           border: Border.all(
                             color: AppTheme.getPrimaryTextColor(context).withOpacity(0.4),
                             width: 2,
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: AppTheme.getSecondaryTextColor(context).withOpacity(0.15),
+                              color: AppTheme.getSecondaryTextColor(context).withOpacity(0.2),
                               blurRadius: 8,
                               offset: const Offset(0, 2),
                             ),
                           ],
                         ),
                         child: const UserAvatarWidget(
-                          size: 42,
+                          size: 44,
                           showName: false,
                         ),
                       ),
                     ),
                   ],
                 ),
+                ),
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 8),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
               decoration: BoxDecoration(
@@ -395,7 +424,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
             // Live Bus Status Row
             Row(
               children: [
@@ -507,7 +536,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget _buildActiveTicketCard(ColorScheme colorScheme) {
     if (_isLoadingTickets) {
       return Container(
-        margin: const EdgeInsets.all(24),
+        margin: const EdgeInsets.all(15),
         height: 120,
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.15),
@@ -536,11 +565,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       return FadeTransition(
         opacity: _fadeController,
         child: Container(
-          margin: const EdgeInsets.all(24),
-          padding: const EdgeInsets.all(24),
+          margin: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.15),
-            borderRadius: BorderRadius.circular(20),
+            color: Colors.white.withOpacity(0.10),
+            borderRadius: BorderRadius.circular(15),
             border: Border.all(
               color: Colors.white.withOpacity(0.2),
               width: 1.5,
@@ -712,7 +741,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -936,7 +965,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ],
           ),
           
-          const SizedBox(height: 16),
+          const SizedBox(height: 8),
           
           // Weather condition and location
           Row(
@@ -1025,11 +1054,170 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return 'WEATHER-SMART ROUTES';
   }
 
+  Widget _buildCompactWeatherWidget() {
+    return GestureDetector(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => EnhancedWeatherScreen()),
+      ),
+      child: FutureBuilder<WeatherData?>(
+        future: WeatherService.instance.getCurrentWeather(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return _buildCompactWeatherLoading();
+          } else if (snapshot.hasError || !snapshot.hasData) {
+            return _buildCompactWeatherError();
+          } else {
+            return _buildCompactWeatherData(snapshot.data!);
+          }
+        },
+      ),
+    );
+  }
+
+  Widget _buildCompactWeatherLoading() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF3B82F6).withOpacity(0.8),
+            Color(0xFF1E40AF).withOpacity(0.8),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: Colors.white.withOpacity(0.2),
+          width: 1,
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            width: 16,
+            height: 16,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            ),
+          ),
+          const SizedBox(width: 8),
+          Text(
+            'Loading...',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCompactWeatherError() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Colors.grey.withOpacity(0.6),
+            Colors.grey.shade600.withOpacity(0.6),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: Colors.white.withOpacity(0.2),
+          width: 1,
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            '🌤️',
+            style: TextStyle(fontSize: 16),
+          ),
+          const SizedBox(width: 6),
+          Text(
+            'Weather',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCompactWeatherData(WeatherData weatherData) {
+    final temp = weatherData.temperature.round();
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF3B82F6).withOpacity(0.8),
+            Color(0xFF1E40AF).withOpacity(0.8),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: Colors.white.withOpacity(0.2),
+          width: 1,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Color(0xFF3B82F6).withOpacity(0.2),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            '$temp°',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(width: 4),
+          Text(
+            _getWeatherEmoji(weatherData.icon),
+            style: TextStyle(fontSize: 16),
+          ),
+          const SizedBox(width: 6),
+          Text(
+            weatherData.description,
+            style: TextStyle(
+              color: Colors.white.withOpacity(0.9),
+              fontSize: 11,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildQuickActions(ColorScheme colorScheme, bool isDark) {
     return FadeTransition(
       opacity: _fadeController,
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 24),
+        margin: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -1041,12 +1229,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 10),
             // Featured Live Bus Tracking Card
             Container(
               width: double.infinity,
               margin: const EdgeInsets.only(bottom: 16),
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.all(18),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
@@ -1432,7 +1620,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
             ),
 
-            const SizedBox(height: 24), // Add proper spacing
+            const SizedBox(height: 12), // Add proper spacing
             Row(
               children: [
                 Expanded(
@@ -1456,7 +1644,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ),
               ],
             ),
-            const SizedBox(height: 24), // Add proper spacing
+            const SizedBox(height: 12), // Add proper spacing
             Row(
               children: [
                 Expanded(
@@ -1691,7 +1879,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return FadeTransition(
       opacity: _fadeController,
       child: Container(
-        margin: const EdgeInsets.fromLTRB(24, 32, 24, 0),
+        margin: const EdgeInsets.fromLTRB(15, 12, 15, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

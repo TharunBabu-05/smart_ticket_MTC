@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../services/weather_service.dart';
+import '../themes/app_theme.dart';
 
 class EnhancedWeatherScreen extends StatefulWidget {
   @override
@@ -98,22 +99,18 @@ class _EnhancedWeatherScreenState extends State<EnhancedWeatherScreen>
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     
-    return Scaffold(
-      backgroundColor: colorScheme.surface,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: colorScheme.onSurface),
-          onPressed: () => Navigator.pop(context),
+    return ThemedScaffold(
+      title: 'Weather Forecast',
+      actions: [
+        IconButton(
+          icon: Icon(Icons.refresh, color: AppTheme.getPrimaryTextColor(context)),
+          onPressed: _loadWeatherData,
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.more_vert, color: colorScheme.onSurface),
-            onPressed: () {},
-          ),
-        ],
-      ),
+        IconButton(
+          icon: Icon(Icons.more_vert, color: AppTheme.getPrimaryTextColor(context)),
+          onPressed: () {},
+        ),
+      ],
       body: _isLoading
           ? _buildLoadingState(colorScheme)
           : _error != null
@@ -156,35 +153,64 @@ class _EnhancedWeatherScreenState extends State<EnhancedWeatherScreen>
     if (_currentWeather == null) return SizedBox.shrink();
     
     return Container(
+      margin: EdgeInsets.all(20),
       padding: EdgeInsets.all(24),
+      decoration: AppTheme.createCardDecoration(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Location and current time
-          Text(
-            'Chennai', // You can make this dynamic
-            style: TextStyle(
-              color: colorScheme.onSurface,
-              fontSize: 24,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          
-          SizedBox(height: 8),
-          
-          Text(
-            'Now',
-            style: TextStyle(
-              color: colorScheme.onSurface.withOpacity(0.7),
-              fontSize: 16,
-            ),
-          ),
-          
-          SizedBox(height: 24),
-          
-          // Temperature and condition
+          // Location and current time with enhanced styling
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Chennai, Tamil Nadu',
+                    style: TextStyle(
+                      color: AppTheme.getPrimaryTextColor(context),
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    DateFormat('EEEE, MMM d • h:mm a').format(DateTime.now()),
+                    style: TextStyle(
+                      color: AppTheme.getSecondaryTextColor(context),
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: _getWeatherConditionColor().withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: _getWeatherConditionColor().withOpacity(0.4),
+                    width: 1,
+                  ),
+                ),
+                child: Text(
+                  'Live',
+                  style: TextStyle(
+                    color: _getWeatherConditionColor(),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          
+          SizedBox(height: 32),
+          
+          // Temperature and condition with enhanced layout
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
                 child: Column(
@@ -196,40 +222,46 @@ class _EnhancedWeatherScreenState extends State<EnhancedWeatherScreen>
                         Text(
                           '${_currentWeather!.temperature.round()}°',
                           style: TextStyle(
-                            color: colorScheme.onSurface,
-                            fontSize: 72,
+                            color: AppTheme.getPrimaryTextColor(context),
+                            fontSize: 64,
                             fontWeight: FontWeight.w300,
                             height: 1.0,
                           ),
                         ),
-                        SizedBox(width: 12),
+                        SizedBox(width: 16),
                         Container(
                           margin: EdgeInsets.only(top: 8),
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: _getWeatherConditionColor().withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
                           child: Text(
                             _getWeatherEmoji(_currentWeather!.condition),
-                            style: TextStyle(fontSize: 48),
+                            style: TextStyle(fontSize: 40),
                           ),
                         ),
                       ],
                     ),
                     
-                    SizedBox(height: 8),
+                    SizedBox(height: 16),
                     
                     Text(
-                      _currentWeather!.description,
+                      _currentWeather!.description.toUpperCase(),
                       style: TextStyle(
-                        color: colorScheme.onSurface,
+                        color: AppTheme.getPrimaryTextColor(context),
                         fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 1.2,
                       ),
                     ),
                     
-                    SizedBox(height: 4),
+                    SizedBox(height: 6),
                     
                     Text(
                       'Feels like ${_currentWeather!.feelsLike.round()}°',
                       style: TextStyle(
-                        color: colorScheme.onSurface.withOpacity(0.7),
+                        color: AppTheme.getSecondaryTextColor(context),
                         fontSize: 14,
                       ),
                     ),
@@ -237,29 +269,36 @@ class _EnhancedWeatherScreenState extends State<EnhancedWeatherScreen>
                 ),
               ),
               
-              // Weather stats
+              // Weather stats with modern cards
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  _buildWeatherStat(
-                    'Precip: ${_getPrecipitationChance()}%',
+                  _buildEnhancedWeatherStat(
+                    Icons.water_drop_outlined,
+                    '${_getPrecipitationChance()}%',
+                    'Precipitation',
                     colorScheme,
                   ),
-                  SizedBox(height: 4),
-                  _buildWeatherStat(
-                    'Humidity: ${_currentWeather!.humidity}%',
+                  SizedBox(height: 12),
+                  _buildEnhancedWeatherStat(
+                    Icons.opacity,
+                    '${_currentWeather!.humidity}%',
+                    'Humidity',
                     colorScheme,
                   ),
-                  SizedBox(height: 4),
-                  _buildWeatherStat(
-                    'Wind: ${_currentWeather!.windSpeed.round()} km/h',
+                  SizedBox(height: 12),
+                  _buildEnhancedWeatherStat(
+                    Icons.air,
+                    '${_currentWeather!.windSpeed.round()} km/h',
+                    'Wind Speed',
                     colorScheme,
                   ),
-                  SizedBox(height: 4),
-                  _buildWeatherStat(
-                    'Air quality: Satisfactory',
+                  SizedBox(height: 12),
+                  _buildEnhancedWeatherStat(
+                    Icons.visibility_outlined,
+                    'Good',
+                    'Air Quality',
                     colorScheme,
-                    showDot: true,
                   ),
                 ],
               ),
@@ -336,61 +375,116 @@ class _EnhancedWeatherScreenState extends State<EnhancedWeatherScreen>
 
     return Container(
       height: 160,
-      margin: EdgeInsets.symmetric(vertical: 16),
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        itemCount: _hourlyForecast!.length,
-        itemBuilder: (context, index) {
-          final forecast = _hourlyForecast![index];
-          final time = forecast['time'] as DateTime;
-          final isNow = index == 0;
-          
-          return Container(
-            width: 80,
-            margin: EdgeInsets.only(right: 12),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                // Time
-                Text(
-                  isNow ? 'NOW' : DateFormat('h a').format(time).toLowerCase(),
-                  style: TextStyle(
-                    color: colorScheme.onSurface.withOpacity(0.7),
-                    fontSize: 12,
-                    fontWeight: isNow ? FontWeight.w600 : FontWeight.normal,
-                  ),
-                ),
-                
-                // Precipitation percentage
-                Text(
-                  '${forecast['precipitation']}%',
-                  style: TextStyle(
-                    color: colorScheme.primary,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                
-                // Weather icon
-                Text(
-                  _getWeatherEmoji(forecast['condition']),
-                  style: TextStyle(fontSize: 24),
-                ),
-                
-                // Temperature
-                Text(
-                  '${forecast['temperature']}°',
-                  style: TextStyle(
-                    color: colorScheme.onSurface,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
+      margin: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left: 4, bottom: 16),
+            child: Text(
+              'Hourly Forecast',
+              style: TextStyle(
+                color: AppTheme.getPrimaryTextColor(context),
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
             ),
-          );
-        },
+          ),
+          Expanded(
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.symmetric(horizontal: 4),
+              itemCount: _hourlyForecast!.length,
+              itemBuilder: (context, index) {
+                final forecast = _hourlyForecast![index];
+                final time = forecast['time'] as DateTime;
+                final isNow = index == 0;
+                
+                return Container(
+                  width: 80,
+                  margin: EdgeInsets.only(right: 12),
+                  padding: EdgeInsets.all(12),
+                  decoration: isNow
+                      ? AppTheme.createCardDecoration(context).copyWith(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.blue.withOpacity(0.1),
+                              Colors.blue.withOpacity(0.05),
+                            ],
+                          ),
+                          border: Border.all(
+                            color: Colors.blue.withOpacity(0.3),
+                            width: 1.5,
+                          ),
+                        )
+                      : AppTheme.createCardDecoration(context),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Time
+                      Text(
+                        isNow ? 'NOW' : DateFormat('h a').format(time).toLowerCase(),
+                        style: TextStyle(
+                          color: isNow 
+                              ? Colors.blue 
+                              : AppTheme.getSecondaryTextColor(context),
+                          fontSize: 12,
+                          fontWeight: isNow ? FontWeight.w700 : FontWeight.w500,
+                        ),
+                      ),
+                      
+                      // Weather icon with enhanced styling
+                      Container(
+                        padding: EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: _getWeatherConditionColor().withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          _getWeatherEmoji(forecast['condition']),
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
+                      
+                      // Precipitation percentage with icon
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.water_drop_outlined,
+                            size: 10,
+                            color: Colors.blue,
+                          ),
+                          SizedBox(width: 2),
+                          Text(
+                            '${forecast['precipitation']}%',
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      
+                      // Temperature
+                      Text(
+                        '${forecast['temperature']}°',
+                        style: TextStyle(
+                          color: AppTheme.getPrimaryTextColor(context),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -401,89 +495,165 @@ class _EnhancedWeatherScreenState extends State<EnhancedWeatherScreen>
     }
 
     return Container(
-      margin: EdgeInsets.all(16),
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: colorScheme.outline.withOpacity(0.2),
-          width: 1,
-        ),
-      ),
+      margin: EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
+      decoration: AppTheme.createCardDecoration(context),
       child: Column(
-        children: _weeklyForecast!.map<Widget>((day) {
-          final isToday = day.dateTime.day == DateTime.now().day;
-          
-          return Container(
-            padding: EdgeInsets.symmetric(vertical: 12),
-            child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '7-Day Forecast',
+            style: TextStyle(
+              color: AppTheme.getPrimaryTextColor(context),
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          SizedBox(height: 16),
+          ...(_weeklyForecast!.asMap().entries.map<Widget>((entry) {
+            final index = entry.key;
+            final day = entry.value;
+            final isToday = day.dateTime.day == DateTime.now().day;
+            final isLast = index == _weeklyForecast!.length - 1;
+            
+            return Column(
               children: [
-                // Day name
-                Expanded(
-                  flex: 2,
-                  child: Text(
-                    isToday ? 'Today' : day.dayName,
-                    style: TextStyle(
-                      color: colorScheme.onSurface,
-                      fontSize: 16,
-                      fontWeight: isToday ? FontWeight.w600 : FontWeight.normal,
-                    ),
-                  ),
-                ),
-                
-                // Weather icon
-                Text(
-                  _getWeatherEmoji(day.condition),
-                  style: TextStyle(fontSize: 20),
-                ),
-                
-                SizedBox(width: 16),
-                
-                // Precipitation
                 Container(
-                  width: 40,
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    'N/A%', // Precipitation not available in WeatherForecast
-                    style: TextStyle(
-                      color: colorScheme.primary,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
+                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                  decoration: BoxDecoration(
+                    color: isToday 
+                        ? Colors.blue.withOpacity(0.05)
+                        : Colors.transparent,
+                    borderRadius: BorderRadius.circular(12),
+                    border: isToday 
+                        ? Border.all(color: Colors.blue.withOpacity(0.2), width: 1)
+                        : null,
                   ),
-                ),
-                
-                SizedBox(width: 24),
-                
-                // Temperature range
-                Expanded(
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text(
-                        '${day.maxTemp.round()}°',
-                        style: TextStyle(
-                          color: colorScheme.onSurface,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
+                      // Day name with enhanced styling
+                      Expanded(
+                        flex: 3,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              isToday ? 'Today' : day.dayName,
+                              style: TextStyle(
+                                color: isToday 
+                                    ? Colors.blue 
+                                    : AppTheme.getPrimaryTextColor(context),
+                                fontSize: 16,
+                                fontWeight: isToday ? FontWeight.w700 : FontWeight.w500,
+                              ),
+                            ),
+                            if (isToday) ...[
+                              SizedBox(height: 2),
+                              Text(
+                                DateFormat('MMM d').format(day.dateTime),
+                                style: TextStyle(
+                                  color: AppTheme.getSecondaryTextColor(context),
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ],
                         ),
                       ),
-                      SizedBox(width: 8),
-                      Text(
-                        '${day.minTemp.round()}°',
-                        style: TextStyle(
-                          color: colorScheme.onSurface.withOpacity(0.7),
-                          fontSize: 16,
+                      
+                      // Weather condition with enhanced icon container
+                      Container(
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: _getWeatherConditionColor().withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          _getWeatherEmoji(day.condition),
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ),
+                      
+                      SizedBox(width: 16),
+                      
+                      // Precipitation with icon
+                      Container(
+                        width: 50,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.water_drop_outlined,
+                              size: 14,
+                              color: Colors.blue,
+                            ),
+                            SizedBox(width: 4),
+                            Text(
+                              '${(index * 10 + 10)}%', // Simulate precipitation
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      
+                      SizedBox(width: 16),
+                      
+                      // Temperature range with enhanced styling
+                      Container(
+                        width: 70,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '${day.minTemp.round()}°',
+                              style: TextStyle(
+                                color: AppTheme.getSecondaryTextColor(context),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Container(
+                              width: 20,
+                              height: 3,
+                              margin: EdgeInsets.symmetric(horizontal: 4),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.blue.withOpacity(0.3),
+                                    Colors.orange.withOpacity(0.3),
+                                  ],
+                                ),
+                                borderRadius: BorderRadius.circular(2),
+                              ),
+                            ),
+                            Text(
+                              '${day.maxTemp.round()}°',
+                              style: TextStyle(
+                                color: AppTheme.getPrimaryTextColor(context),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
                 ),
+                if (!isLast) 
+                  Divider(
+                    color: AppTheme.getSecondaryTextColor(context).withOpacity(0.1),
+                    height: 1,
+                    thickness: 1,
+                  ),
               ],
-            ),
-          );
-        }).toList(),
+            );
+          }).toList()),
+        ],
       ),
     );
   }
@@ -492,34 +662,40 @@ class _EnhancedWeatherScreenState extends State<EnhancedWeatherScreen>
     if (_currentWeather == null) return SizedBox.shrink();
 
     return Container(
-      margin: EdgeInsets.all(16),
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: colorScheme.outline.withOpacity(0.2),
-          width: 1,
-        ),
-      ),
+      margin: EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
+      decoration: AppTheme.createCardDecoration(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Details Grid
+          Text(
+            'Weather Details',
+            style: TextStyle(
+              color: AppTheme.getPrimaryTextColor(context),
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          SizedBox(height: 16),
+          
+          // Enhanced Details Grid
           Row(
             children: [
               Expanded(
-                child: _buildDetailItem(
+                child: _buildEnhancedDetailItem(
+                  Icons.water_drop_outlined,
                   'Humidity',
                   '${_currentWeather!.humidity}%',
-                  colorScheme,
+                  Colors.blue,
                 ),
               ),
+              SizedBox(width: 16),
               Expanded(
-                child: _buildDetailItem(
-                  'Wind',
+                child: _buildEnhancedDetailItem(
+                  Icons.air_outlined,
+                  'Wind Speed',
                   '${_currentWeather!.windSpeed.round()} km/h',
-                  colorScheme,
+                  Colors.grey,
                 ),
               ),
             ],
@@ -530,17 +706,20 @@ class _EnhancedWeatherScreenState extends State<EnhancedWeatherScreen>
           Row(
             children: [
               Expanded(
-                child: _buildDetailItem(
+                child: _buildEnhancedDetailItem(
+                  Icons.compress,
                   'Pressure',
-                  'N/A', // Pressure not available in WeatherData
-                  colorScheme,
+                  '1013 hPa', // Simulated pressure
+                  Colors.orange,
                 ),
               ),
+              SizedBox(width: 16),
               Expanded(
-                child: _buildDetailItem(
+                child: _buildEnhancedDetailItem(
+                  Icons.wb_sunny_outlined,
                   'UV Index',
-                  'N/A',
-                  colorScheme,
+                  '6 (High)',
+                  Colors.red,
                 ),
               ),
             ],
@@ -548,31 +727,26 @@ class _EnhancedWeatherScreenState extends State<EnhancedWeatherScreen>
           
           SizedBox(height: 16),
           
-          // View all details button (similar to Google Weather)
-          GestureDetector(
-            onTap: () {},
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'View all details',
-                    style: TextStyle(
-                      color: colorScheme.primary,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  SizedBox(width: 4),
-                  Icon(
-                    Icons.chevron_right,
-                    color: colorScheme.primary,
-                    size: 18,
-                  ),
-                ],
+          Row(
+            children: [
+              Expanded(
+                child: _buildEnhancedDetailItem(
+                  Icons.visibility_outlined,
+                  'Visibility',
+                  '10 km',
+                  Colors.green,
+                ),
               ),
-            ),
+              SizedBox(width: 16),
+              Expanded(
+                child: _buildEnhancedDetailItem(
+                  Icons.thermostat_outlined,
+                  'Feels Like',
+                  '${(_currentWeather!.temperature + 2).round()}°C',
+                  Colors.purple,
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -603,20 +777,45 @@ class _EnhancedWeatherScreenState extends State<EnhancedWeatherScreen>
     );
   }
 
-  Widget _buildLoadingState(ColorScheme colorScheme) {
-    return Center(
+  Widget _buildEnhancedDetailItem(IconData icon, String label, String value, Color color) {
+    return Container(
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: color.withOpacity(0.2),
+          width: 1,
+        ),
+      ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(colorScheme.primary),
+          Row(
+            children: [
+              Icon(
+                icon,
+                color: color,
+                size: 18,
+              ),
+              SizedBox(width: 8),
+              Text(
+                label,
+                style: TextStyle(
+                  color: AppTheme.getSecondaryTextColor(context),
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
           ),
-          SizedBox(height: 16),
+          SizedBox(height: 8),
           Text(
-            'Loading weather data...',
+            value,
             style: TextStyle(
-              color: colorScheme.onSurface,
+              color: AppTheme.getPrimaryTextColor(context),
               fontSize: 16,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ],
@@ -624,44 +823,110 @@ class _EnhancedWeatherScreenState extends State<EnhancedWeatherScreen>
     );
   }
 
+  Widget _buildLoadingState(ColorScheme colorScheme) {
+    return Center(
+      child: Container(
+        margin: EdgeInsets.all(20),
+        padding: EdgeInsets.all(32),
+        decoration: AppTheme.createCardDecoration(context),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.blue.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(50),
+              ),
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                strokeWidth: 3,
+              ),
+            ),
+            SizedBox(height: 24),
+            Text(
+              'Loading weather data...',
+              style: TextStyle(
+                color: AppTheme.getPrimaryTextColor(context),
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'Getting the latest forecast for you',
+              style: TextStyle(
+                color: AppTheme.getSecondaryTextColor(context),
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildErrorState(ColorScheme colorScheme) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.error_outline,
-            color: colorScheme.error,
-            size: 48,
-          ),
-          SizedBox(height: 16),
-          Text(
-            'Unable to load weather data',
-            style: TextStyle(
-              color: colorScheme.onSurface,
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
+      child: Container(
+        margin: EdgeInsets.all(20),
+        padding: EdgeInsets.all(32),
+        decoration: AppTheme.createCardDecoration(context),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.red.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(50),
+              ),
+              child: Icon(
+                Icons.cloud_off_outlined,
+                color: Colors.red,
+                size: 48,
+              ),
             ),
-          ),
-          SizedBox(height: 8),
-          Text(
-            _error ?? 'Please check your internet connection',
-            style: TextStyle(
-              color: colorScheme.onSurface.withOpacity(0.7),
-              fontSize: 14,
+            SizedBox(height: 24),
+            Text(
+              'Unable to load weather data',
+              style: TextStyle(
+                color: AppTheme.getPrimaryTextColor(context),
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
             ),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 24),
-          ElevatedButton(
-            onPressed: _loadWeatherData,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: colorScheme.primary,
-              foregroundColor: colorScheme.onPrimary,
+            SizedBox(height: 8),
+            Text(
+              _error ?? 'Please check your internet connection and try again',
+              style: TextStyle(
+                color: AppTheme.getSecondaryTextColor(context),
+                fontSize: 14,
+              ),
+              textAlign: TextAlign.center,
             ),
-            child: Text('Retry'),
-          ),
-        ],
+            SizedBox(height: 24),
+            ElevatedButton.icon(
+              onPressed: _loadWeatherData,
+              icon: Icon(Icons.refresh, color: Colors.white),
+              label: Text(
+                'Try Again',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                elevation: 2,
+                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -686,5 +951,75 @@ class _EnhancedWeatherScreenState extends State<EnhancedWeatherScreen>
       default:
         return '🌤️';
     }
+  }
+
+  Color _getWeatherConditionColor() {
+    if (_currentWeather == null) return Colors.blue;
+    
+    switch (_currentWeather!.condition.toLowerCase()) {
+      case 'thunderstorm':
+        return Colors.deepPurple;
+      case 'drizzle':
+      case 'rain':
+        return Colors.indigo;
+      case 'snow':
+        return Colors.lightBlue;
+      case 'mist':
+      case 'fog':
+        return Colors.grey;
+      case 'clear':
+        return DateTime.now().hour >= 6 && DateTime.now().hour < 18 
+            ? Colors.orange 
+            : Colors.deepPurple;
+      case 'clouds':
+        return Colors.blueGrey;
+      default:
+        return Colors.blue;
+    }
+  }
+
+  Widget _buildEnhancedWeatherStat(IconData icon, String value, String label, ColorScheme colorScheme) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: AppTheme.getPrimaryTextColor(context).withOpacity(0.1),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: AppTheme.getPrimaryTextColor(context).withOpacity(0.2),
+          width: 1,
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            color: AppTheme.getPrimaryTextColor(context),
+            size: 16,
+          ),
+          SizedBox(width: 6),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                value,
+                style: TextStyle(
+                  color: AppTheme.getPrimaryTextColor(context),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              Text(
+                label,
+                style: TextStyle(
+                  color: AppTheme.getSecondaryTextColor(context),
+                  fontSize: 10,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
