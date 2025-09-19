@@ -150,21 +150,28 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
     
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Color(0xFFE91E63), // Beautiful pink from the attachment
-              Color(0xFF9C27B0), // Purple transition
-              Color(0xFF673AB7), // Deep purple
-              Color(0xFF3F51B5), // Indigo
-              Color(0xFF2196F3), // Blue from the attachment
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: isDark ? [
+              // Dark theme: Black to dark blue
+              const Color(0xFF000000), // Black
+              const Color(0xFF0D1421), // Very dark blue
+              const Color(0xFF1A1F2E), // Dark blue
+              const Color(0xFF1E3A8A), // Deep blue
+            ] : [
+              // Light theme: White to light blue
+              const Color(0xFFFFFFFF), // Pure white
+              const Color(0xFFF8FAFF), // Very light blue tint
+              const Color(0xFFE3F2FD), // Light blue
+              const Color(0xFFBBDEFB), // Lighter blue
             ],
-            stops: [0.0, 0.25, 0.5, 0.75, 1.0],
+            stops: const [0.0, 0.3, 0.7, 1.0],
           ),
         ),
         child: SafeArea(
@@ -188,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     _buildHeader(colorScheme),
                     _buildActiveTicketCard(colorScheme),
                     _buildWeatherWidget(colorScheme),
-                    _buildQuickActions(colorScheme),
+                    _buildQuickActions(colorScheme, isDark),
                     _buildNearbyStops(colorScheme),
                     _buildRecentActivity(colorScheme),
                     const SizedBox(height: 120), // Increased space for bottom nav + FAB
@@ -1036,7 +1043,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return 'WEATHER-SMART ROUTES';
   }
 
-  Widget _buildQuickActions(ColorScheme colorScheme) {
+  Widget _buildQuickActions(ColorScheme colorScheme, bool isDark) {
     return FadeTransition(
       opacity: _fadeController,
       child: Container(
@@ -1047,7 +1054,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             Text(
               'Quick Actions',
               style: TextStyle(
-                color: colorScheme.onSurface,
+                color: isDark ? Colors.white : Colors.black87,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -1443,7 +1450,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 24), // Add proper spacing
             Row(
               children: [
                 Expanded(
@@ -1451,7 +1458,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     icon: Icons.star_rounded,
                     title: 'Rate Services',
                     subtitle: 'Share your experience',
-                    color: Colors.orange.shade500,
+                    color: const Color(0xFFFF9800), // Vibrant orange like attachment
                     onTap: () => _showRatingOptions(),
                   ),
                 ),
@@ -1461,13 +1468,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     icon: Icons.reviews_rounded,
                     title: 'View Reviews',
                     subtitle: 'Community feedback',
-                    color: Colors.indigo.shade500,
+                    color: const Color(0xFF5C6BC0), // Vibrant blue like attachment
                     onTap: () => _showReviewsOptions(),
                   ),
                 ),
               ],
             ),
-            
+            const SizedBox(height: 24), // Add proper spacing
             Row(
               children: [
                 Expanded(
@@ -1475,7 +1482,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     icon: Icons.map_rounded,
                     title: 'Find Routes',
                     subtitle: 'Bus routes & stops',
-                    color: Colors.teal.shade500,
+                    color: const Color(0xFF26A69A), // Vibrant teal like attachment
                     onTap: () => Navigator.pushNamed(context, '/map'),
                   ),
                 ),
@@ -1485,7 +1492,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     icon: Icons.location_on_rounded,
                     title: 'Nearby Stops',
                     subtitle: 'Within 5 KM',
-                    color: Colors.purple.shade500,
+                    color: const Color(0xFF9C27B0), // Vibrant purple like attachment
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const NearbyBusStopsScreen()),
@@ -1494,15 +1501,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 24), // Add proper spacing
             Row(
               children: [
                 Expanded(
                   child: _buildActionCard(
-                    icon: Icons.mic,
+                    icon: Icons.mic_rounded,
                     title: 'Voice Booking',
                     subtitle: 'Speak to book tickets',
-                    color: Colors.green.shade600,
+                    color: const Color(0xFF4CAF50), // Vibrant green like attachment
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => SimpleVoiceBookingScreen()),
@@ -1512,10 +1519,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 const SizedBox(width: 16),
                 Expanded(
                   child: _buildActionCard(
-                    icon: Icons.emergency,
+                    icon: Icons.medical_services_rounded,
                     title: 'Emergency SOS',
                     subtitle: 'Quick emergency alert',
-                    color: Colors.red.shade600,
+                    color: const Color(0xFFF44336), // Vibrant red like attachment
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => EmergencySOSScreen()),
@@ -1524,53 +1531,46 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 24), // Add proper spacing
+            // Analytics and Trip History row - Fix positioning
             Row(
               children: [
                 Expanded(
                   child: _buildActionCard(
-                    icon: Icons.analytics,
+                    icon: Icons.analytics_rounded,
                     title: 'Analytics',
                     subtitle: 'Travel insights',
-                    color: Colors.purple.shade600,
+                    color: const Color(0xFF7B1FA2), // Deep purple like attachment
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => UsageAnalyticsDashboardScreen()),
                     ),
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
+                const SizedBox(width: 16),
                 Expanded(
                   child: _buildActionCard(
-                    icon: Icons.history,
+                    icon: Icons.history_rounded,
                     title: 'Trip History',
                     subtitle: 'Past journeys',
-                    color: colorScheme.secondary,
+                    color: const Color(0xFFFF9800), // Vibrant orange like attachment
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => ActiveTicketsScreen()),
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Container(), // Empty space for balance
-                ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 24), // Add proper spacing
             Row(
               children: [
                 Expanded(
                   child: _buildActionCard(
-                    icon: Icons.smart_toy,
+                    icon: Icons.smart_toy_rounded,
                     title: 'AI Assistant',
                     subtitle: 'Chat for help',
-                    color: Colors.purple.shade600,
+                    color: const Color(0xFF673AB7), // Deep purple like attachment
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const ChatbotScreen()),
@@ -1580,10 +1580,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 const SizedBox(width: 16),
                 Expanded(
                   child: _buildActionCard(
-                    icon: Icons.menu_book,
+                    icon: Icons.menu_book_rounded,
                     title: 'User Manual',
                     subtitle: 'Complete guide',
-                    color: Colors.teal.shade600,
+                    color: const Color(0xFF00BCD4), // Cyan like attachment
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const UserManualScreen()),
@@ -1592,7 +1592,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 24), // Add proper spacing
             Row(
               children: [
                 Expanded(
@@ -1600,7 +1600,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     icon: Icons.support_agent_rounded,
                     title: 'Support',
                     subtitle: 'Help & feedback',
-                    color: Colors.indigo.shade600,
+                    color: const Color(0xFF3F51B5), // Vibrant indigo
                     onTap: () => Navigator.pushNamed(context, '/support'),
                   ),
                 ),
@@ -1610,7 +1610,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     icon: Icons.settings_rounded,
                     title: 'Settings',
                     subtitle: 'App preferences',
-                    color: Colors.deepPurple.shade600,
+                    color: const Color(0xFF8E24AA), // Vibrant purple
                     onTap: () => Navigator.pushNamed(context, '/settings'),
                   ),
                 ),
@@ -1634,90 +1634,68 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(18),
+        height: 160, // Fixed height for consistency
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
               color.withOpacity(0.9),
-              color.withOpacity(0.7),
               color.withOpacity(0.8),
-              color.withOpacity(1.0),
+              color.withOpacity(0.95),
             ],
-            stops: const [0.0, 0.3, 0.7, 1.0],
+            stops: const [0.0, 0.5, 1.0],
           ),
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: color.withOpacity(0.5),
-              blurRadius: 20,
-              spreadRadius: 3,
-              offset: const Offset(0, 10),
-            ),
-            BoxShadow(
-              color: Colors.white.withOpacity(0.15),
-              blurRadius: 2,
-              spreadRadius: 0,
-              offset: const Offset(0, 2),
+              color: color.withOpacity(0.4),
+              blurRadius: 15,
+              spreadRadius: 1,
+              offset: const Offset(0, 8),
             ),
           ],
-          border: Border.all(
-            color: Colors.white.withOpacity(0.25),
-            width: 2,
-          ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Icon container - perfectly aligned like in attachment
             Container(
-              width: 55,
-              height: 55,
+              width: 50,
+              height: 50,
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Colors.white.withOpacity(0.4),
-                    Colors.white.withOpacity(0.2),
-                    Colors.white.withOpacity(0.3),
-                  ],
-                ),
-                borderRadius: BorderRadius.circular(28),
+                color: Colors.white.withOpacity(0.25),
+                borderRadius: BorderRadius.circular(25),
                 border: Border.all(
-                  color: Colors.white.withOpacity(0.4),
+                  color: Colors.white.withOpacity(0.3),
                   width: 2,
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
               ),
               child: Icon(
                 icon,
                 color: Colors.white,
-                size: 28,
+                size: 24,
               ),
             ),
-            const SizedBox(height: 16),
+            const Spacer(),
+            // Title
             Text(
               title,
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 16,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
-                letterSpacing: 0.5,
+                letterSpacing: 0.3,
               ),
             ),
-            const SizedBox(height: 6),
+            const SizedBox(height: 4),
+            // Subtitle
             Text(
               subtitle,
               style: TextStyle(
                 color: Colors.white.withOpacity(0.9),
-                fontSize: 13,
+                fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),
             ),
