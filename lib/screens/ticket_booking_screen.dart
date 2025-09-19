@@ -10,6 +10,7 @@ import '../services/enhanced_ticket_service.dart';
 import '../services/razorpay_service.dart';
 import '../services/notification_service.dart';
 import '../data/bus_stops_data.dart';
+import '../themes/app_theme.dart';
 import 'ticket_display_screen.dart';
 
 class TicketBookingScreen extends StatefulWidget {
@@ -28,25 +29,21 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
   
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Book Bus Ticket'),
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
-      ),
+    return ThemedScaffold(
+      title: 'Book Bus Ticket',
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildWelcomeCard(),
-            SizedBox(height: 20),
-            _buildRouteSelectionCard(),
-            SizedBox(height: 20),
+            _buildWelcomeCard(context),
+            const SizedBox(height: 20),
+            _buildRouteSelectionCard(context),
+            const SizedBox(height: 20),
             _buildFareInfoCard(),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             _buildSecurityInfo(),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             _buildBookTicketButton(),
           ],
         ),
@@ -54,74 +51,70 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
     );
   }
 
-  Widget _buildWelcomeCard() {
-    return Card(
-      child: Padding(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          children: [
-            Icon(
-              Icons.directions_bus,
-              size: 48,
-              color: Colors.blue,
+  Widget _buildWelcomeCard(BuildContext context) {
+    return Container(
+      decoration: AppTheme.createCardDecoration(context),
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        children: [
+          Icon(
+            Icons.directions_bus_filled,
+            size: 56,
+            color: AppTheme.getPrimaryTextColor(context),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'Smart Ticketing System',
+            style: AppTheme.titleLarge.copyWith(
+              color: AppTheme.getPrimaryTextColor(context),
             ),
-            SizedBox(height: 12),
-            Text(
-              'Smart Ticketing System',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Secure digital ticketing with location tracking',
+            style: AppTheme.bodyMedium.copyWith(
+              color: AppTheme.getSecondaryTextColor(context),
             ),
-            SizedBox(height: 8),
-            Text(
-              'Secure digital ticketing with location tracking',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[600],
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildRouteSelectionCard() {
-    return Card(
-      child: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Select Route',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+  Widget _buildRouteSelectionCard(BuildContext context) {
+    return Container(
+      decoration: AppTheme.createCardDecoration(context),
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Select Route',
+            style: AppTheme.titleMedium.copyWith(
+              color: AppTheme.getPrimaryTextColor(context),
             ),
-            SizedBox(height: 16),
-            _buildStopDropdown(
-              'From',
-              _selectedFromStop,
-              (value) => setState(() => _selectedFromStop = value),
-              Icons.location_on,
-            ),
-            SizedBox(height: 16),
-            _buildStopDropdown(
-              'To',
-              _selectedToStop,
-              (value) => setState(() => _selectedToStop = value),
-              Icons.location_on,
-            ),
-            if (_selectedFromStop != null && _selectedToStop != null) ...[
-              SizedBox(height: 16),
-              _buildRoutePreview(),
-            ],
+          ),
+          const SizedBox(height: 16),
+          _buildStopDropdown(
+            'From',
+            _selectedFromStop,
+            (value) => setState(() => _selectedFromStop = value),
+            Icons.location_on,
+          ),
+          const SizedBox(height: 16),
+          _buildStopDropdown(
+            'To',
+            _selectedToStop,
+            (value) => setState(() => _selectedToStop = value),
+            Icons.location_on,
+          ),
+          if (_selectedFromStop != null && _selectedToStop != null) ...[
+            const SizedBox(height: 16),
+            _buildRoutePreview(),
           ],
-        ),
+        ],
       ),
     );
   }

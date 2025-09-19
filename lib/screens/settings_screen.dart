@@ -5,6 +5,7 @@ import '../services/accessibility_service.dart';
 import '../services/enhanced_auth_service.dart';
 import '../services/performance_service.dart';
 import '../services/offline_storage_service.dart';
+import '../themes/app_theme.dart';
 import 'accessibility_settings_screen.dart';
 import 'personalization_settings_screen.dart';
 

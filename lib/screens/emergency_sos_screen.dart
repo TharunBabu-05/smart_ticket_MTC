@@ -4,6 +4,7 @@ import 'dart:async';
 import '../services/safety_service.dart';
 import '../services/location_service.dart';
 import '../models/emergency_contact_model.dart';
+import '../themes/app_theme.dart';
 import 'emergency_contacts_screen.dart';
 
 class EmergencySOSScreen extends StatefulWidget {
