@@ -155,6 +155,15 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen>
         
         print('✅ Loaded ${_activeBuses.length} active buses from Firebase');
         _refreshPassengerCountDisplay();
+        
+        // Immediately fetch and apply the current person count
+        final personCountSnapshot = await _database.child('person_count').get();
+        if (personCountSnapshot.exists) {
+          final personData = personCountSnapshot.value as Map<dynamic, dynamic>;
+          final currentCount = personData['count'] as int? ?? 0;
+          print('👥 Applying initial person count from Firebase: $currentCount');
+          _updateAllBusesWithRealCount(currentCount);
+        }
       } else {
         print('📍 No existing buses found in Firebase');
       }
@@ -179,12 +188,17 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen>
     
     // Listen to real-time person count from Firebase
     _database.child('person_count').onValue.listen((DatabaseEvent event) {
+      print('🔥 Person count listener triggered');
       if (event.snapshot.exists) {
         final data = event.snapshot.value as Map<dynamic, dynamic>?;
+        print('🔥 Person count data: $data');
         if (data != null && data['count'] != null) {
           final realPassengerCount = data['count'] as int;
+          print('👥 Updating all buses with count: $realPassengerCount');
           _updateAllBusesWithRealCount(realPassengerCount);
         }
+      } else {
+        print('⚠️ Person count snapshot does not exist');
       }
     });
   }
@@ -213,6 +227,12 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen>
         final personCountData = personCountSnapshot.value as Map<dynamic, dynamic>;
         int currentCount = personCountData['count'] ?? 0;
         print('👥 Person count from Firebase: $currentCount');
+        
+        // Apply this count immediately to all buses
+        if (currentCount > 0) {
+          _updateAllBusesWithRealCount(currentCount);
+          print('🚌 Applied count $currentCount to all buses');
+        }
       } else {
         print('👥 No person count found in Firebase');
       }
@@ -266,11 +286,13 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen>
   }
 
   void _updateAllBusesWithRealCount(int realPassengerCount) {
+    print('🚌 Updating ${_activeBuses.length} buses with passenger count: $realPassengerCount');
     setState(() {
       // Update all active buses with the real passenger count from Firebase
       _activeBuses.forEach((busId, busData) {
         _activeBuses[busId]!['passengerCount'] = realPassengerCount;
         _activeBuses[busId]!['lastUpdate'] = DateTime.now();
+        print('🚌 Updated bus ${busData['busNumber']} with count: $realPassengerCount');
       });
       
       // Update all bus markers with the real passenger count
@@ -433,6 +455,38 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen>
     });
   }
 
+  void _forceRefreshPersonCount() async {
+    try {
+      print('🔄 Force refreshing person count from Firebase...');
+      final snapshot = await _database.child('person_count').get();
+      if (snapshot.exists) {
+        final data = snapshot.value as Map<dynamic, dynamic>;
+        final count = data['count'] as int? ?? 0;
+        print('👥 Force fetched person count: $count');
+        _updateAllBusesWithRealCount(count);
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('👥 Updated passenger count to $count'),
+            backgroundColor: Colors.blue,
+            duration: Duration(seconds: 2),
+          ),
+        );
+      } else {
+        print('❌ No person_count found in Firebase');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('❌ No person_count found in Firebase'),
+            backgroundColor: Colors.red,
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (error) {
+      print('❌ Error fetching person count: $error');
+    }
+  }
+
   void _moveToCurrentLocation() {
     if (_mapController != null) {
       _mapController!.animateCamera(
@@ -492,6 +546,14 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen>
       actions: [
         IconButton(
           icon: Icon(
+            Icons.people,
+            color: AppTheme.getPrimaryTextColor(context),
+          ),
+          onPressed: _forceRefreshPersonCount,
+          tooltip: 'Force Refresh Person Count',
+        ),
+        IconButton(
+          icon: Icon(
             Icons.cloud_upload,
             color: AppTheme.getPrimaryTextColor(context),
           ),
@@ -504,7 +566,7 @@ class _LiveBusTrackingScreenState extends State<LiveBusTrackingScreen>
             color: AppTheme.getPrimaryTextColor(context),
           ),
           onPressed: _refreshPassengerCountDisplay,
-          tooltip: 'Refresh Passenger Count',
+          tooltip: 'Refresh Display',
         ),
         IconButton(
           icon: Icon(
