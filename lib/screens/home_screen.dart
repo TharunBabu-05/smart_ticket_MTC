@@ -1690,7 +1690,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 const SizedBox(width: 16),
                 Expanded(
                   child: _buildActionCard(
-                    icon: Icons.medical_services_rounded,
+                    customImagePath: 'assets/feature_icons/emergency_sos_icon.png',
+                    icon: Icons.medical_services_rounded, // fallback icon
                     title: 'Emergency SOS',
                     subtitle: 'Quick emergency alert',
                     color: const Color(0xFFF44336), // Vibrant red like attachment
@@ -1796,7 +1797,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   Widget _buildActionCard({
-    required IconData icon,
+    IconData? icon,
+    String? customImagePath,
     required String title,
     required String subtitle,
     required Color color,
@@ -1831,7 +1833,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Icon container - perfectly aligned like in attachment
+            // Icon container - supports both icons and custom images
             Container(
               width: 50,
               height: 50,
@@ -1843,11 +1845,29 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   width: 2,
                 ),
               ),
-              child: Icon(
-                icon,
-                color: Colors.white,
-                size: 24,
-              ),
+              child: customImagePath != null
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(23),
+                      child: Image.asset(
+                        customImagePath,
+                        width: 46,
+                        height: 46,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          // Fallback to icon if image fails to load
+                          return Icon(
+                            icon ?? Icons.error,
+                            color: Colors.white,
+                            size: 24,
+                          );
+                        },
+                      ),
+                    )
+                  : Icon(
+                      icon ?? Icons.help,
+                      color: Colors.white,
+                      size: 24,
+                    ),
             ),
             const Spacer(),
             // Title

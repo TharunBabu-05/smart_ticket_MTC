@@ -1,0 +1,22 @@
+EMERGENCY SOS CUSTOM ICON SETUP INSTRUCTIONS
+=============================================
+
+Please save the Emergency SOS illustration image (the one showing a person using their phone on a bus) as:
+
+File name: emergency_sos_icon.png
+Location: assets/feature_icons/emergency_sos_icon.png
+
+The image should be:
+- PNG format
+- Recommended size: 200x200 pixels or larger
+- Square aspect ratio preferred
+- Shows the illustration of person with phone on bus during emergency
+
+After saving the image:
+1. Run `flutter clean`
+2. Run `flutter pub get`
+3. Run `flutter run`
+
+The Emergency SOS feature card will now display your custom illustration instead of the generic medical services icon.
+
+If the image fails to load, it will automatically fall back to the medical services icon.
