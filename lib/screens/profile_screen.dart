@@ -21,7 +21,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
   
   bool _isLoading = true;
   bool _isEditing = false;
-  String _selectedAvatar = '👨‍💼';
+  String _selectedAvatar = 'assets/avatars/InShot_20250919_180526249.jpg';
   String _displayName = 'Your Name';
   
   late AnimationController _fadeController;
@@ -34,20 +34,16 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
   double _moneySaved = 0.0;
   int _carbonFootprint = 0;
   
-  // Avatar options with emojis
+  // Avatar options with image paths and names
   final List<Map<String, String>> _avatarOptions = [
-    {'emoji': '👨‍💼', 'name': 'Professional'},
-    {'emoji': '👩‍💼', 'name': 'Business'},
-    {'emoji': '🧑‍🎓', 'name': 'Student'},
-    {'emoji': '👨‍🔬', 'name': 'Tech Expert'},
-    {'emoji': '👩‍🎨', 'name': 'Creative'},
-    {'emoji': '🧑‍🏫', 'name': 'Teacher'},
-    {'emoji': '👨‍⚕️', 'name': 'Healthcare'},
-    {'emoji': '👩‍🚀', 'name': 'Explorer'},
-    {'emoji': '🧑‍💻', 'name': 'Developer'},
-    {'emoji': '👨‍🎨', 'name': 'Designer'},
-    {'emoji': '👩‍🔧', 'name': 'Engineer'},
-    {'emoji': '🧑‍🍳', 'name': 'Chef'},
+    {'path': 'assets/avatars/InShot_20250919_180526249.jpg', 'name': 'Professional'},
+    {'path': 'assets/avatars/InShot_20250919_180639450.jpg', 'name': 'Business'},
+    {'path': 'assets/avatars/InShot_20250919_180718284.jpg', 'name': 'Creative'},
+    {'path': 'assets/avatars/InShot_20250919_180838567.jpg', 'name': 'Casual'},
+    {'path': 'assets/avatars/InShot_20250919_180956931.jpg', 'name': 'Modern'},
+    {'path': 'assets/avatars/InShot_20250919_181019878.jpg', 'name': 'Classic'},
+    {'path': 'assets/avatars/InShot_20250919_181038259.jpg', 'name': 'Trendy'},
+    {'path': 'assets/avatars/InShot_20250919_181119407.jpg', 'name': 'Explorer'},
   ];
 
   @override
@@ -107,7 +103,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
             _mobileController.text = data['mobile'] ?? '';
             _emailController.text = data['email'] ?? user.email ?? '';
             _addressController.text = data['address'] ?? '';
-            _selectedAvatar = data['avatar'] ?? '👨‍💼';
+            _selectedAvatar = data['avatar'] ?? 'assets/avatars/InShot_20250919_180526249.jpg';
             _displayName = data['name'] ?? user.displayName ?? 'Your Name';
             _totalTrips = data['totalTrips'] ?? 0;
             _moneySaved = (data['moneySaved'] ?? 0.0).toDouble();
@@ -269,10 +265,25 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                   ),
                 ],
               ),
-              child: Center(
-                child: Text(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(60),
+                child: Image.asset(
                   _selectedAvatar,
-                  style: const TextStyle(fontSize: 48),
+                  width: 120,
+                  height: 120,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      width: 120,
+                      height: 120,
+                      color: Colors.grey[300],
+                      child: Icon(
+                        Icons.person,
+                        size: 60,
+                        color: Colors.grey[600],
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
@@ -519,12 +530,12 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
             itemCount: _avatarOptions.length,
             itemBuilder: (context, index) {
               final avatar = _avatarOptions[index];
-              final isSelected = avatar['emoji'] == _selectedAvatar;
+              final isSelected = avatar['path'] == _selectedAvatar;
               
               return GestureDetector(
                 onTap: () {
                   setState(() {
-                    _selectedAvatar = avatar['emoji']!;
+                    _selectedAvatar = avatar['path']!;
                   });
                 },
                 child: Container(
@@ -534,16 +545,43 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                       color: isSelected 
                           ? Theme.of(context).primaryColor
                           : AppTheme.getSecondaryTextColor(context).withOpacity(0.3),
-                      width: isSelected ? 2 : 1,
+                      width: isSelected ? 3 : 1,
                     ),
                     color: isSelected 
                         ? Theme.of(context).primaryColor.withOpacity(0.1)
                         : Colors.transparent,
                   ),
-                  child: Center(
-                    child: Text(
-                      avatar['emoji']!,
-                      style: const TextStyle(fontSize: 32),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(11),
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        Image.asset(
+                          avatar['path']!,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Container(
+                              color: Colors.grey[300],
+                              child: Icon(
+                                Icons.person,
+                                color: Colors.grey[600],
+                                size: 30,
+                              ),
+                            );
+                          },
+                        ),
+                        if (isSelected)
+                          Container(
+                            color: Theme.of(context).primaryColor.withOpacity(0.3),
+                            child: Center(
+                              child: Icon(
+                                Icons.check_circle,
+                                color: Theme.of(context).primaryColor,
+                                size: 24,
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
                 ),
@@ -580,45 +618,88 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
             Text(
               'Choose Your Avatar',
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
                 color: AppTheme.getPrimaryTextColor(context),
               ),
             ),
-            const SizedBox(height: 16),
-            GridView.builder(
-              shrinkWrap: true,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
+            const SizedBox(height: 20),
+            SizedBox(
+              height: 300, // Fixed height for the avatar grid
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 8,
+                ),
+                itemCount: _avatarOptions.length,
+                itemBuilder: (context, index) {
+                  final avatar = _avatarOptions[index];
+                  final isSelected = avatar['path'] == _selectedAvatar;
+                  
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectedAvatar = avatar['path']!;
+                      });
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: isSelected 
+                              ? Theme.of(context).primaryColor
+                              : AppTheme.getSecondaryTextColor(context).withOpacity(0.3),
+                          width: isSelected ? 3 : 1,
+                        ),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(11),
+                        child: Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            Image.asset(
+                              avatar['path']!,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Container(
+                                  color: Colors.grey[300],
+                                  child: Icon(
+                                    Icons.person,
+                                    color: Colors.grey[600],
+                                    size: 20,
+                                  ),
+                                );
+                              },
+                            ),
+                            if (isSelected)
+                              Container(
+                                color: Theme.of(context).primaryColor.withOpacity(0.3),
+                                child: Center(
+                                  child: Icon(
+                                    Icons.check_circle,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
               ),
-              itemCount: _avatarOptions.length,
-              itemBuilder: (context, index) {
-                final avatar = _avatarOptions[index];
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _selectedAvatar = avatar['emoji']!;
-                    });
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: AppTheme.getSecondaryTextColor(context).withOpacity(0.3),
-                      ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        avatar['emoji']!,
-                        style: const TextStyle(fontSize: 32),
-                      ),
-                    ),
-                  ),
-                );
-              },
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Select an avatar that represents you',
+              style: TextStyle(
+                fontSize: 14,
+                color: AppTheme.getSecondaryTextColor(context),
+              ),
+              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
           ],

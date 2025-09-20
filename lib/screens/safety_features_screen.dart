@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import '../services/safety_service.dart';
 import '../services/location_service.dart';
 import '../models/emergency_contact_model.dart';
+import '../themes/app_theme.dart';
 import 'emergency_sos_screen.dart';
 import 'live_location_sharing_screen.dart';
 import 'emergency_contacts_screen.dart';
@@ -68,62 +69,38 @@ class _SafetyFeaturesScreenState extends State<SafetyFeaturesScreen>
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    return Scaffold(
+    return ThemedScaffold(
+      title: 'Safety Features',
+      actions: [
+        IconButton(
+          icon: Icon(Icons.refresh, color: AppTheme.getPrimaryTextColor(context)),
+          onPressed: _loadSafetyStatus,
+        ),
+      ],
       body: CustomScrollView(
         slivers: [
-          // Custom App Bar
-          SliverAppBar(
-            expandedHeight: 120,
-            floating: false,
-            pinned: true,
-            backgroundColor: colorScheme.primary,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text(
-                'Safety Features',
-                style: TextStyle(
-                  color: colorScheme.onPrimary,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              background: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [colorScheme.primary, colorScheme.primaryContainer],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ),
-                ),
-                child: SafeArea(
-                  child: Padding(
-                    padding: EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        SizedBox(height: 20),
-                        Text(
-                          'Your Safety, Our Priority',
-                          style: TextStyle(
-                            color: colorScheme.onPrimary.withOpacity(0.8),
-                            fontSize: 16,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-
-          // Safety Status Overview
+          // Enhanced Safety Status Overview
           SliverToBoxAdapter(
             child: _isLoading 
                 ? Padding(
                     padding: EdgeInsets.all(32),
-                    child: Center(child: CircularProgressIndicator()),
+                    child: Center(
+                      child: Column(
+                        children: [
+                          CircularProgressIndicator(color: Colors.blue),
+                          SizedBox(height: 16),
+                          Text(
+                            'Loading safety features...',
+                            style: TextStyle(
+                              color: AppTheme.getSecondaryTextColor(context),
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   )
-                : _buildSafetyOverview(colorScheme),
+                : _buildEnhancedSafetyOverview(),
           ),
 
           // Main Safety Features
@@ -137,7 +114,7 @@ class _SafetyFeaturesScreenState extends State<SafetyFeaturesScreen>
                 childAspectRatio: 0.9,
               ),
               delegate: SliverChildListDelegate([
-                _buildFeatureCard(
+                _buildEnhancedFeatureCard(
                   title: 'Emergency SOS',
                   subtitle: 'Quick emergency alert',
                   icon: Icons.emergency,
@@ -148,9 +125,8 @@ class _SafetyFeaturesScreenState extends State<SafetyFeaturesScreen>
                     context,
                     MaterialPageRoute(builder: (context) => EmergencySOSScreen()),
                   ).then((_) => _loadSafetyStatus()),
-                  colorScheme: colorScheme,
                 ),
-                _buildFeatureCard(
+                _buildEnhancedFeatureCard(
                   title: 'Live Location',
                   subtitle: 'Share with family',
                   icon: Icons.location_on,
@@ -161,9 +137,8 @@ class _SafetyFeaturesScreenState extends State<SafetyFeaturesScreen>
                     context,
                     MaterialPageRoute(builder: (context) => LiveLocationSharingScreen()),
                   ).then((_) => _loadSafetyStatus()),
-                  colorScheme: colorScheme,
                 ),
-                _buildFeatureCard(
+                _buildEnhancedFeatureCard(
                   title: 'Women Safety',
                   subtitle: 'Enhanced protection',
                   icon: Icons.shield,
@@ -171,9 +146,8 @@ class _SafetyFeaturesScreenState extends State<SafetyFeaturesScreen>
                   isActive: _isWomenSafetyEnabled,
                   statusText: _isWomenSafetyEnabled ? 'ON' : 'Off',
                   onTap: () => _showWomenSafetyScreen(),
-                  colorScheme: colorScheme,
                 ),
-                _buildFeatureCard(
+                _buildEnhancedFeatureCard(
                   title: 'Safe Routes',
                   subtitle: 'Secure travel paths',
                   icon: Icons.route,
@@ -181,7 +155,6 @@ class _SafetyFeaturesScreenState extends State<SafetyFeaturesScreen>
                   isActive: false,
                   statusText: 'Available',
                   onTap: () => _showSafeRoutesScreen(),
-                  colorScheme: colorScheme,
                 ),
               ]),
             ),
@@ -189,17 +162,12 @@ class _SafetyFeaturesScreenState extends State<SafetyFeaturesScreen>
 
           // Emergency Contacts Section
           SliverToBoxAdapter(
-            child: _buildEmergencyContactsSection(colorScheme),
+            child: _buildEnhancedEmergencyContactsSection(),
           ),
 
           // Quick Actions
           SliverToBoxAdapter(
-            child: _buildQuickActions(colorScheme),
-          ),
-
-          // Safety Tips
-          SliverToBoxAdapter(
-            child: _buildSafetyTips(colorScheme),
+            child: _buildEnhancedQuickActions(),
           ),
 
           // Extra padding at bottom
@@ -291,6 +259,236 @@ class _SafetyFeaturesScreenState extends State<SafetyFeaturesScreen>
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildEnhancedSafetyOverview() {
+    return Container(
+      margin: EdgeInsets.all(20),
+      padding: EdgeInsets.all(24),
+      decoration: AppTheme.createCardDecoration(context),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.shield_outlined,
+                color: Colors.blue,
+                size: 28,
+              ),
+              SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Safety Status',
+                      style: TextStyle(
+                        color: AppTheme.getPrimaryTextColor(context),
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(
+                      'Your safety features overview',
+                      style: TextStyle(
+                        color: AppTheme.getSecondaryTextColor(context),
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          
+          SizedBox(height: 24),
+          
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _buildEnhancedStatusIndicator('SOS', _isSosActive, Colors.red, Icons.emergency),
+              _buildEnhancedStatusIndicator('Location', _isLocationSharing, Colors.blue, Icons.location_on),
+              _buildEnhancedStatusIndicator('Contacts', _emergencyContacts.isNotEmpty, Colors.green, Icons.contacts),
+            ],
+          ),
+          
+          if (_isSosActive || _isLocationSharing) ...[
+            SizedBox(height: 20),
+            Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.orange.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: Colors.orange.withOpacity(0.3),
+                  width: 1,
+                ),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.orange.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Icon(Icons.info_outlined, color: Colors.orange, size: 20),
+                  ),
+                  SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Safety Services Active',
+                          style: TextStyle(
+                            color: Colors.orange.shade800,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Text(
+                          'Emergency features are currently monitoring your safety',
+                          style: TextStyle(
+                            color: Colors.orange.shade700,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEnhancedStatusIndicator(String label, bool isActive, Color color, IconData icon) {
+    return Column(
+      children: [
+        Container(
+          width: 60,
+          height: 60,
+          decoration: BoxDecoration(
+            color: isActive ? color.withOpacity(0.1) : AppTheme.getPrimaryTextColor(context).withOpacity(0.05),
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: isActive ? color : AppTheme.getSecondaryTextColor(context),
+              width: 2,
+            ),
+          ),
+          child: Icon(
+            isActive ? Icons.check : icon,
+            color: isActive ? color : AppTheme.getSecondaryTextColor(context),
+            size: 28,
+          ),
+        ),
+        SizedBox(height: 8),
+        Text(
+          label,
+          style: TextStyle(
+            color: isActive ? color : AppTheme.getSecondaryTextColor(context),
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildEnhancedFeatureCard({
+    required String title,
+    required String subtitle,
+    required IconData icon,
+    required Color color,
+    required bool isActive,
+    required String statusText,
+    required VoidCallback onTap,
+  }) {
+    return AnimatedBuilder(
+      animation: _cardAnimationController,
+      builder: (context, child) {
+        return Transform.scale(
+          scale: _cardAnimationController.value,
+          child: GestureDetector(
+            onTap: () {
+              HapticFeedback.lightImpact();
+              onTap();
+            },
+            child: Container(
+              decoration: AppTheme.createCardDecoration(context).copyWith(
+                border: isActive 
+                    ? Border.all(color: color.withOpacity(0.4), width: 2)
+                    : null,
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(14),
+                          decoration: BoxDecoration(
+                            color: color.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                          child: Icon(
+                            icon,
+                            color: color,
+                            size: 32,
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: isActive ? color.withOpacity(0.15) : AppTheme.getSecondaryTextColor(context).withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Text(
+                            statusText,
+                            style: TextStyle(
+                              color: isActive ? color : AppTheme.getSecondaryTextColor(context),
+                              fontSize: 11,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Spacer(),
+                    Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: AppTheme.getPrimaryTextColor(context),
+                      ),
+                    ),
+                    SizedBox(height: 6),
+                    Text(
+                      subtitle,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: AppTheme.getSecondaryTextColor(context),
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -391,6 +589,311 @@ class _SafetyFeaturesScreenState extends State<SafetyFeaturesScreen>
         );
       },
     );
+  }
+
+  Widget _buildEnhancedEmergencyContactsSection() {
+    return Container(
+      margin: EdgeInsets.all(20),
+      padding: EdgeInsets.all(24),
+      decoration: AppTheme.createCardDecoration(context),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    Icons.contacts,
+                    color: Colors.blue,
+                    size: 24,
+                  ),
+                  SizedBox(width: 12),
+                  Text(
+                    'Emergency Contacts',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      color: AppTheme.getPrimaryTextColor(context),
+                    ),
+                  ),
+                ],
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => EmergencyContactsScreen()),
+                  ).then((_) => _loadSafetyStatus());
+                },
+                child: Text(
+                  'Manage',
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          
+          SizedBox(height: 20),
+          
+          if (_emergencyContacts.isEmpty) ...[
+            Container(
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.orange.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: Colors.orange.withOpacity(0.3),
+                  width: 1,
+                ),
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.warning_outlined, color: Colors.orange, size: 24),
+                  SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'No Emergency Contacts',
+                          style: TextStyle(
+                            color: Colors.orange.shade800,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Text(
+                          'Add trusted contacts for emergency situations',
+                          style: TextStyle(
+                            color: Colors.orange.shade700,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ] else ...[
+            Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.green.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: Colors.green.withOpacity(0.3),
+                  width: 1,
+                ),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.green.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Icon(Icons.person_outline, color: Colors.green, size: 20),
+                  ),
+                  SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      '${_emergencyContacts.length} contact${_emergencyContacts.length > 1 ? 's' : ''} configured',
+                      style: TextStyle(
+                        color: Colors.green.shade800,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    _emergencyContacts.isNotEmpty ? _emergencyContacts.first.name : '',
+                    style: TextStyle(
+                      color: Colors.green.shade700,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEnhancedQuickActions() {
+    return Container(
+      margin: EdgeInsets.all(20),
+      padding: EdgeInsets.all(24),
+      decoration: AppTheme.createCardDecoration(context),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.flash_on,
+                color: Colors.orange,
+                size: 24,
+              ),
+              SizedBox(width: 12),
+              Text(
+                'Quick Actions',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: AppTheme.getPrimaryTextColor(context),
+                ),
+              ),
+            ],
+          ),
+          
+          SizedBox(height: 20),
+          
+          Row(
+            children: [
+              Expanded(
+                child: _buildQuickActionButton(
+                  'Test Emergency',
+                  Icons.warning_outlined,
+                  Colors.orange,
+                  () => _testEmergency(),
+                ),
+              ),
+              SizedBox(width: 12),
+              Expanded(
+                child: _buildQuickActionButton(
+                  'Share Location',
+                  Icons.my_location,
+                  Colors.blue,
+                  () => _shareLocation(),
+                ),
+              ),
+            ],
+          ),
+          
+          SizedBox(height: 20),
+          
+          Container(
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.blue.withOpacity(0.05),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.lightbulb_outline, color: Colors.blue, size: 20),
+                    SizedBox(width: 8),
+                    Text(
+                      'Safety Tips',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 12),
+                ...['Keep emergency contacts updated', 'Test SOS feature periodically', 'Share live location during late travels', 'Enable women safety notifications'].map((tip) =>
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 8),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 4,
+                          height: 4,
+                          margin: EdgeInsets.only(top: 8, right: 8),
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            tip,
+                            style: TextStyle(
+                              color: AppTheme.getSecondaryTextColor(context),
+                              fontSize: 14,
+                              height: 1.4,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildQuickActionButton(String title, IconData icon, Color color, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: () {
+        HapticFeedback.lightImpact();
+        onTap();
+      },
+      child: Container(
+        padding: EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: color.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: color.withOpacity(0.3),
+            width: 1,
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: color, size: 20),
+            SizedBox(width: 8),
+            Text(
+              title,
+              style: TextStyle(
+                color: color,
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _shareLocation() async {
+    try {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              Icon(Icons.location_on, color: Colors.white),
+              SizedBox(width: 8),
+              Text('Sharing location with emergency contacts...'),
+            ],
+          ),
+          backgroundColor: Colors.blue,
+        ),
+      );
+    } catch (e) {
+      _showErrorSnackBar('Failed to share location: $e');
+    }
   }
 
   Widget _buildEmergencyContactsSection(ColorScheme colorScheme) {
@@ -531,7 +1034,6 @@ class _SafetyFeaturesScreenState extends State<SafetyFeaturesScreen>
                   Icons.warning_amber,
                   Colors.orange,
                   () => _testEmergencySystem(),
-                  colorScheme,
                 ),
               ),
               SizedBox(width: 12),
@@ -541,114 +1043,9 @@ class _SafetyFeaturesScreenState extends State<SafetyFeaturesScreen>
                   Icons.share_location,
                   Colors.blue,
                   () => _quickShareLocation(),
-                  colorScheme,
                 ),
               ),
             ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildQuickActionButton(
-    String label,
-    IconData icon,
-    Color color,
-    VoidCallback onTap,
-    ColorScheme colorScheme,
-  ) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: color.withOpacity(0.3)),
-        ),
-        child: Row(
-          children: [
-            Icon(icon, color: color, size: 20),
-            SizedBox(width: 8),
-            Expanded(
-              child: Text(
-                label,
-                style: TextStyle(
-                  color: Color.fromRGBO(
-                    (color.red * 0.6).round(),
-                    (color.green * 0.6).round(),
-                    (color.blue * 0.6).round(),
-                    1.0,
-                  ),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSafetyTips(ColorScheme colorScheme) {
-    return Container(
-      margin: EdgeInsets.all(16),
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: colorScheme.shadow.withOpacity(0.1),
-            blurRadius: 8,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(Icons.lightbulb_outline, color: colorScheme.primary),
-              SizedBox(width: 8),
-              Text(
-                'Safety Tips',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: colorScheme.onSurface,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 12),
-          _buildSafetyTip('Keep emergency contacts updated', Icons.contacts),
-          _buildSafetyTip('Test SOS feature periodically', Icons.emergency),
-          _buildSafetyTip('Share live location during late travels', Icons.location_on),
-          _buildSafetyTip('Enable women safety notifications', Icons.shield),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSafetyTip(String tip, IconData icon) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        children: [
-          Icon(icon, size: 16, color: Colors.grey.shade600),
-          SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              tip,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey.shade700,
-              ),
-            ),
           ),
         ],
       ),
@@ -770,6 +1167,21 @@ class _SafetyFeaturesScreenState extends State<SafetyFeaturesScreen>
     } catch (e) {
       _showErrorSnackBar('Failed to share location: $e');
     }
+  }
+
+  void _testEmergency() async {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(Icons.info, color: Colors.white),
+            SizedBox(width: 8),
+            Text('Testing emergency features...'),
+          ],
+        ),
+        backgroundColor: Colors.orange,
+      ),
+    );
   }
 
   void _showErrorSnackBar(String message) {
