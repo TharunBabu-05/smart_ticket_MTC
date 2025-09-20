@@ -19,6 +19,7 @@ import 'usage_analytics_dashboard_screen.dart';
 import 'user_manual_screen.dart';
 import 'rating/review_list_screen.dart';
 import 'rating/review_submission_screen.dart';
+import 'rating/all_reviews_screen.dart';
 import 'weather_based_recommendations_screen.dart';
 import 'safety_features_screen.dart';
 import 'emergency_sos_screen.dart';
@@ -2382,6 +2383,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
             ),
             const SizedBox(height: 20),
+            
+            _buildRatingOption(
+              icon: Icons.rate_review,
+              title: 'All Reviews',
+              subtitle: 'View all user reviews & ratings',
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AllReviewsScreen()),
+                );
+              },
+            ),
             
             _buildRatingOption(
               icon: Icons.directions_bus,
