@@ -79,6 +79,8 @@ class _ICPIntegrationScreenState extends State<ICPIntegrationScreen> {
       
       final ticketId = await _icpService.purchaseTicketOnChain(
         route: route,
+        fromStop: 'Current Location', // Default from stop
+        toStop: 'Destination', // Default to stop
         userId: _userPrincipal,
         amount: amount,
       );

@@ -24,6 +24,7 @@ import 'weather_based_recommendations_screen.dart';
 import 'safety_features_screen.dart';
 import 'emergency_sos_screen.dart';
 import 'icp_integration_screen.dart';
+import '../widgets/icp_blockchain_widget.dart';
 import '../models/trip_data_model.dart';
 import '../models/enhanced_ticket_model.dart';
 import '../models/rating_model.dart';
@@ -1620,6 +1621,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ),
               ),
             ),
+
+            // ICP Blockchain Status Widget
+            const ICPBlockchainWidget(),
 
             const SizedBox(height: 12), // Add proper spacing
             Row(
