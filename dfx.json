@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "canisters": {
+    "smart_ticket_backend": {
+      "type": "motoko",
+      "main": "src/smart_ticket_backend/main.mo"
+    },
+    "internet_identity": {
+      "type": "custom",
+      "candid": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity.did",
+      "wasm": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity_dev.wasm.gz",
+      "remote": {
+        "candid": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity.did",
+        "id": {
+          "ic": "rdmx6-jaaaa-aaaaa-aaadq-cai"
+        }
+      }
+    }
+  },
+  "networks": {
+    "local": {
+      "bind": "127.0.0.1:8000",
+      "type": "ephemeral",
+      "replica": {
+        "subnet_type": "application"
+      }
+    },
+    "ic": {
+      "providers": [
+        "https://ic0.app"
+      ],
+      "type": "persistent"
+    },
+    "playground": {
+      "providers": [
+        "https://playground.dfinity.network"
+      ],
+      "type": "playground"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    },
+    "start": {
+      "args": "--clean --artificial-delay 0"
+    }
+  },
+  "output_env_file": ".env",
+  "version_check_enabled": true
+}

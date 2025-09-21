@@ -1,0 +1,37 @@
+type Amount = nat;
+type TicketId = text;
+type UserId = text;
+
+type Ticket = 
+ record {
+   amount: Amount;
+   fromStop: text;
+   id: TicketId;
+   isValid: bool;
+   route: text;
+   timestamp: int;
+   toStop: text;
+   userId: UserId;
+ };
+
+type ValidationResult = 
+ variant {
+   err: text;
+   ok: bool;
+ };
+
+type TicketResult = 
+ variant {
+   err: text;
+   ok: Ticket;
+ };
+
+service : {
+  getTotalTicketsCount: () -> (nat) query;
+  getTicket: (TicketId) -> (opt Ticket) query;
+  getUserTickets: (UserId) -> (vec Ticket) query;
+  healthCheck: () -> (text) query;
+  invalidateTicket: (TicketId) -> (ValidationResult);
+  purchaseTicket: (UserId, text, text, text, Amount) -> (TicketResult);
+  validateTicket: (TicketId) -> (ValidationResult) query;
+}
